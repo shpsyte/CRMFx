@@ -1,0 +1,118 @@
+﻿@model PS_Sac
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.cod_sac)
+@Html.HiddenFor(model => model.dta_abertura)
+@Html.HiddenFor(model => model.dta_finalizacao)
+
+<fieldset>
+
+    <div class="row">
+        <section class="col col-8">
+            <label class="label">Assunto</label>
+            <label class="input state-disabled">
+                <i class="icon-prepend fa fa-comment-o"></i>
+                @Html.TextBoxFor(m => m.des_assunto, new { @class = "form-control", @placeholder = "Assunto", @disabled = "disabled" })
+            </label>
+        </section>
+
+        <section class="col col-4">
+            <label class="label">Nome</label>
+            <label class="input state-disabled">
+                <i class="icon-prepend fa fa-user"></i>
+                @Html.TextBoxFor(m => m.des_nome, new { @class = "form-control", @placeholder = "Nome", @disabled = "disabled" })
+            </label>
+        </section>
+    </div>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Solicitação</label>
+            <label class="textarea textarea-resizable state-disabled">
+                <i class="icon-prepend fa fa-comment"></i>
+                @Html.TextAreaFor(m => m.des_descricao, new { @class = "custom-scroll", @rows = "2", @disabled = "disabled" })
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Solução</label>
+            <label class="textarea textarea-resizable state-disabled">
+
+                @Html.TextAreaFor(m => m.des_solucao, new { @class = "custom-scroll", @rows = "2", @disabled = "disabled" })
+            </label>
+        </section>
+    </div>
+
+
+
+    <div class="row">
+        <section class="col col-4">
+            <label class="label">Tipo da Pessoa</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("tp_pessoa", null, String.Empty, new {  @disabled = "disabled" }) 
+            </label>
+        </section>
+
+        <section class="col col-8">
+            <label class="label">Empresa/Contato/Lead</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_pessoa", null, String.Empty, new { @disabled = "disabled" }) 
+
+            </label>
+        </section>
+    </div>
+
+
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Tipo do Sac</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_tipo", null, String.Empty, new { @disabled = "disabled" }) 
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Origem do Sac</label>
+            <label class="select state-disabled" >
+                @Html.DropDownList("cod_origem", null, String.Empty, new { @disabled = "disabled" }) 
+            </label>
+        </section>
+    </div>
+
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Classe do Sac</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_classe", null, String.Empty, new { @disabled = "disabled" }) 
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Categoria do Sac</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_categoria", null, String.Empty, new { @disabled = "disabled" }) 
+
+            </label>
+        </section>
+    </div>
+
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Estágio do Sac</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_estagio", null, String.Empty, new { @disabled = "disabled" }) 
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Situação do Sac</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_situacao", null, String.Empty, new { @disabled = "disabled" }) 
+            </label>
+        </section>
+    </div>
+
+</fieldset>

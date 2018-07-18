@@ -1,0 +1,64 @@
+﻿@model Danzor.Print.DanzorPrintViewer
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DANFe</title>
+    @*<link href="~/Content/css/danfe/danfe.min.css" rel="stylesheet" />*@
+    <link href="~/Content/css/danfe/danfeoriginal.min.css" rel="stylesheet" />
+    <link href="~/Content/css/procedimento.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="danfe">
+
+        @foreach (var page in Model.Pages)
+    {
+        <div class="page">
+            @if (@page.IsFirstPage)
+        {
+            @Html.Partial("~/Views/Danfe/_canhoto.cshtml", @page)
+    }
+
+            @Html.Partial("~/Views/Danfe/_dados_nfe.cshtml", @page)
+            @Html.Partial("~/Views/Danfe/_destinatario.cshtml", @page)
+
+            @if (@page.IsFirstPage)
+        {
+            @Html.Partial("~/Views/Danfe/_transportador.cshtml", @page)
+            @Html.Partial("~/Views/Danfe/_imposto.cshtml", @page)
+            @Html.Partial("~/Views/Danfe/_faturas.cshtml", @page)
+    }
+
+            @Html.Partial("~/Views/Danfe/_dados_produtos.cshtml", @page)
+
+            @if (@page.IsLastPage)
+        {
+            @Html.Partial("~/Views/Danfe/_dados_adicionais.cshtml", @page)
+    }
+        </div>
+}
+        @{
+        int gat = Convert.ToInt32(Model.Pages[0].Header.ide.nNF.Value);
+        int nota = Convert.ToInt32(Model.Pages[0].Header.ide.cNF.Value);
+
+        int[] list = new int[] { gat, nota };
+
+        }
+
+        <div class="page">
+            @Html.Partial("~/Views/Danfe/_instrucoes_nota.cshtml", list)
+        </div>
+
+        <div class="page">
+            @Html.Partial("~/Views/Danfe/_instrucoes_nota_p2.cshtml", list)
+        </div>
+    </div>
+</body>
+
+</html>

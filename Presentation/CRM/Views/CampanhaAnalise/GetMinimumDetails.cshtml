@@ -1,0 +1,245 @@
+﻿@model CampanhaMarketingReviewModel
+@{
+
+    var segmento = Model.CampanhaMarketing.segmentoid;
+
+}
+<!DOCTYPE html>
+<html lang="pt-br" id="@ViewBag.PageId" class="@Settings.CurrentTheme">
+<head>
+    <meta charset=" utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title> @Html.T("Nomeapp") </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Basic Styles -->
+    @Styles.Render("~/content/smartadmin")
+</head>
+<body class="minified">
+    <div>
+
+        <div id="content" class="">
+            <h1>
+                @Model.CampanhaMarketing.des_nome
+            </h1>
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget jarviswidget-color-greenDark " id="wid-id-2">
+                        <header>
+
+                            <h2><strong>Análise </strong> <i> da Campanha  </i>  </h2>
+                            <div class="widget-toolbar">
+                                @if (segmento == 2)
+                                {
+
+                                    <div class="progress progress-striped active" rel="tooltip" data-original-title="@( Convert.ToInt16(Model.per_atingido*100) )%" data-placement="bottom">
+                                        <div class="progress-bar progress-bar-greenDark" role="progressbar" style="width: @(Convert.ToInt16(Model.per_atingido*100))%"> @( Convert.ToInt16(Model.per_atingido * 100) ) %</div>
+                                    </div>
+
+                                }
+
+                            </div>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                                <input class="form-control" type="text">
+                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                            </div>
+                            <!-- widget content -->
+                            <div class="widget-body smart-form">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading">
+
+                                        <div class="panel panel-title">
+                                            <div class="panel-body status">
+                                                <div class="who clearfix">
+                                                    @*<span class="name"><b>  </b> </span>
+                                                        <br />*@
+                                                    <span class=""><b>Inclusão: @Model.CampanhaMarketing.dta_inclusao </b> </span>
+                                                    <br />
+                                                    <span class=""><b>Nº: @Model.CampanhaMarketing.campanhaID </b> </span>
+                                                    <hr />
+                                                    <br />
+                                                    <p class="">Período de Apuração</p>
+                                                    <span class="">
+                                                        <b>
+                                                            Início : @( Model.CampanhaMarketing.dta_inicial.HasValue ? Model.CampanhaMarketing.dta_inicial.Value.ToShortDateString() : "" )
+                                                            @if (segmento == 2 || segmento == 3)
+                                                            {
+                                                                <span class="">a </span> @(Model.CampanhaMarketing.dta_final.HasValue ? Model.CampanhaMarketing.dta_final.Value.ToShortDateString() : "")
+                                                            }
+                                                        </b>
+                                                    </span>
+                                                    @if (segmento == 3)
+                                                    {
+                                                        string apura = "";
+                                                        switch (Model.CampanhaMarketing.tip_apuracao)
+                                                        {
+                                                            case "P":
+                                                                apura = "Perído";
+                                                                break;
+                                                            case "M":
+                                                                apura = "Mensal";
+                                                                break;
+                                                            case "T":
+                                                                apura = "Trimenstral";
+                                                                break;
+                                                            case "A":
+                                                                apura = "Anual";
+                                                                break;
+
+                                                        }
+                                                        <br />
+                                                        <span class="">
+                                                            <b> Renova Automático : </b>@( Model.CampanhaMarketing.ind_renova == "S" ? "SIM" : "NÃO" )
+                                                        </span>
+                                                        <br />
+                                                                <span class="">
+                                                                    <b> Apuração: </b> @( apura )
+                                                                </span>
+
+                                                    }
+
+
+                                                    <hr />
+                                                    <br />
+
+
+                                                    <p class="">Custo da Campanha</p>
+                                                    @if (segmento == 1)
+                                                    {
+                                                        <span class=""><b>Custo Aproximado: @( Model.CampanhaMarketing.vlr_custo_medio.HasValue ? Model.CampanhaMarketing.vlr_custo_medio.Value.ToString("C") : "" ) </b> </span>
+                                                    }
+                                                    @if (segmento == 2 || segmento == 3)
+                                                    {
+                                                        if (segmento == 2)
+                                                        {
+                                                            <span class=""><b>Meta:</b> @( Model.CampanhaMarketing.vlr_meta.HasValue ? Model.CampanhaMarketing.vlr_meta.Value.ToString("C") : "" )  </span>
+                                                            <br />
+                                                            <span class=""><b>Faturamento:</b> @( Model.vlr_faturado.HasValue ? Model.vlr_faturado.Value.ToString("C") : "" )  </span>
+                                                            <br />
+                                                        }
+                                                        if (Model.CampanhaMarketing.tip_pgto_premiacao == "V")
+                                                        {
+                                                            <span class=""><b> Valor Premiação/Contrato:</b> @( Model.CampanhaMarketing.vlr_contrato.HasValue ? Model.CampanhaMarketing.vlr_contrato.Value.ToString("C") : "" )  </span>
+                                                        }
+                                                        if (Model.CampanhaMarketing.tip_pgto_premiacao == "P")
+                                                        {
+                                                            <span class=""><b> % Premiação/Contrato:</b> @( Model.CampanhaMarketing.vlr_contrato.HasValue ? Model.CampanhaMarketing.vlr_contrato.Value.ToString("P") : "" ) </span>
+                                                        }
+                                                        <br />
+
+                                                        if (segmento == 2)
+                                                        {
+                                                            <span class=""><b>% Atingido:</b> @( Model.per_atingido.HasValue ? Model.per_atingido.Value.ToString("P") : "" )  </span>
+                                                        }
+                                                    }
+
+                                                    <div class="alert alert-block alert-warning">
+                                                        <h4 class="alert-heading">@Model.CampanhaMarketing.Segmentos.des_segmento</h4> 
+                                                        <h5>@Model.CampanhaMarketing.TipoAcao.des_acao</h5>
+                                                        @Model.CampanhaMarketing.des_observacao.
+                                                    </div>
+                                                    <hr />
+                                                    <br />
+
+
+                                                    <p class="">Forma de Pagamentos</p>
+                                                    <span class=""><i> @( Model.CampanhaMarketing.FormaPgto != null ? Model.CampanhaMarketing.FormaPgto.des_forma : "" ) </i> </span>
+                                                    <br />
+                                                    @if (segmento == 1 || segmento == 2)
+                                                    {
+                                                        if (!string.IsNullOrEmpty(Model.CampanhaMarketing.des_agencia))
+                                                        {
+                                                            <span class=""> Agência: @( " " + Model.CampanhaMarketing.des_agencia + "  " + " Banco: " + Model.CampanhaMarketing.des_banco + " CC: " + Model.CampanhaMarketing.des_conta )  </span>
+                                                        }
+                                                    }
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="well well-sm bg-color-darken txt-color-white text-center">
+                                                                <h5> @( Model.vlr_total_pago.HasValue ? Model.vlr_total_pago.Value.ToString("c") : "0" ) </h5>
+                                                                <codes>
+                                                                    Total pagamentos efetuados
+                                                                </codes>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                        <div class="col-sm-6">
+                                                            <div class="well well-sm bg-color-pinkDark txt-color-white text-center">
+                                                                <h5> @( Model.CampanhaMarketing.vlr_contrato.HasValue ? Model.CampanhaMarketing.vlr_contrato.Value.ToString("c") : "0" ) </h5>
+                                                                <codes>
+                                                                    Total Contrato/Campanha
+                                                                </codes>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    
+
+
+
+
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+                <!-- WIDGET END -->
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script> if (!window.jQuery) { document.write('<script src="/scripts/libs/jquery-2.1.1.min.js"><\/script>'); } </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script> if (!window.jQuery.ui) { document.write('<script src="/scripts/libs/jquery-ui-1.10.3.min.js"><\/script>'); } </script>
+
+    <!-- IMPORTANT: SmartAdmin Core -->
+    @Scripts.Render("~/scripts/smartadmin")
+
+    <!-- DataTables : plugin -->
+    @Scripts.Render("~/scripts/datatables")
+    @Scripts.Render("~/scripts/charts")
+
+    <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
+    <script>
+        $(document).ready(function () {
+            pageSetUp();
+            drawBreadCrumb();
+        });
+    </script>
+
+    <!-- Full Calendar -->
+    @*<script type="text/javascript">
+
+        </script>*@
+</body>
+</html>

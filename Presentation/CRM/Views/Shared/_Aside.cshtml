@@ -1,0 +1,330 @@
+﻿    <!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+<aside id="left-panel">
+    <!-- User info -->
+    @{ Html.RenderPartial("_CurrentUser"); }
+    <!-- end user info -->
+    <!-- NAVIGATION : This navigation is also responsive
+    To make this navigation dynamic please make sure to link the node
+    (the reference to the nav > ul) after page load. Or the navigation
+    will not initialize.
+    -->
+    <nav>
+        <!-- NOTE: Notice the gaps after each icon usage <i></i>..
+        Please note that these links work a bit different than
+        traditional href="" links. See documentation for details.
+        -->
+        <ul>
+            <li class="@Html.RouteIf("Feeds", "active")">
+                <a href="@Url.Action("index", "Feeds")"><i class="fa fa-lg fa- fw fa-comments"></i> <span class="menu-item-parent">Feeds</span></a>
+            </li>
+
+            @if(Settings.EnableDashborad)
+            { 
+            <li class="@Html.RouteIf("Crm","active")">
+                <a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+                <ul>
+                    <li class="@Html.RouteIfControllerAction("Crm", "index", "active")">
+                        <a href="@Url.Action("index", "Crm")" title="Dashboard"><span class="menu-item-parent">Analytics Dashboard</span></a>
+                    </li>
+                </ul>
+            </li>
+            }
+
+
+            <li class="top-menu-invisible @Html.RouteIf("", "active", "Account;Contacts;Lead")   ">
+                <a href="#"><i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i> <span class="menu-item-parent">Clientes</span></a>
+                <ul>
+                    <li class="@Html.RouteIfControllerAction("Account", "ReadAccount;ViewProfile", "active") @Html.RouteIfControllerAction("Account", "ViewProfile", "active")">
+                        <a href="@Url.Action("ReadAccount", "Account")" title="Dashboard"><i class="fa fa-cube"></i> <span class="menu-item-parent">Contas</span></a>
+                    </li>
+                    <li class="@Html.RouteIfControllerAction("Contacts", "List;Create;Edit", "active")">
+                        <a href="@Url.Action("List", "Contacts")" title="Dashboard"><i class="fa fa-lg fa-fw fa-picture-o"></i> <span class="menu-item-parent">Contatos</span></a>
+                    </li>
+                    <li class="@Html.RouteIfControllerAction("Lead", "List;Create;Edit", "active")">
+                        <a href="@Url.Action("List", "Lead")" title="Dashboard"><i class="fa fa-lg fa-fw fa-gear"></i> <span class="menu-item-parent">Candidatos</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="http://procedimentos.grupofoxlux.com.br/"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Procedimentos &nbsp; <span class="badge pull-right inbox-badge margin-right-13">@Html.QtdeProcedimentoAberto()</span> </span>
+                
+                </a>
+            </li>
+            <li class="@Html.RouteIf("", "active", "Sac") ">
+             
+                   <a href="@Url.Action("List", "Sac")"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> <span class="menu-item-parent">SAC</span></a>
+            </li>
+
+
+
+            <li class="@Html.RouteIf("", "active", "CampanhaMarketing;CampanhaInput;CampanhaAnalise;CampanhaOrcamento;CampanhaRelatorio") ">
+                <a href="#"><i class="fa fa-lg fa-child"></i> <span class="menu-item-parent">Marketing</span></a>
+                <ul>
+                    <li class="@Html.RouteIfControllerAction("CampanhaInput", "Input", "active")">
+                        <a href="@Url.Action("Input", "CampanhaInput")">Input</a>
+                    </li>
+
+
+
+
+                    @*<li class="@Html.RouteIfControllerAction("CampanhaMarketing", "List", "active")">
+                        <a href="@Url.Action("List", "CampanhaMarketing")"> Listagem Geral  </a>
+                    </li>*@
+
+
+                    <li class="@Html.RouteIfControllerAction("CampanhaMarketing", "WorkFlow", "active")">
+                        <a href="@Url.Action("WorkFlow", "CampanhaMarketing")"> WorkFlow </a>
+                    </li>
+
+                    <li>
+                        <a href="#">Gerenciamento</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("CampanhaAnalise;CampanhaMarketing", "List;Details", "active")">
+                                <a href="@Url.Action("List", "CampanhaAnalise")">Por Campanhas</a>
+                            </li>
+
+
+                            <li class="@Html.RouteIfControllerAction("CampanhaAnalise", "Regional;RegionalFilter", "active")">
+                                <a href="@Url.Action("Regional", "CampanhaAnalise")">Por Regional</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("CampanhaOrcamento", "List", "active")">
+                                <a href="@Url.Action("List", "CampanhaOrcamento")">Orçamentos </a>
+                            </li>
+
+
+
+
+                        </ul>
+                    </li>s
+
+                    
+
+                    
+                    <li>
+                        <a href="#">Relatórios</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("CampanhaRelatorio", "Campanhas", "active")">
+                                <a href="@Url.Action("Campanhas", "CampanhaRelatorio")">Campanhas</a>
+                            </li>
+                            @*<li class="@Html.RouteIfControllerAction("CampanhaRelatorio", "CampanhasVsPgto", "active")">
+                                <a href="@Url.Action("CampanhasVsPgto", "CampanhaRelatorio")">Campanhas X Pgto</a>
+                            </li>*@
+
+                            <li class="@Html.RouteIfControllerAction("CampanhaRelatorio", "CampanhasMetaXRealizado", "active")">
+                                <a href="@Url.Action("CampanhasMetaXRealizado", "CampanhaRelatorio")">Meta X Realizado</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("CampanhaRelatorio", "CampanhasOrcadoXDiretoria", "active")">
+                                <a href="@Url.Action("CampanhasOrcadoXDiretoria", "CampanhaRelatorio")">Orçado x Diretoria</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("CampanhaRelatorio", "CampanhasGerais", "active")">
+                                <a href="@Url.Action("CampanhasGerais", "CampanhaRelatorio")">Campanhas Por Tipo Ação</a>
+                            </li>
+
+
+
+                            <li class="@Html.RouteIfControllerAction("CampanhaRelatorio", "CampanhasPorDataVencimento", "active")">
+                                <a href="@Url.Action("CampanhasPorDataVencimento", "CampanhaRelatorio")">Campanhas Por Vencimento</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                   
+
+                </ul>
+            </li>
+            
+
+
+
+            <li class="@Html.RouteIf("", "active", "Garantias") ">
+                <a href="#"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Garantias</span></a>
+                <ul>
+                    <li>
+                        <a href="#">Pré - NFD</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("Garantias", "List", "active")">
+                                <a href="@Url.Action("List", "Garantias")">Gerenciar</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("Garantias", "Create", "active")">
+                                <a href="@Url.Action("Create", "Garantias")">Nova</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="@Html.RouteIfControllerAction("Garantias", "ListWithInvoiceCustomer", "active")">
+                        <a href="@Url.Action("ListWithInvoiceCustomer", "Garantias")">NF-D</a>
+                    </li>
+                    <li>
+                        <a href="#">Coletas</a>
+                        <ul>
+
+
+                            <li class="@Html.RouteIfControllerAction("Garantias", "Coletas", "active")">
+                                <a href="@Url.Action("ListWithOrderCollection", "Garantias")"> Coletas  </a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("Garantias", "RegistrarColetas", "active")">
+                                <a href="@Url.Action("RegistrarColetas", "Garantias")">Registrar Coletas</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("Relatorios", "GarantiaEmTransito", "active")">
+                                <a href="@Url.Action("GarantiaEmTransito", "Relatorios", new { continueAdd = false })">Coletas em Transito</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </li>
+
+
+            <li class="@Html.RouteIf("", "active", "RecGarantias") ">
+                <a href="@Url.Action("ListWithOrderCollection", "RecGarantias")">
+                <i class="fa fa-lg fa-fw fa-puzzle-piece"></i> <span class="menu-item-parent">Rec. das Garantias</span> <span class="badge pull-right inbox-badge margin-right-13">@Html.QtdeGarantiaAreceberAberto()</span> </a>
+            </li>
+
+            <li class="@Html.RouteIf("", "active", "Contabilidade") ">
+                <a href="#"><i class="fa fa-lg fa-book"></i> <span class="menu-item-parent">Contabilidade</span></a>
+                <ul>
+                    <li class="@Html.RouteIfControllerAction("Contabilidade", "List", "active")">
+                        <a href="@Url.Action("List", "Contabilidade")">Entrada NF Garantia</a>
+                    </li>
+
+
+
+                </ul>
+
+            </li>
+
+
+
+
+
+            <li class="@Html.RouteIf("", "active", "Relatorios") ">
+                <a href="#"><i class="fa fa-lg fa-fw fa-file-text-o"></i> <span class="menu-item-parent">Relatórios</span></a>
+                <ul>
+                    <li>
+                        <a href="#"> <i class="fa fa-lg fa-fw fa-list-alt"></i> Garantias</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("Relatorios", "Garantias", "active")">
+                                <a href="@Url.Action("Garantias", "Relatorios")">Listagem Garantias</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#"> <i class="fa fa-lg fa-fw fa-pencil-square-o"></i> Sac</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("Relatorios", "Sac", "active")">
+                                <a href="@Url.Action("Sac", "Relatorios")">Listagem Sac</a>
+                            </li>
+                        </ul>
+                    </li>
+
+          
+
+
+                </ul>
+            </li>
+
+
+            <li class="@Html.RouteIf("", "active", "Estagio;Status;Segmentos;FormaPgto;Cargos;TipoLead;StatusLead;OrigemLead;InteresseLead;ClasseSac;TipoSac;SituacaoSac;OrigemSac;ClasseSac;CategoriasSac;EstagioSac;EstagioUsuario;StatusGarantia") ">
+                <a href="#"><i class="fa fa-lg fa-fw fa-windows"></i> <span class="menu-item-parent">Tabelas Gerais</span></a>
+                <ul>
+                    <li class="@Html.RouteIfControllerAction("Cargos", "List;Create;Edit", "active")">
+                        <a href="@Url.Action("List", "Cargos")">Cargos</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Candidatos/Leads</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("TipoLead", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "TipoLead")">Tipo do Lead</a>
+                            </li>
+                            <li class="@Html.RouteIfControllerAction("StatusLead", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "StatusLead")">Status do Lead</a>
+                            </li>
+                            <li class="@Html.RouteIfControllerAction("OrigemLead", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "OrigemLead")">Origem do Lead</a>
+                            </li>
+                            <li class="@Html.RouteIfControllerAction("InteresseLead", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "InteresseLead")">Interesses do Lead</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#">Sac</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("TipoSac", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "TipoSac")">Tipo do Sac</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("SituacaoSac", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "SituacaoSac")">Situação do Sac</a>
+                            </li>
+
+
+                            <li class="@Html.RouteIfControllerAction("OrigemSac", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "OrigemSac")">Origens do Sac</a>
+                            </li>
+
+
+                            <li class="@Html.RouteIfControllerAction("ClasseSac;CategoriasSac", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "ClasseSac")">Área Responsável</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("EstagioSac;EstagioUsuario", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "EstagioSac")">Área Destino</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#">Garantias</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("StatusGarantia", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "StatusGarantia")">Status de Garantia</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#">Marketing Cooperado</a>
+                        <ul>
+                            <li class="@Html.RouteIfControllerAction("FormaPgto", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "FormaPgto")">Formas de Pgto</a>
+                            </li>
+                            <li class="@Html.RouteIfControllerAction("Segmentos", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "Segmentos")">Segmentos</a>
+                            </li>
+S
+                            <li class="@Html.RouteIfControllerAction("Status", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "Status")">Status</a>
+                            </li>
+
+                            <li class="@Html.RouteIfControllerAction("Estagio", "List;Create;Edit", "active")">
+                                <a href="@Url.Action("List", "Estagio")">Estágio</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+</aside>
+<!-- END NAVIGATION -->

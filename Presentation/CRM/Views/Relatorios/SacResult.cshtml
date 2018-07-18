@@ -1,0 +1,91 @@
+﻿@model IEnumerable<PS_Sac>
+
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-purple" id="wid-id-3">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Lista</h2>
+                        <div class="widget-toolbar">
+                            <div class="bg-color-purple">
+                                @Model.Count()
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <!-- content goes here -->
+                            <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:80px" data-class="expand">Código</th>
+                                        <th>Nome</th>
+                                        <th style="width:150px" data-hide="phone,tablet">Assunto</th>
+                                        <th style="width:150px" data-hide="phone,tablet">Data Abertura</th>
+                                        <th style="width:200px" data-hide="phone,tablet">Situação</th>
+                                        <th style="width:200px" data-hide="phone,tablet">Estágio</th>
+                                        
+                                        <th style="width:50px" data-hide="phone,tablet">Abertura </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ int _id = 0; bool _ind_finalizado = false; bool _ind_cancaelado = false; }
+                                    @foreach (var product in Model.OrderByDescending(p => p.cod_sac))
+                                    {
+                                        _id = product.cod_sac;
+                                        _ind_finalizado = product.PS_Estagio_Sac != null ? product.PS_Estagio_Sac.ind_finalizacao == "S" : false;
+                                        _ind_cancaelado = product.PS_Situacao_Sac != null ? product.cod_situacao.ToString() == Settings.cod_situacao_cancelada : false;
+                                        <tr>
+                                            <td> @_id </td>
+                                            <td> <a href="@Url.Action("Details", "Sac", new { id = _id, })">  @( product.PS_Pessoas_Sac != null ? product.PS_Pessoas_Sac.des_pessoa : product.des_nome != null ? product.des_nome : "Não atribuído" )  </a></td>
+                                            <td data-hide="phone,tablet">@product.des_assunto</td>
+                                            <td data-hide="phone,tablet">@product.dta_abertura.Value.ToShortDateString()</td>
+                                            <td data-hide="phone,tablet"> <span class="label @Html.AddTextIf(_ind_finalizado, "label-" + Html.AddTextIf(_ind_cancaelado, "danger", "success"), "label-warning")"> @( product.PS_Situacao_Sac != null ? product.PS_Situacao_Sac.des_nome.ToString() : "") </span>  </td>
+                                            <td data-hide="phone,tablet"> @( product.PS_Estagio_Sac != null ? product.PS_Estagio_Sac.des_nome.ToString() : "")  </td>
+                                            <td data-hide="phone,tablet"> @( product.Usuario.NOME)  </td>
+                                            @*<td data-hide="phone,tablet">@product._total_aberto.Value.ToString(@"d\.hh\:mm\:ss")</td>*@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+    <!-- Modal -->
+    <!-- /.modal -->
+
+
+</div>
+@section pagespecific {
+    <script>
+        pageSetUpTable("idtable", 150);
+    </script>
+}

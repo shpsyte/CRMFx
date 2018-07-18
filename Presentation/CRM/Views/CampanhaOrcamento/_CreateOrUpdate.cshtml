@@ -1,0 +1,31 @@
+﻿@model CampanhaOrcamento
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.campanhaorcamentoid)
+
+
+<fieldset>
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Ano</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-calendar-o"></i>
+                @Html.TextBoxFor(m => m.ano, new { @class = "form-control", @data_mask="2099" })
+                @Html.ValidationMessageFor(model => model.ano)
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Valor</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-money"></i>
+                @Html.TextBoxFor(m => m.vlr_orcamento, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.vlr_orcamento)
+            </label>
+        </section>
+    </div>
+    
+
+
+
+</fieldset>

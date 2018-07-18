@@ -1,0 +1,21 @@
+﻿@model PS_Categorias_Sac_Model
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.PS_Categorias_Sac.cod_categoria)
+@Html.HiddenFor(model => model.PS_Categorias_Sac.cod_classe)
+@Html.HiddenFor(model => model.cod_classe)
+
+
+<fieldset>
+    <legend> <i class="fa fa-arrow-right"></i> @Model.nome_classe</legend>
+    <section>
+        <label class="label">Categoria de Sac</label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.PS_Categorias_Sac.des_nome, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PS_Categorias_Sac.des_nome)
+        </label>
+    </section>
+
+
+</fieldset>

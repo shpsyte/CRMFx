@@ -1,0 +1,417 @@
+﻿@model NotaEntradaModel
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+
+
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <a href="@Url.Action("list")" class="btn btn-warning"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+        <hr />
+        <div class="row">
+            <!-- NEW COL START -->
+            <article id="widData" class="col-sm-12 col-md-6 col-lg-6">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2> Dados da Nota </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding smart-form">
+                            @using (Ajax.BeginForm("Entrada", "Contabilidade", new AjaxOptions { LoadingElementId = "loader", HttpMethod = "POST", OnSuccess = "onSuccess", OnComplete = "onComplete", OnBegin = "onBegin", OnFailure = "onFailure" }, new { id = "formNota" }))
+                            {
+                                @Html.Partial("_Entrada", Model)
+                                <footer>
+                                    <button type="submit" name="save" id="save" class="btn btn-success" value="save"> Salvar </button>
+
+                                </footer>
+                            }
+                        </div>
+
+
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- END COL -->
+
+            <article class="col-sm-12 col-md-6 col-lg-68">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-orange" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Dados Gerais</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Dados da NF</div>
+                                <div class="panel-body">
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> ID: </b> @Model.NotaCliente.Id  </span>
+                                    </div>
+
+                                    <div class="row col-md-12">
+                                        <b> Valor Produtos: </b>  <span class="name" id="totalNf" name="totalNf"> @Model.NotaCliente.Vlr_Nota.ToString("c") </span>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Notas Selecionadas: </b> @Model.NotaCliente.NotasSelecionadas  </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Dados do Cliente</div>
+                                <div class="panel-body">
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Código: </b> @Model.NotaCliente.Garantia.cod_cliente  </span>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Cliente: </b> @Model.NotaCliente.Garantia.Ps_Pessoas.des_pessoa </span>
+
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Representante: </b> @Model.NotaCliente.Garantia.Ps_Representante.des_pessoa </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Dados da Garantia</div>
+                                <div class="panel-body">
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Código: </b> @Model.NotaCliente.Garantia.garantiaid  </span>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Data Abertura: </b> @Model.NotaCliente.Garantia.dta_inclusao  </span>
+                                    </div>
+
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Data Impressão NF: </b> @Model.NotaCliente.DataImpressao  </span>
+                                    </div>
+
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> Valor Total: </b> @Model.NotaCliente.Garantia.vlr_garantia.Value.ToString("c")   </span>
+                                    </div>
+
+                                    <div class="row col-md-12">
+                                        <span class="name"><b> NF Vinculadas: </b> @Model.NotaCliente.Garantia.num_nf_cliente  </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- END ROW -->
+    </section>
+    <!-- end widget grid -->
+</div>
+
+
+
+<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:blue; color: white">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModal-label">Trabalhando nisso...</h4>
+            </div>
+            <div class="modal-body">
+                <span style="color: red" id="msgServidor">  Aguarde, estamos incluindo a Nota de Entrada </span>
+                <ul id="listaErro"></ul>
+                <br />
+                <img id="loader" src="~/Content/img/ajax-loader.gif" />
+            </div>
+            <div class="modal-footer">
+                <a id="btnVolta" href="@Url.Action("List")" class="btn btn-success hide">Voltar a listagem</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section pagespecific {
+    <script>
+
+
+
+
+
+
+
+
+
+
+
+
+        var ul = document.getElementById("listaErro");
+        var li = document.createElement("li");
+
+
+        function onFailure(response) {
+            li.appendChild(document.createTextNode("Houve Erro na inclusão da Nota"));
+            ul.appendChild(li);
+        }
+
+        function onBegin(response) {
+            ul.innerHTML = "";
+            $("#myModal").modal();
+        }
+
+        function onSuccess(response) {
+            var lista = response.Msg;
+            
+            ul.innerHTML = "";
+            for (var key in lista) {
+                if (lista.hasOwnProperty(key)) {
+                    var li = document.createElement("li");
+                    var texto = document.createTextNode(lista[key].MSG);
+                    debugger;
+                    if (texto.textContent == "undefined") {
+                        var novotexto = lista[key];
+                        texto.textContent = novotexto;
+
+                    }
+
+
+                    li.appendChild(texto);
+                    ul.appendChild(li);
+                }
+            }
+
+
+
+           if (!response.hasError) {
+               $("#widData *").attr("disabled", "disabled").off('click');
+               $('#save').hide();
+               $("#widData").addClass("dark_elemento");
+               $("#btnVolta").removeClass("hide");
+
+              // location.reload();
+           }
+
+
+       }
+
+       function onComplete(response) {
+
+
+       }
+
+
+
+        var inputCondicaoPgto = document.querySelector("#cod_condicao_pgto");
+
+        inputCondicaoPgto.addEventListener('blur', function () {
+
+             if ($(this).val() == "") {
+               $(this).val("");
+               return;
+           }
+           else {
+                 $("#desCondicao").val();
+
+                 var parametros = { cod_condicao_pgto: $(this).val()};
+               $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ReadCondicao", "Contabilidade")",
+                    data: parametros,
+                    success: function (data) {
+
+                        let razao = data.Condicao.DES_COND_PGTO;
+                        let codigo = data.Condicao.COD_COND_PGTO;
+
+                        $("#desCondicao").val(razao);
+                        if (codigo == 0)
+                        {
+                            inputCondicaoPgto.value = ""
+                        }
+                    },
+                    dataType: "json"
+                });
+           }
+
+
+          });
+
+
+
+        // START AND FINISH DATE
+        $('.date').datepicker({
+            dateFormat: 'dd/mm/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>'
+            //onSelect: function (selectedDate) {
+            //    $('#finishdate').datepicker('option', 'minDate', selectedDate);
+            //}
+       });
+
+        var inputTransportador = document.querySelector("#cod_transportador");
+        inputTransportador.addEventListener('blur', function () {
+           if ($(this).val() == "") {
+               $(this).val("");
+               return;
+           }
+           else {
+               $("#descTransportador").val();
+
+               var parametros = { cod_transportador: $(this).val()};
+               $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ReadTransportador", "Contabilidade")",
+                    data: parametros,
+                    success: function (data) {
+
+                        let razao = data.Transportador.RAZAO;
+                        let codigo = data.Transportador.CD_CADASTRO;
+
+                        $("#descTransportador").val(razao);
+                        if (codigo == 0)
+                        {
+                            inputTransportador.value = ""
+                        }
+                    },
+                    dataType: "json"
+                });
+           }
+        });
+
+
+
+       var inputOperacao = document.querySelector("#cod_operacao");
+
+       inputOperacao.addEventListener('blur', function () {
+
+           if ($(this).val() == "") {
+               $(this).val("");
+               return;
+           }
+           else {
+               $("#descOper").val();
+
+               var parametros = { cod_oper: $(this).val()};
+               $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ReadOperacao", "Contabilidade")",
+                    data: parametros,
+                    success: function (data) {
+
+
+                        var descricao = data.Operacao.Des_Operacao;
+                        var opercao = data.Operacao.Cod_Operacao;
+
+                        $("#descOper").val(descricao);
+
+                        if (opercao == 0) {
+                            inputOperacao.value = "";
+                        }
+                    },
+                    dataType: "json"
+               });
+            }
+
+
+        });
+
+
+
+
+    </script>
+
+    <script>
+
+        function AlterarValor(element) {
+            debugger;
+            
+            var _valor = document.getElementById($(element).attr("data-id-do-valor")).value;
+            var _ipi = document.getElementById($(element).attr("data-id-do-ipi")).value;
+            var _st = document.getElementById($(element).attr("data-id-do-st")).value;
+            
+
+            var parametros = { id: $(element).attr("data-id"), nfid: $(element).attr("data-nota-id"), vlr_lancamento: _valor, vlr_ipi: _ipi, vlr_st: _st   };
+             
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("PostValor", "Contabilidade")",
+                data: parametros,
+                success: function (data) {
+                    if (data.haserror) {
+                        $.bigBox({
+                            title: "Erro ao Alterar o Item",
+                            content: data.msg,
+                            color: "#C46A69",
+                            icon: "fa fa-warning shake animated",
+                            number: "1",
+                            timeout: 6000
+                        });
+
+                        e.preventDefault();
+                    } else {
+                        document.getElementById("totalNf").innerHTML = data.nota.Vlr_mercadorias.toFixed(2);
+                        $.bigBox({
+                            title: "Item alterado com sucesso!",
+                            content: "O Item " + data.item.Cod_Foxlux + " foi alterado com sucesso",
+                            color: "#C79121",
+                            //timeout: 8000,
+                            icon: "fa fa-shield fadeInLeft animated",
+                            number: "3"
+                        });
+
+                        e.preventDefault();
+
+
+                    }
+                    //data.itens.forEach(function (item) {
+                    //    // alert(item.NotaClienteId);
+                    //})
+                },
+                dataType: "json"
+
+            }); 
+        }
+    </script>
+
+}

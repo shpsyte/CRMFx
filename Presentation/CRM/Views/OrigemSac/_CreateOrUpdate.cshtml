@@ -1,0 +1,17 @@
+﻿@model PS_Origem_Sac
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.cod_origem)
+
+<fieldset>
+    <section>
+        <label class="label">Origem de Sac</label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.des_nome, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.des_nome)
+        </label>
+    </section>
+
+
+</fieldset>

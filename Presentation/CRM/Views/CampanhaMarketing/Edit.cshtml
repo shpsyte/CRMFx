@@ -1,0 +1,564 @@
+﻿@model CampanhaMarketing
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false" data-widget-deletebutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-check"></i> </span>
+                        <h2>Informações da solicitação da Campanha</h2>
+
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body">
+
+                            <div class="row">
+                                @using (Html.BeginForm("Edit", "CampanhaMarketing", FormMethod.Post, new { enctype = "multipart/form-data", @id = "wizard-1", @novalidate = "novalidate" }))
+                                {
+                                    @Html.HiddenFor(a => a.statusId)
+                                    @Html.HiddenFor(a => a.estagioId)
+                                    @Html.HiddenFor(a => a.campanhaID)
+                                    @Html.HiddenFor(a => a.dta_alteracao)
+                                    @Html.HiddenFor(a => a.dta_inclusao)
+
+
+                                    @Html.AntiForgeryToken()
+                                    <div id="bootstrap-wizard-1" class="col-sm-12">
+                                        <div class="form-bootstrapWizard">
+                                            <ul class="bootstrapWizard form-wizard">
+                                                <li class="active" data-target="#step1">
+                                                    <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Informações Báicas</span> </a>
+                                                </li>
+                                                <li data-target="#step2">
+                                                    <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Informações de Setup </span> </a>
+                                                </li>
+
+                                                <li data-target="#step3">
+                                                    <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Informações de Pgto</span> </a>
+                                                </li>
+                                                <li data-target="#step4">
+                                                    <a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Enviar</span> </a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab1">
+                                                <br>
+                                                <h3><strong>Passo 1 </strong> - Informações Básicas</h3>
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            @*<h4>Nome da Campanha</h4>*@
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-font fa-lg fa-fw"></i></span>
+                                                                @Html.TextBoxFor(m => m.des_nome, new { @class = "form-control input-lg", @placeholder = "Nome da Campanha" })
+                                                                @Html.ValidationMessageFor(model => model.des_nome)
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <h4>Representante</h4>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                @Html.DropDownList("cod_representante", null, String.Empty, new { @class = "form-control input-lg" }) <i></i>
+                                                                @Html.ValidationMessageFor(a => a.cod_representante)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <h4>Cliente</h4>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                @Html.DropDownList("cod_pessoa", null, String.Empty, new { @class = "form-control input-lg" }) <i></i>
+                                                                @Html.ValidationMessageFor(a => a.cod_pessoa)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            @*<h4>Email do Representante</h4>*@
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-envelope-o fa-lg fa-fw"></i></span>
+                                                                @Html.TextBoxFor(m => m.des_email, new { @class = "form-control input-lg", @placeholder = "Email do Representante" })
+                                                                @Html.ValidationMessageFor(model => model.des_email)
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <h4>Tipo da Ação</h4>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-flag fa-lg fa-fw"></i></span>
+                                                                @Html.DropDownList("segmentoid", null, String.Empty, new { @class = "form-control input-lg" }) <i></i>
+                                                                @Html.ValidationMessageFor(a => a.segmentoid)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <h4>Ação da Campanha</h4>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-map-marker fa-lg fa-fw"></i></span>
+                                                                @Html.DropDownList("tipoacaoid", null, String.Empty, new { @class = "form-control input-lg" }) <i></i>
+                                                                @Html.ValidationMessageFor(a => a.tipoacaoid)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="tab-pane" id="tab2">
+                                                <br>
+                                                <h3><strong>Passo 2</strong> - Informações de Setup</h3>
+
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+
+                                                        <div class="form-group">
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-calendar fa-lg fa-fw"></i></span>
+                                                                <input class = "form-control input-lg" placeholder = "Data de Início"  type="datetime" value="@Model.dta_inicial.Value.ToShortDateString()" name="dta_inicial" id="dta_inicial" />
+                                                                @*@Html.TextBoxFor(m => m.dta_inicial, new { @class = "form-control input-lg", @placeholder = "Data de Início" })*@
+                                                                @*@Html.ValidationMessageFor(model => model.dta_inicial)*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 hide1">
+                                                        <div class="form-group">
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-calendar fa-lg fa-fw"></i></span>
+                                                                @Html.TextBoxFor(m => m.dta_final, new { @class = "form-control input-lg", @placeholder = "Data Finalização" })
+                                                                @*@Html.ValidationMessageFor(model => model.dta_final)*@
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-sm-6 hide1 hide2">
+                                                        <h4>Renovação</h4>
+                                                        <div class="form-group">
+                                                            <div class="input-group smart-form">
+
+                                                                @Html.HiddenFor(model => model.ind_renova, new { id = "ind_renova" })
+
+                                                                <label class="toggle">
+                                                                    <input type="checkbox" name="checkbox-toggle" checked="checked" id="_renova">
+                                                                    <i data-swchon-text="Sim" data-swchoff-text="Não"></i>Automático
+                                                                </label>
+
+                                                                @Html.ValidationMessageFor(model => model.ind_renova)
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-6 pull-left hide1 hide2">
+                                                        <div class="form-group smart-form">
+                                                            <div class="input-group">
+                                                                <h4>Forma de Apuração</h4>
+                                                                <div class="inline-group">
+                                                                    <label class="radio">
+                                                                        @Html.RadioButtonFor(m => m.tip_apuracao, "P", new { @checked = "checked" })
+                                                                        <i></i>Pedido
+                                                                    </label>
+                                                                    <label class="radio">
+                                                                        @Html.RadioButtonFor(m => m.tip_apuracao, "M")
+                                                                        <i></i>Mensal
+                                                                    </label>
+                                                                    <label class="radio">
+                                                                        @Html.RadioButtonFor(m => m.tip_apuracao, "T")
+                                                                        <i></i>Trimestral
+                                                                    </label>
+                                                                    <label class="radio">
+                                                                        @Html.RadioButtonFor(m => m.tip_apuracao, "A")
+                                                                        <i></i>Anual
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <hr />
+                                                <h3><strong>Custo </strong> - da campanha</h3>
+                                                <div class="row">
+                                                    <div class="col-sm-4 hide1 hide3">
+                                                        <h4>Meta</h4>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="fa fa-money fa-lg fa-fw"></i></span>
+                                                                    @Html.TextBoxFor(m => m.vlr_meta, new { @class = "form-control input-lg", @placeholder = "Meta" })
+                                                                    @Html.ValidationMessageFor(model => model.vlr_meta)
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-4 hide1">
+                                                        <h4>Premiação / Contrato</h4>
+
+
+
+
+                                                        <div class="form-group per_contrato">
+                                                            <div class="input-group">
+
+                                                                <span class="input-group-addon"><i class="fa fa-money fa-lg fa-fw"></i></span>
+                                                                @Html.TextBoxFor(m => m.per_contrato, new { @class = "form-control input-lg", @placeholder = "% Premiação/Contrato" })
+                                                                @Html.ValidationMessageFor(model => model.per_contrato)
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group vlr_contrato">
+                                                            <div class="input-group">
+
+                                                                <span class="input-group-addon"><i class="fa fa-money fa-lg fa-fw"></i></span>
+                                                                @Html.TextBoxFor(m => m.vlr_contrato, new { @class = "form-control input-lg", @placeholder = "Valor Premiação/Contrato" })
+                                                                @Html.ValidationMessageFor(model => model.vlr_contrato)
+
+
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="form-group smart-form">
+                                                            <div class="input-group">
+                                                                <div class="inline-group">
+                                                                    <label class="radio">
+                                                                        @Html.RadioButtonFor(m => m.tip_pgto_premiacao, "V", new { @checked = "checked" })
+                                                                        <i></i>Valor
+                                                                    </label>
+                                                                    <label class="radio">
+                                                                        @Html.RadioButtonFor(m => m.tip_pgto_premiacao, "P")
+                                                                        <i></i>% Percentual
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 hide3 hide2">
+                                                        <h4>Custo Médio </h4>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-money fa-lg fa-fw"></i></span>
+                                                                @Html.TextBoxFor(m => m.vlr_custo_medio, new { @class = "form-control input-lg", @placeholder = "Custo Médio" })
+                                                                @Html.ValidationMessageFor(model => model.vlr_custo_medio)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                            <div class="tab-pane" id="tab3">
+                                                <br>
+                                                <h3><strong>Passo 3</strong> - Informações de Pgto</h3>
+                                                <div class="alert alert-info fade in">
+                                                    <button class="close" data-dismiss="alert">
+                                                        ×
+                                                    </button>
+                                                    <i class="fa-fw fa fa-info"></i>
+                                                    <strong>Info! </strong> Atenção no preenchimento das informações...
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <h4>Forma de Pgto</h4>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-money fa-lg fa-fw"></i></span>
+                                                        @Html.DropDownList("formapgtoid", null, String.Empty, new { @class = "form-control input-lg" }) <i></i>
+                                                        @Html.ValidationMessageFor(a => a.formapgtoid)
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row hidex">
+                                                    <div class="col-sm-4">
+                                                        <h4>Agência</h4>
+                                                        <div class="form-group">
+                                                            @Html.TextBoxFor(m => m.des_agencia, new { @class = "form-control input-lg", @placeholder = "Agência" })
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 hide3">
+                                                        <h4>Banco</h4>
+                                                        <div class="form-group">
+                                                            @Html.TextBoxFor(m => m.des_banco, new { @class = "form-control input-lg", @placeholder = "Banco" })
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 hide3">
+                                                        <h4>Conta</h4>
+                                                        <div class="form-group">
+                                                            @Html.TextBoxFor(m => m.des_conta, new { @class = "form-control input-lg", @placeholder = "Conta" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+                                            <div class="tab-pane" id="tab4">
+                                                <br>
+                                                <h3><strong>Último Passo</strong> - Enviar</h3>
+                                                <br>
+
+                                                <h1 class="text-center text-success"><strong><i class="fa fa-check fa-lg"></i> Tudo certo!</strong></h1>
+                                                <div class="form-group">
+                                                    <h4>Observação</h4>
+                                                    @Html.TextAreaFor(m => m.des_observacao, new { @class = "form-control input-lg", @rows = "7" }) <i></i>
+                                                    @Html.ValidationMessageFor(a => a.des_observacao)
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <h4>Anexar Arquivos</h4>
+                                                    <div class="input input-file input-lg">
+                                                        <span class="button"><input id="file" name="files" type="file" multiple="multiple"></span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="text-center">
+                                                    <button class="btn btn-lg btn-success" type="submit">Click para enviar</button>
+                                                </div>
+
+                                                <br>
+                                                <br>
+                                            </div>
+
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <ul class="pager wizard no-margin">
+                                                            <!--<li class="previous first disabled">
+                                                            <a href="javascript:void(0);" class="btn btn-lg btn-default"> First </a>
+                                                            </li>-->
+                                                            <li class="previous disabled">
+                                                                <a href="javascript:void(0);" class="btn btn-lg btn-default"> Voltar </a>
+                                                            </li>
+                                                            <!--<li class="next last">
+                                                            <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
+                                                            </li>-->
+                                                            <li class="next">
+                                                                <a href="javascript:void(0);" class="btn btn-lg txt-color-darken"> Avançar </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+
+
+
+        </div>
+    </section>
+
+    <!-- end widget grid -->
+</div>
+
+<!-- PAGE RELATED PLUGIN(S) -->
+
+@section pagespecific {
+  <script src="/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+  <script src="/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+
+
+    <script>
+        
+
+
+    $("#_renova").click(function () {
+        var isChecked = $(this).is(":checked");
+        $("#ind_renova").val(isChecked ? "S" : "N");
+    });
+
+
+    $(document).ready(function () {
+
+        // START AND FINISH DATE
+        $('#dta_inicial').datepicker({
+            dateFormat: 'dd/mm/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>',
+            onSelect: function (selectedDate) {
+                $('#dta_final').datepicker('option', 'minDate', selectedDate);
+            }
+        });
+
+        $('#dta_final').datepicker({
+            dateFormat: 'dd/mm/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>',
+            onSelect: function (selectedDate) {
+                $('#dta_inicial').datepicker('option', 'maxDate', selectedDate);
+            }
+        });
+
+
+
+        //Dropdownlist Selectedchange event
+        $("#segmentoid").change(function () {
+            $("#tipoacaoid").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetTipoACao", "CampanhaInput")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#segmentoid").val() },
+                success: function (states) {
+                    $.each(states, function (i, state) {
+                        $("#tipoacaoid").append('<option value="' + state.tipoacaoid + '">' +
+                             state.des_acao + '</option>');
+                    });
+
+                }
+                //,
+                //error: function (ex) {
+                //    alert('Failed to retrieve states.' + ex);
+                //}
+            });
+
+
+            return false;
+        })
+
+
+
+
+        //Dropdownlist Selectedchange event
+        $("#cod_representante").change(function () {
+            $("#cod_pessoa").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetPessoas", "CampanhaInput")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#cod_representante").val() },
+                success: function (states) {
+                    $.each(states, function (i, state) {
+                        $("#cod_pessoa").append('<option value="' + state.Value + '">' +
+                             state.Text + '</option>');
+                    });
+
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+
+            @*$.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetEmailPessoa", "CampanhaInput")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#cod_representante").val() },
+                success: function (dados) {
+                    document.getElementById("des_email").value = dados.email;
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve email.' + ex);
+                }
+            });*@
+
+
+            return false;
+        })
+
+
+    });
+
+
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+
+    //Bootstrap Wizard Validations
+
+   
+    $('#bootstrap-wizard-1').bootstrapWizard({
+        'tabClass': 'form-wizard',
+        'onNext': function (tab, navigation, index) {
+            var $valid = $("#wizard-1").valid();
+            if (!$valid) {
+                $validator.focusInvalid();
+                return false;
+            } else {
+                $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
+                  'complete');
+                $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
+                .html('<i class="fa fa-check"></i>');
+            }
+        }
+    });
+
+
+
+    </script>
+
+
+}

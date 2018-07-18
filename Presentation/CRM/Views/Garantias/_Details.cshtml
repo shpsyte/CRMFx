@@ -1,0 +1,58 @@
+﻿@model Garantia
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.garantiaid)
+@Html.HiddenFor(model => model.dta_inclusao)
+@Html.HiddenFor(model => model.dta_finalizacao)
+
+<fieldset>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Representante</label>
+            <label class="select state-disabled">
+
+                @Html.DropDownList("cod_representante", null, String.Empty, new { @class = "select2", @disabled = "disabled" })
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Cliente</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_cliente", null, String.Empty, new { @class = "select2", @disabled = "disabled" })
+            </label>
+
+        </section>
+    </div>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Notas Cliente</label>
+            <label class="select state-disabled">
+                @Html.TextBoxFor(m => m.num_nf_cliente, new { @class = "form-control", @placeholder = "NF Cliente", @disabled = "disabled" })
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Status</label>
+            <label class="select state-disabled">
+                @Html.DropDownList("cod_status", null, String.Empty, new { @disabled = "disabled" })<i></i>
+            </label>
+        </section>
+    </div>
+
+
+    <div class="row">
+        <section class="col col-9">
+            <label class="label">Observação</label>
+            <label class="textarea textarea-resizable state-disabled">
+                <i class="icon-prepend fa fa-comment"></i>
+                @Html.TextAreaFor(m => m.obs, new { @class = "custom-scroll", @rows = "2", @disabled = "disabled" })
+            </label>
+        </section>
+
+    </div>
+
+
+
+</fieldset>

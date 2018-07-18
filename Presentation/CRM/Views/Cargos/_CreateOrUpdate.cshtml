@@ -1,0 +1,17 @@
+﻿@model Cargos
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.cod_cargo)
+
+<fieldset>
+    <section>
+        <label class="label">Cargo</label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.des_cargo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.des_cargo)
+        </label>
+    </section>
+
+
+</fieldset>

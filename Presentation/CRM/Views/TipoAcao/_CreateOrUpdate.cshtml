@@ -1,0 +1,21 @@
+﻿@model TipoAcao_Model
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.TipoAcao.tipoacaoid)
+@Html.HiddenFor(model => model.TipoAcao.segmentoid)
+@Html.HiddenFor(model => model.CodSegmento)
+
+
+<fieldset>
+    <legend> <i class="fa fa-arrow-right"></i> @Model.NomeSegmento</legend>
+    <section>
+        <label class="label">Descrição da Ação </label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.TipoAcao.des_acao, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TipoAcao.des_acao)
+        </label>
+    </section>
+
+
+</fieldset>

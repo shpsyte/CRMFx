@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Garantia>
+
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-purple" id="wid-id-3">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Lista</h2>
+                        <div class="widget-toolbar">
+                            <div class="bg-color-purple">
+                                @Model.Count()
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <!-- content goes here -->
+                            <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                 
+                                    <tr>
+                                        <th style="width:80px" data-class="expand">Código</th>
+                                        <th data-hide="phone,tablet">Nome</th>
+                                        <th style="width:150px" data-hide="phone,tablet">Data Abertura</th>
+                                        <th style="width:150px" data-hide="phone,tablet">Status</th>
+                                        <th style="width:150px">Valor</th>
+                                        <th style="width:150px" data-hide="phone,tablet">Notas Cliente</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ int _id = 0; }
+                                    @foreach (var product in Model.OrderByDescending(p => p.garantiaid))
+                                    {
+                                        _id = product.garantiaid;
+                                        <tr @*style="background-color: @_cor "*@>
+                                            <td data-hide="phone,tablet"> @_id </td>
+                                            <td data-hide="phone,tablet"><a href="@Url.Action("Details", "Garantias", new { id = _id })"> @( product.Ps_Pessoas.des_pessoa ) </a></td>
+                                            <td data-hide="phone,tablet">@product.dta_inclusao</td>
+                                            <td data-hide="phone,tablet"> @( product.GE_Status_Garantia.des_nome )  </td>
+                                            <td data-hide="phone,tablet"> @product.vlr_garantia.Value.ToString("c")  </td>
+                                            <td data-hide="phone,tablet"> @product.num_nf_cliente</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+    <!-- Modal -->
+    <!-- /.modal -->
+
+
+</div>
+@section pagespecific {
+    <script>
+        pageSetUpTable("idtable", 150);
+    </script>
+}

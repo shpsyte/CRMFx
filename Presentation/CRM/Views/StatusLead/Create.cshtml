@@ -1,0 +1,48 @@
+﻿@model Ps_Situacao_Lead
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <div class="row">
+            <!-- NEW COL START -->
+            <article class="col-sm-12 col-md-6 col-lg-6">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Situação dos Lead</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding smart-form">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.Partial("_CreateOrUpdate", Model)
+                                <footer>
+                                    <button type="submit" name="save" class="btn btn-success" value="save"> Criar </button>
+                                    <button type="submit" name="save-create" class="btn btn-info" value="save-create"> Criar+ </button>
+                                    <a href="@Url.Action("List")" class="btn btn-warning bg-color-yellow"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+                                </footer>
+                            }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- END COL -->
+        </div>
+        <!-- END ROW -->
+    </section>
+    <!-- end widget grid -->
+</div>

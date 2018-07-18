@@ -1,0 +1,26 @@
+﻿    <!-- HEADER -->
+<header id="header">
+    <div id="logo-group">
+
+        <!-- PLACE YOUR LOGO HERE -->
+        <a href="/">
+        <span id="logo"> <img src="~/content/img/Logo_Nova.png" alt="@Html.T("NomeApp")"> </span>
+            </a>
+        <!-- END LOGO PLACEHOLDER -->
+       
+    </div>
+   
+    <section id="top-right">
+        @if (@Model is HelperResult)
+        {
+            @Model
+        }
+        else
+        {
+            <div class="pull-right">
+                @Html.Partial("_TopRight")
+            </div>
+        }
+    </section>
+</header>
+<!-- END HEADER -->

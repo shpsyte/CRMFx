@@ -1,0 +1,18 @@
+﻿@model FormaPgto
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.formapgtoid)
+
+<fieldset>
+    <section>
+        <label class="label">Nome</label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.des_forma, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.des_forma)
+        </label>
+    </section>
+
+
+
+</fieldset>

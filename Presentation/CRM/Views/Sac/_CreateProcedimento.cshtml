@@ -1,0 +1,161 @@
+﻿@model Ps_Sac_Procedimento_Model
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.cod_sac)
+
+<fieldset>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Cliente</label>
+            <label class="select">
+                @*@Html.DropDownList("cd_cadastro", null, String.Empty, new { @class = "select2", @id = "ProcedimentoAdm_cd_cadastro" })*@
+                @Html.DropDownListFor(p => p.ProcedimentoAdm.CD_CADASTRO, ViewBag.cd_cadastro as IEnumerable<SelectListItem>, String.Empty, new { @class = "select"})  <i></i>
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.CD_CADASTRO)
+            </label>
+        </section>
+
+        <section class="col col-3">
+            <label class="label">Tipo do Procedimento</label>
+            <label class="select">
+                @*@Html.DropDownList("CD_TIPO", String.Empty )*@
+                @Html.DropDownListFor(p => p.ProcedimentoAdm.CD_TIPO, ViewBag.CD_TIPO as IEnumerable<SelectListItem>, String.Empty) <i></i>
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.CD_TIPO)
+            </label>
+        </section>
+
+        <section class="col col-3">
+            <label class="label">Motivo do Procedimento</label>
+            <label class="select">
+                @Html.DropDownListFor(p => p.ProcedimentoAdm.MOTIVOID, ViewBag.motivoid as IEnumerable<SelectListItem>, String.Empty) <i></i>
+                
+            </label>
+        </section>
+
+    </div>
+
+    <div class="row">
+        <section class="col col-3">
+            <label class="label">Nota Fiscal Foxlux</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-file-o"></i>
+                @Html.TextBoxFor(m => m.ProcedimentoAdm.NF_FOX, new { @class = "form-control", @placeholder = "Nota Fiscal Foxlux" })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.NF_FOX)
+            </label>
+            <p id="msgNota" style="color: red"></p>
+        </section>
+
+        <section class="col col-3">
+            <label class="label">Emissão</label>
+            <label class="input state-disabled">
+                <i class="icon-prepend fa fa-calendar"></i>
+                <input class="form-control" disabled="disabled" id="ProcedimentoAdm_DTA_NF_FOX" value="" type="text">
+            </label>
+        </section>
+
+
+
+
+        <section class="col col-6">
+            <label class="label">Departamento</label>
+            <label class="select">
+                @Html.DropDownListFor(p => p.ProcedimentoAdm.CD_DEPARTAMENTO, ViewBag.cd_departamento as IEnumerable<SelectListItem>, String.Empty) <i></i>
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.CD_DEPARTAMENTO)
+
+            </label>
+        </section>
+
+    </div>
+
+    <div class="row">
+
+        <section class="col col-6">
+            <label class="label">Transportador</label>
+            <label class="select">
+                @Html.DropDownList("cod_transportador", null, String.Empty, new { @class = "select", @id = "ProcedimentoAdm_cod_transportador" }) <i></i>
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.CD_TRANSPORTADOR)
+            </label>
+        </section>
+
+      
+        <section class="col col-3">
+            <label class="label">Nota Fiscal Cliente</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-file-text"></i>
+                @Html.TextBoxFor(m => m.ProcedimentoAdm.NF_CLIENTE, new { @class = "form-control", @placeholder = "Nota Fiscal Cliente" })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.NF_CLIENTE)
+            </label>
+        </section>
+
+
+    </div>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label"><span class="text-danger">Débito Transportadora</span></label>
+            <label class="input">
+                <i class="icon-prepend fa fa-money"></i>
+                @Html.TextBoxFor(m => m.ProcedimentoAdm.VL_TRANSPORTADORA, new { @class = "form-control", @placeholder = "Débito Transp." })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.VL_TRANSPORTADORA)
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label"><span class="text-danger">Débito Representante</span></label>
+            <label class="input">
+                <i class="icon-prepend fa fa-money"></i>
+                @Html.TextBoxFor(m => m.ProcedimentoAdm.VL_REPRESENTANTE, new { @class = "form-control", @placeholder = "Débito Repres." })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.VL_REPRESENTANTE)
+            </label>
+        </section>
+
+
+    </div>
+
+
+    <div class="row">
+        <section class="col col-4">
+            <label class="label"><span class="text-danger">Débito Foxlux</span></label>
+            <label class="input">
+                <i class="icon-prepend fa fa-money"></i>
+                @Html.TextBoxFor(m => m.ProcedimentoAdm.VL_FOXLUX, new { @class = "form-control", @placeholder = "Débito Foxlux." })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.VL_FOXLUX)
+            </label>
+        </section>
+
+        <section class="col col-4">
+            <label class="label"><span class="text-danger">Débito Cliente</span></label>
+            <label class="input">
+                <i class="icon-prepend fa fa-money"></i>
+                @Html.TextBoxFor(m => m.ProcedimentoAdm.VL_DCLIENTE, new { @class = "form-control", @placeholder = "Débito Cliente" })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.VL_DCLIENTE)
+            </label>
+        </section>
+
+        <section class="col col-4">
+            <label class="label"><span class="text-success">Crédito Cliente</span></label>
+            <label class="input">
+                <i class="icon-prepend fa fa-money"></i>
+                @Html.TextBoxFor(m => m.ProcedimentoAdm.VL_CLIENTE, new { @class = "form-control", @placeholder = "Crédito Cliente" })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.VL_CLIENTE)
+            </label>
+        </section>
+
+    </div>
+    <div class="row">
+        <section class="col col-4">
+            <label class="label"><span>Anexar arquivo</span></label>
+            <div class="input input-file">
+                <span class="button"><input id="file" name="files" onchange="this.parentNode.nextSibling.value = this.value" type="file" multiple="multiple">Browse</span><input placeholder="Incluir arquivo" readonly="" type="text"  >
+            </div>
+        </section>
+        <section class="col col-8">
+            <label class="label">Obs</label>
+            <label class="textarea textarea-resizable">
+                @Html.TextAreaFor(m => m.ProcedimentoAdm.OBS, new { @class = "custom-scroll", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.ProcedimentoAdm.OBS)
+            </label>
+        </section>
+    </div>
+</fieldset>
+

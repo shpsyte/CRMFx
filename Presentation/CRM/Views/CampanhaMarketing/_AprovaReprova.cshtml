@@ -1,0 +1,22 @@
+﻿@model CampanhaMarketing_Model
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.CampanhaMarketing.campanhaID)
+
+<fieldset>
+   
+    <div>
+       
+
+        <section>
+            <label class="label">Obs</label>
+            <label class="textarea textarea-resizable">
+                <i class="icon-prepend fa fa-comment"></i>
+                @Html.TextAreaFor(m => m.Obs, new { @class = "custom-scroll", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.Obs)
+            </label>
+        </section>
+        
+    </div>
+
+</fieldset>

@@ -1,0 +1,254 @@
+﻿@model IEnumerable<Note>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-12">
+
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-greenDark well" id="wid-id-3" data-widget-editbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                        <h2>Últimos Comentários</h2>
+
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+
+                        <div class="widget-body">
+                            <!-- content goes here -->
+
+                            <form method="post" class="well padding-bottom-10" onsubmit="return false;">
+                                <textarea maxlength="500" id="msgcliente" rows="2" class="form-control" placeholder="Ei! O que está acontecendo ?"></textarea>
+                                <div class="margin-top-10">
+                                    <button data-id="0" type="submit" class="btn btn-sm btn-primary pull-right PostComente">
+                                        Post
+                                    </button>
+                                </div>
+                            </form>
+                            <table id="idtable" style="width:100%">
+                                <tbody>
+                                    <!-- load by javascript -->
+                                    @foreach (var product in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="timeline-seperator text-center">
+                                                    <span>
+                                                        @product.dta_inclusao.ToShortDateString()&nbsp;&nbsp;-&nbsp;&nbsp;@product.dta_inclusao.ToShortTimeString() <small class="text-muted pull-right">
+                                                            @product.MinutesPost Minutos atrás
+                                                        </small>
+                                                    </span>
+                                                </div>
+                                                <div class="chat-body no-padding profile-message">
+                                                    <ul>
+                                                        <li class="message">
+                                                            <img src="/Content/img/avatars/male.png" class="online" alt="sunny">
+                                                            <span class="message-text" style="min-height:50px;">
+                                                                <a href="javascript:void(0);" class="username">
+                                                                    @System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(product.Usuario.NOME.ToLower())
+                                                                </a>
+                                                                <small class="text-muted pull-right">
+                                                                    @Html.ReturnNoteName(product.tipo_nota, product.cod_interno, product.msg, product.Usuario.NOME)
+                                                                </small>
+                                                                <br />
+                                                                <span>
+                                                                    @product.msg
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <table id="idtable2" style="width:100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <ul>
+                                                                                @foreach (var item in (ViewData["ListaComentarios"] as IEnumerable<Note>).Where(a => a.tipo_nota == "NOTE" && a.cod_interno == product.cod_nota.ToString()).OrderByDescending(a => a.dta_inclusao))
+                                                                                {
+                                                                                    <li class="message message-reply">
+                                                                                        <img src="/Content/img/avatars/male.png" class="online" alt="user">
+                                                                                        <span class="message-text">
+                                                                                            <a href="javascript:void(0);" class="username">
+                                                                                                @System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(item.Usuario.NOME.ToLower())
+                                                                                            </a> @item.msg
+                                                                                        </span>
+                                                                                        <ul class="list-inline font-xs">
+                                                                                            <li>
+                                                                                                <a href="javascript:void(0);" class="text-muted"> há @item.MinutesPost minutos atrás</a>
+                                                                                            </li>
+
+                                                                                        </ul>
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </li>
+                                                        <li class="message message-reply">
+                                                            <div class="input">
+                                                                <input name="@product.cod_nota" data-id="@product.cod_nota" class="form-control input-xs textcomente" placeholder="Type..." type="text">
+                                                            </div>
+
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                            <!-- end content -->
+
+                        </div>
+
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+
+
+
+
+        </div>
+
+
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section pagespecific {
+    <script>
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".textcomente").blur(function () {
+                // Get the id from the link
+                //debugger;
+                var recordToUpdate = $(this).attr("data-id");
+                var text = $(this).val();
+                if (text == "")
+                    return;
+
+                var table = document.getElementById("idtable2");
+                if (recordToUpdate != '') {
+                    $.ajax({
+                        dataType: "json",
+                        type: "POST",
+                        url: "@Url.Action("PostComentario", "Note")",
+                        data: { id: recordToUpdate, msg: text, origem: "NOTE" },
+                        success: function (dados) {
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+
+                            var string = " <li class='message message-reply'>  "
+                            + "       <img src='/Content/img/avatars/male.png' class='online' alt='user'>      "
+                            + " <span class='message-text'> "
+                            + "<a href='javascript:void(0);' class='username'> "
+                            + " _nome_ "
+                            + "  </a> _msg_ "
+                            + " </span> "
+                            + " <ul class='list-inline font-xs'> "
+                           + "      <li> "
+                           + "          <a href='javascript:void(0);' class='text-muted'> há momento atrás</a> "
+                           + "      </li> "
+                           + "  </ul> "
+                            + " </li> ";
+                            string = string.replace('_nome_', dados[0].User);
+                            string = string.replace('_msg_', dados[0].Mensagem);
+                            cell1.innerHTML = string;
+                            text = $(".textcomente").val("");
+
+                        }
+                    });
+                }
+            });
+        });
+
+
+
+
+
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".PostComente").click(function () {
+                // Get the id from the link
+                //debugger;
+                var recordToUpdate = $(this).attr("data-id");
+                var text = $("#msgcliente").val();
+                var table = document.getElementById("idtable");
+                if (recordToUpdate != '') {
+                    $.ajax({
+                        dataType: "json",
+                        type: "POST",
+                        url: "@Url.Action("PostComentario", "Note")",
+                        data: { id: recordToUpdate, msg: text, origem: "GERAL" },
+                        success: function (dados) {
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+
+                            var string = " <div class='timeline-seperator text-center'>  "
+                            + "       <span>                                              "
+                            + "                       _data_ <small class='text-muted pull-right'> "
+                            + "                            _minuto_ Minutos atrás "
+                            + "                        </small> "
+                            + "                    </span> "
+                            + "                </div> "
+                            + "                <div class='chat-body no-padding profile-message'> "
+                            + "                    <ul> "
+                            + "                        <li class='message'> "
+                            + "                            <img src='/Content/img/avatars/male.png' class='online' alt='sunny'> "
+                            + "                            <span class='message-text' style='min-height:50px;'> "
+                            + "                                <a href='javascript:void(0);' class='username'> "
+                            + "                                    _nome_ "
+                            + "                                </a> "
+                            + "                                  <small class='text-muted pull-right'>  "
+                            + "                                        Postou um comentário GERAL  "
+                            + "                                    </small> "
+                            + "                                        <br /> "
+                            + "                                        <span>  "
+                            + "                                    _msg_ "
+                            + "                            </span>"
+                            + "                        </li>"
+                            + "                    </ul>"
+                            + "                </div>";
+                            string = string.replace('_data_', dados[0].DataPequena + "   -   " + dados[0].Horapequena);
+                            string = string.replace('_minuto_', '0');
+                            string = string.replace('_nome_', dados[0].User);
+                            string = string.replace('_msg_', dados[0].Mensagem);
+                            cell1.innerHTML = string;
+                            text = $("#msgcliente").val("");
+                            //$.each(dados, function (key, val) {
+                            //    var tr = $('<tr></tr>');
+                            //    $.each(val, function (k, v) {
+                            //        $('<td>' + v + '</td>').appendTo(tr);
+                            //    });
+                            //    tr.appendTo('#idtable');
+                            //});
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

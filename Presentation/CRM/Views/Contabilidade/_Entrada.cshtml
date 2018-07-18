@@ -1,0 +1,280 @@
+﻿@model NotaEntradaModel
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.NotaCliente.Id)
+
+
+
+
+<div class="widget-body">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+    
+
+
+    <div class="panel-group smart-accordion-default" id="accordion-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseOne-1"> <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> Dados da Nota </a></h4>
+            </div>
+            <div id="collapseOne-1" class="panel-collapse collapse in">
+                <div class="panel-body padding-10">
+
+                    <div class="row">
+                        <section class="col col-8">
+                            <p><b>Cliente</b></p>
+                            <span> @Model.NotaCliente.Garantia.Ps_Pessoas.des_pessoa </span>
+                        </section>
+                        <section class="col col-4">
+                            <p><br /></p>
+                            <span class="text-left"> @Model.NotaCliente.Garantia.Ps_Pessoas.des_fantasia </span>
+                        </section>
+                    </div>
+
+
+                    <div class="row">
+
+
+                        <section class="col col-2">
+                            <label class="label">Nota</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.num_nota, null, new { @class = "form-control", @placeholder = "Nota Fiscal", @required = "required" })
+                            </label>
+                        </section>
+
+
+                        <section class="col col-2">
+                            <label class="label">Modelo</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.des_modelo, null, new { @class = "form-control", @placeholder = "Modelo", @required = "required" })
+                            </label>
+                        </section>
+
+
+
+                        <section class="col col-2">
+                            <label class="label">Série</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.cod_serie, null, new { @class = "form-control", @placeholder = "Série Fiscal", @required = "required" })
+                            </label>
+                        </section>
+
+
+                        <section class="col col-3">
+                            <label class="label">Data Emissão</label>
+                            <label class="input">
+                                <i class="icon-prepend fa fa-calendar"></i>
+                                @Html.TextBoxFor(a => a.dta_emissao, new { @class = "form-control date", @placeholder = "Emissão" })
+
+                            </label>
+                        </section>
+
+
+                        <section class="col col-3">
+                            <label class="label">Data Entrada</label>
+                            <label class="input">
+                                <i class="icon-prepend fa fa-calendar"></i>
+                                @Html.TextBoxFor(a => a.dta_entrada, new { @class = "form-control date", @placeholder = "Entrada" })
+                            </label>
+                        </section>
+
+
+                    </div>
+
+                    <div class="row">
+                        <section class="col col-3">
+                            <label class="label">Indica Nf-e</label>
+                            <label class="checkbox">
+                                @Html.CheckBoxFor(a => a.ind_nfe, new { @checked = "checked" })
+                                <i></i>Nf-e
+                            </label>
+
+
+                        </section>
+
+                        <section class="col col-9">
+                            <label class="label">Chave</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.des_chave, null, new { @class = "form-control", @placeholder = "Chave", @required = "required" })
+                                @Html.ValidationMessageFor(a => a.des_chave)
+                            </label>
+                        </section>
+
+
+                    </div>
+
+                    <div class="row">
+                        <section class="col col-4">
+                            <label class="label">Operação Fiscal</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.cod_operacao, new { @class = "form-control", @placeholder = "Operação", @required = "required" })
+
+                            </label>
+
+                        </section>
+                        <section class="col col-8">
+                            <label class="label">Descrição</label>
+                            <label class="input state-disabled">
+                                <input ID="descOper" disabled="disabled" type="text" value="" required />
+
+                            </label>
+
+                        </section>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-4">
+                            <label class="label">Local Estoque</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.des_local, null, new { @class = "form-control", @placeholder = "Local Estoque", @required = "required" })
+                            </label>
+                        </div>
+
+                        @*<div class="col col-4">
+                                <label class="label">Lote </label>
+                                <label class="input">
+                                    @Html.TextBoxFor(a => a.des_lote, null, new { @class = "form-control", @placeholder = "Lote", @required = "required" })
+                                </label>
+                            </div>*@
+                        @*<div class="col col-4">
+                                <label class="label">Tipo da Operação </label>
+                                <label class="input">
+                                    @Html.DropDownListFor(model => model.tp_operacao,
+                                        Enum.GetValues(typeof(tp_operacao)).OfType<tp_operacao>()
+                                            .Select(option => new SelectListItem
+                                            {
+                                                Text = option.ToString(),
+                                                Value = option.ToString(),
+                                                Selected = (Model != null) && (Model.tp_operacao == option)
+                                            }), "Selecione...", new { @class = "form-control" })
+                                </label>
+                            </div>*@
+
+                    </div>
+
+
+                    <br />
+                    <div>
+                        <section>
+                            <label class="label">Obs</label>
+                            <label class="textarea textarea-resizable">
+                                <i class="icon-prepend fa fa-comment"></i>
+                                @Html.TextAreaFor(m => m.obs, new { @class = "custom-scroll", @rows = "2" })
+                                @Html.ValidationMessageFor(model => model.obs)
+                            </label>
+                        </section>
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseTwo-1" class="collapsed"> <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> Dados Gerais </a></h4>
+            </div>
+            <div id="collapseTwo-1" class="panel-collapse collapse">
+                <div class="panel-body padding-10">
+
+                    <div class="row">
+                        <section class="col col-4">
+                            <label class="label">Transportador</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.cod_transportador, new { @class = "form-control", @placeholder = "Transportador" })
+                            </label>
+                        </section>
+                        <section class="col col-8">
+                            <label class="label">Razão</label>
+                            <label class="input state-disabled">
+                                <input ID="descTransportador" disabled="disabled" type="text" value="" required />
+                            </label>
+                        </section>
+                    </div>
+
+
+                    <div class="row">
+                        <section class="col col-4">
+                            <label class="label">Código Condição</label>
+                            <label class="input">
+                                @Html.TextBoxFor(a => a.cod_condicao_pgto, new { @class = "form-control", @placeholder = "Condição Pgto" })
+                            </label>
+                        </section>
+                        <section class="col col-8">
+                            <label class="label">Descrição</label>
+                            <label class="input state-disabled">
+                                <input ID="desCondicao" disabled="disabled" type="text" value="" required />
+                            </label>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseThree-1" class="collapsed"> <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> Itens da Nota </a></h4>
+            </div>
+            <div id="collapseThree-1" class="panel-collapse collapse">
+                <div class="panel-body padding-10">
+
+                    <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Cfop</th>
+                                <th>Qtde</th>
+                                <th>Valor</th>
+                                <th>Ipi</th>
+                                <th>Icms-ST</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.ItensNota)
+            {
+                <tr>
+                    <td data-hide="phone,tablet">  @item.Cod_Foxlux  </td>
+                    <td data-hide="phone,tablet">  @item.cd_cfop  </td>
+                    <td data-hide="phone,tablet">  @item.Qtd_Lancamento </td>
+                    <td data-hide="phone,tablet"> <input id="vlr_@item.GarantiaItemId" class="form-control" type="text" value="@item.Vlr_Lancamento" />   </td>
+                    <td data-hide="phone,tablet"> <span id="ipi_@item.GarantiaItemId"  > @item.Vlr_ipi </span>     </td>
+                    <td data-hide="phone,tablet"> <span id="st_@item.GarantiaItemId" > @item.Vlr_Imcs_Subs</span>      </td>
+                    <td data-hide="phone,tablet">  @item.Vlr_Total</td>
+                    <td data-hide="phone,tablet">
+                        <a class="btn btn-success btn-xs"
+                           onclick="AlterarValor(this)"
+                           data-id="@item.Id"
+                           data-nota-id="@Model.id"
+                           data-id-do-valor="vlr_@item.GarantiaItemId"
+                           data-id-do-ipi="ipi_@item.GarantiaItemId"
+                           data-id-do-st="st_@item.GarantiaItemId">Alterar</a>
+                    </td>
+
+                </tr>
+}
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+

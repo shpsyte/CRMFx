@@ -1,0 +1,176 @@
+﻿@model Ps_Leads
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.cod_lead)
+
+<style>
+    .smart-form .label {
+        display: inline-block !important;
+    }
+    /*media screen*/
+    .select2-selection__choice {
+        padding: 1px 28px 1px 8px !important;
+        margin: 4px 0 3px 5px !important;
+        position: relative !important;
+        line-height: 18px !important;
+        color: #fff !important;
+        cursor: default !important;
+        border: 1px solid #2a6395;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: #3276b1;
+    }
+
+</style>
+
+<fieldset>
+    <div class="row">
+        <section class="col col-8">
+            <label class="label">Nome</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-user"></i>
+                @Html.TextBoxFor(m => m.des_nome, new { @class = "form-control", @placeholder = "Nome" })
+                @Html.ValidationMessageFor(model => model.des_nome)
+            </label>
+        </section>
+        <section class="col col-4">
+            <label class="label">Sobrenome</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-user"></i>
+                @Html.TextBoxFor(m => m.des_sobrenome, new { @class = "form-control", @placeholder = "Sobrenome" })
+            </label>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-8">
+            <label class="label">Email</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-envelope-o"></i>
+                @Html.TextBoxFor(m => m.des_email, new { @type = "email", @class = "form-control", @placeholder = "Email" })
+                @Html.ValidationMessageFor(model => model.des_email)
+            </label>
+        </section>
+        <section class="col col-4">
+            <label class="label">Celular</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-phone"></i>
+                @Html.TextBoxFor(m => m.des_fone, new { @type = "tel", @class = "form-control", @placeholder = "Fone" })
+            </label>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Origem</label>
+            <label class="select">
+                @Html.DropDownList("cod_origem") <i></i>
+                @Html.ValidationMessageFor(model => model.cod_origem)
+            </label>
+        </section>
+        <section class="col col-6">
+            <label class="label">Tipo</label>
+            <label class="select">
+                @Html.DropDownList("cod_tipo", String.Empty)  <i></i>
+            </label>
+        </section>
+    </div>
+    <div class="form-group">
+        <label class="label">Interesse</label>
+        @Html.DropDownList("des_interesse", null, new { @multiple = true, @style = "width:100%", @class = "select2" }) <i></i>
+        @Html.ValidationMessageFor(model => model.des_interesse)
+        @*<select multiple style="width:100%" class="select2">
+
+            <option value="AK">Alaska</option>
+            <option value="HI">Hawaii</option>
+
+            <option value="CA">California</option>
+            <option value="NV">Nevada</option>
+            <option value="OR">Oregon</option>
+            <option value="WA">Washington</option>
+
+        </select>*@
+        @*<label class="select">
+                @Html.DropDownList("cod_interesse", String.Empty) <i></i>
+
+            </label>*@
+    </div>
+    <div class="row">
+
+        <section class="col col-6">
+            <label class="label">Situacao</label>
+            <label class="select">
+                @Html.DropDownList("cod_situacao")  <i></i>
+            </label>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Empresa</label>
+            <label class="input">
+                @Html.TextBoxFor(m => m.des_empresa, new { @class = "form-control" })
+            </label>
+        </section>
+        <section class="col col-6">
+            <label class="label">Documento (CPF/CNPJ)</label>
+            <label class="input">
+                @Html.TextBoxFor(m => m.des_documento, new { @class = "form-control" })
+            </label>
+        </section>
+    </div>
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Outras Info</label>
+            <label class="textarea">
+                @Html.TextAreaFor(m => m.des_info, new { @class = "custom-scroll", @rows = "2" })
+            </label>
+        </section>
+    </div>
+
+
+    @* <div class="row">
+            <section class="col col-6">
+                <label class="label">Cargo</label>
+                <label class="select">
+                    @Html.DropDownList("cod_cargo", String.Empty)
+                    <i></i>
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="label">Conta</label>
+                <label class="select">
+                    @Html.DropDownList("cod_conta", null, new { @class = "select2" })
+                    @Html.ValidationMessageFor(model => model.cod_conta)
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col col-6">
+                <label class="label">Time</label>
+                <label class="textarea textarea-expandable">
+                    @Html.TextAreaFor(m => m.des_time, new { @class = "custom-scroll", @rows = "2" })
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="label">Filhos</label>
+                @Html.TextBoxFor(m => m.des_filhos, new { @class = "form-control tagsinput", @data_role = "tagsinput" })
+            </section>
+        </div>
+        <div class="row">
+            <section class="col col-6">
+                <label class="label">Hobby</label>
+                <label class="textarea">
+                    @Html.TextAreaFor(m => m.des_hobby, new { @class = "custom-scroll", @rows = "2" })
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="label">Outras</label>
+                <label class="textarea">
+                    @Html.TextAreaFor(m => m.des_outras, new { @class = "custom-scroll", @rows = "2" })
+                </label>
+            </section>
+        </div>*@
+</fieldset>

@@ -1,0 +1,324 @@
+﻿@model IEnumerable<V_Garantias_Representantes>
+
+@Html.Hidden("cod_representante", Model.First().cod_representante)
+
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2> Lista de Garantias do Representante </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <h2 class="alert alert-success"> Garantias em trânsito do Representante @Model.First().cod_representante  </h2>
+                                
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7">
+                                        <a href="@Url.Action("ListWithOrderCollection")" class="btn btn-warning bg-color-yellow"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+                                        <a id="btbimprimir"  class="btn btn-success" href="@Url.Action("ImpressaoNFDTodas", new { codigoRepresentante = @Model.First().cod_representante})">Imprimir Espelhos (0) </a> 
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <table id="idtable" class="display projects-table table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    @*<tr>
+                                            <th class="hasinput"> </th>
+                                            <th class="hasinput"> </th>
+                                            <th class="hasinput"> </th>
+                                        </tr>*@
+                                    <tr>
+                                        <th data-hide="phone,tablet" class="no-sort"></th>
+                                        <th data-hide="phone,tablet"> Nome </th>
+                                        <th data-hide="phone,tablet"> % Atingido </th>
+                                        <th data-hide="phone,tablet"> Representatividade </th>
+                                        <th data-hide="phone,tablet"> Previsão Coleta </th>
+                                        <th data-hide="phone,tablet"> Nº Coleta </th>
+                                        <th data-hide="phone,tablet"> Notas Clientes </th>
+                                        <th data-hide="phone,tablet"> Status  </th>
+                                        <th data-hide="phone,tablet"> Coleta   </th>
+                                        <th data-hide="phone,tablet"> Procedimento  </th>
+                                        <th data-hide="phone,tablet"> Gerar Proc.   </th>
+                                        <th data-hide="phone,tablet" class="no-sort">Imprimir</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*@{ int _id = 0; }
+                                        @foreach (var product in Model.OrderByDescending(p => p.garantiaid))
+                                        {
+                                            _id = product.garantiaid;
+                                            <tr id="row-@product.garantiaid">
+                                                <td data-hide="phone,tablet"> </td>
+                                                <td data-hide="phone,tablet"> @_id </td>
+                                                <td data-hide="phone,tablet"> @product.razao </td>
+                                            </tr>
+                                        }*@
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+
+    <script type="text/javascript">
+
+    function AddOrRemoveGarantia(element)
+    {
+        debugger;
+        var isCheckedValue = element.checked;
+        var codigoDaGarantia = $(element).attr("data-id");
+
+        var data_to_pass = {
+            garantiaId: codigoDaGarantia, isDelete: !isCheckedValue
+        };
+
+
+
+        var url = '@Url.Action("AddOrRemoveGarantiaImpressao")';
+
+
+        $.ajax({
+            type: 'POST',
+            url:url,
+            dataType: 'json',
+            data: data_to_pass,
+            success: function (data) {
+                $('#btbimprimir').text('Imprimir Espelho ' + '(' + data.CartCount + ')');
+
+            }
+        });
+
+
+    }
+
+
+    function ChamaInteracoes(id)
+    {
+        var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+        var urlopen = "/Garantias/GetDetailsFromDoc/GARANTIA_ID"
+                .replace("GARANTIA_ID", id)
+
+        window.open(urlopen, '_blank', strWindowFeatures, true);
+
+    }
+
+
+    $(document).ready(function () {
+
+
+
+            var responsiveHelper_datatable_col_reorder = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var cod_cliente = document.getElementById("cod_representante").value;
+            var url = "/Garantias/ReadItemJsUsingSql/" + cod_cliente;
+
+
+
+
+            /* Formatting function for row details - modify as you need */
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">' +
+                    '<tr>' +
+                    '<td>ID Garantia:</td>' +
+                    '<td>' + d.garantiaid + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td style="width:130px">Representante:</td>' +
+                    '<td>' + d.cod_representante + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td style="width:100px">Cliente:</td>' +
+                    '<td>' + d.razao + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Obs:</td>' +
+                    '<td>' + d.obs + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+
+                    '<tr>' +
+                    '<td>Data Inclusão:</td>' +
+                    '<td>' + d.dta_inclusao + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Espécie:</td>' +
+                    '<td>' + d.especies + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Volemes:</td>' +
+                    '<td>' + d.volumes + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Notas do Cliente:</td>' +
+                    '<td>' + d.num_nf_cliente + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Obs de Coleta:</td>' +
+                    '<td>' + d.obscoleta + '</td>' +
+                    '</tr>' +
+                    '<td>Action:</td>' +
+                    '<td>' +
+                       '<a target="_blank" class="btn bg-color-teal txt-color-white" href="/Garantias/details/'+ d.garantiaid +'"> Detalhes </a> '+
+                       '<a target="_blank" class="btn bg-color-orange txt-color-white" href="/Garantias/Resposta/' + d.garantiaid + '"> Mudar Status </a> ' +
+                       '<a target="javascript:void(0)" onclick="ChamaInteracoes(' + d.garantiaid + ');" class="btn bg-color-pink txt-color-white"> Ver interações <i class="fa fa-lg fa-comments"></i>  </a> ' +
+                    '</td>'
+                    '</tr>' +
+                    '</table>';
+            }
+
+
+
+
+            /* COLUMN SHOW - HIDE */
+            var otable = $('#idtable').DataTable({
+
+                // Tabletools options:
+                //   https://datatables.net/extensions/tabletools/button_options
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>" +
+                        "t" +
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                //"oTableTools": {
+                //    "aButtons": [
+                //    "copy",
+                //    "csv",
+                //       {
+                //           "sExtends": "print",
+                //           "sMessage": "Generated by CRM <i>(press Esc to close)</i>"
+                //       }
+                //    ],
+                //    "sSwfPath": "/Scripts/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+                //},
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_datatable_col_reorder) {
+                        responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#idtable'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_datatable_col_reorder.respond();
+                },
+                "bServerSide": true,
+                "sAjaxSource": url,
+                "bProcessing": false,
+                "pageLength": 500,
+                "iDisplayLength": 500,
+                //"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                //    if ( aData.Garantia == "N" )
+                //    {
+                //        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-down txt-color-orangeDark"> <i/> </b>');
+
+                //    }else
+                //    {
+                //        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-up txt-color-green"> <i/> </b>');
+
+                //    }
+                //},
+                "columnDefs": [
+                    { targets: 'no-sort', orderable: false }
+                ],
+                "aoColumns": [
+                        {
+                            "class": 'details-control',
+                            "orderable": false,
+                            "data": null,
+                            "defaultContent": ''
+                        },
+                       { "data": "razao", "mRender": function (data, type, full) { return full.razao + '<br>' + '<small class="text-muted"><i>Valor: ' + full.vlr_garantia + '<i></small>'; } },
+                       { "data": "Percentual", "mRender": function (data, type, full) { return '<td><div class="progress progress-xs" data-progressbar-value="' + full.Percentual + '"><div class="progress-bar"></div></div></td> '; } },
+                       { "data": "RepresentacaoTotal", "mRender": function (data, type, full) { return '<td><div class="progress progress-xs" data-progressbar-value="' + full.RepresentacaoTotal + '"><div class="progress-bar"></div></div></td> '; } },
+                       { "data": "dta_previsao_coleta" },
+                       { "data": "num_coleta" },
+                       { "data": "num_nf_cliente" },
+                       { "data": "des_nome" },
+                       { "data": "garantiaid", "mRender": function (data, type, full) { var urlopen = "/Garantias/ImpressaoColeta/ID_PRINT"; return ' <a target="_blank" class="btn bg-color-blue txt-color-white" href="' + urlopen.replace("ID_PRINT", full.garantiaid) + '"> Imprimir Coleta </a> '; } },
+                       { "data": "Procedimento", "mRender": function (data, type, full) { var urlopen = "http://procedimentos.grupofoxlux.com.br/Procedimento/ProcedimentoAdm/Details/ID_PRINT"; return ' <a target="_blank"   href="' + urlopen.replace("ID_PRINT", full.Procedimento) + '">  ' + full.Procedimento  + ' </a> '; } },
+                       { "data": "garantiaid", "mRender": function (data, type, full) { var urlopen = "/RecGarantias/VinculaGarantia/ID_PRINT"; return ' <a  class="btn bg-color-green txt-color-white" href="' + urlopen.replace("ID_PRINT", full.garantiaid) + '"> Gerar Procedimento </a> '; } },
+                       {
+                           "data": "Check", "mRender": function (data, type, full) {
+                               var garantiraIdResult = full.garantiaid;
+                               return '<input type="checkbox" class="AddOrRemove"  onclick="AddOrRemoveGarantia(this)" data-id=' + garantiraIdResult +' >';
+                           }
+                       }
+                ]
+
+            });
+
+
+            // Apply the filter
+            $("#idtable thead th input[type=text]").on('keyup change', function () {
+                otable
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+
+            });
+
+            $('#idtable tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = otable.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+        })
+
+
+
+    </script>
+}

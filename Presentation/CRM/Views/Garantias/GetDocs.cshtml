@@ -1,0 +1,263 @@
+﻿@model IEnumerable<GarantiaArq>
+
+<!DOCTYPE html>
+<html lang="pt-br" id="@ViewBag.PageId" class="@Settings.CurrentTheme">
+<head>
+    <meta charset=" utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title> @Html.T("Nomeapp") </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Basic Styles -->
+    @Styles.Render("~/content/smartadmin")
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+    <!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <link rel="apple-touch-icon" href="~/content/img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/content/img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/content/img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/content/img/splash/touch-icon-ipad-retina.png">
+
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+
+</head>
+<body class="@ViewBag.PageClass @Settings.CurrentTheme">
+    <div id="main" role="main">
+
+        <div id="content" class="container">
+            <h1>
+                Documentos Anexados <span class="semi-bold"> Garantia </span>
+            </h1>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="well no-padding">
+                        <table id="tblContatos" class="table table-striped table-bordered table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nome </th>
+                                    <th>Deletar </th>
+                                    @*<th>PDF </th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model)
+                                {
+                                    <tr id="row-@product.id">
+                                        <td>@product.id</td>
+                                        @if (string.IsNullOrEmpty(product.nome_arquivo))
+                                        {
+                                            <td><a target="_blank" href="~/Arquivos/Uploads/@product.caminho"> @product.caminho </a></td>
+                                        }
+                                        else
+                                        {
+                                            <td><a target="_blank" href="@Url.Action("Download", "Garantias", new { id = product.id })"> @product.nome_arquivo </a></td>
+                                            
+                                        }
+                                        <td>
+                                            <a data-id="@product.id" href="javascript:void(0)" class="btn btn-danger" onclick="removeitem(this)"> Remover </a>
+                                        </td>
+                                        @*<td>
+                                            <a  href="@Url.Action("HtmlToPdf","Garantias", new { id = product.id })" class="btn btn-warning"> Gerar PDF</a>
+                                        </td>*@
+                                    </tr>
+
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                
+
+                @using (Html.BeginForm("AddDocGarantia", "Garantias", FormMethod.Post, new { @id = "form_post", @novalidate = "novalidate", enctype = "multipart/form-data" }))
+                {
+                <input type="hidden" id="garantiaid" name="garantiaid" value="@ViewBag.GarantiaId" />
+
+                    <div class="modal-body">
+                        <section class="col-md-12">
+                            <label class="input">
+                                <input type="file" id="uploadImages" name="uploadImages" multiple="multiple" class="input-files" />
+                            </label>
+                        </section>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Gravar
+                        </button>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script> if (!window.jQuery) { document.write('<script src="/scripts/libs/jquery-2.1.1.min.js"><\/script>'); } </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script> if (!window.jQuery.ui) { document.write('<script src="/scripts/libs/jquery-ui-1.10.3.min.js"><\/script>'); } </script>
+
+    <!-- IMPORTANT: SmartAdmin Core -->
+    @Scripts.Render("~/scripts/smartadmin")
+
+    @if (Request.IsAuthenticated)
+    {
+    <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
+        <script data-pace-options='{ "restartOnRequestAfter": true }' src="~/scripts/plugin/pace/pace.min.js"></script>
+    <!-- Demo purpose only! -->
+        <script src="/scripts/demo.min.js"></script>
+    }
+
+    <!-- Voice command : plugin -->
+    <script src="~/scripts/speech/voicecommand.min.js"></script>
+
+    <!-- SmartChat UI : plugin -->
+    @Scripts.Render("~/scripts/smart-chat")
+
+    <!-- DataTables : plugin -->
+    @Scripts.Render("~/scripts/datatables")
+
+    <!-- jQGrid : plugin -->
+    @Scripts.Render("~/scripts/jq-grid")
+
+    <!-- Forms : plugin -->
+    @Scripts.Render("~/scripts/forms")
+
+    <!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip, Morris, Sparkline, EasyPie -->
+    @Scripts.Render("~/scripts/charts")
+
+    <!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
+    @Scripts.Render("~/scripts/vector-map")
+
+    <!-- Full Calendar -->
+    @Scripts.Render("~/scripts/full-calendar")
+
+    <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
+    <script>
+        $(document).ready(function () {
+            pageSetUp();
+            drawBreadCrumb();
+        });
+
+
+
+        function removeitem(element) {
+            // Get the id from the link
+            var recordToDelete = $(element).attr("data-id");
+
+            if (recordToDelete != '') {
+                debugger;
+                // Perform the ajax post
+                $.post("/Garantias/RemoveDocFromGarantia", { "id": recordToDelete },
+                    function (data) {
+                        $('#row-' + data.id).fadeOut('slow');
+                        $('#cart-total').text(data.total);
+
+                    });
+            }
+        }
+
+
+
+    </script>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key= AIzaSyC0VxY6KEDgqnCUw2Skk7gJa9ZcncNm9ZQ &signed_in=true"></script>
+
+
+    <!-- Full Calendar -->
+    @Scripts.Render("~/scripts/maps")
+
+
+
+    @if (@Model is HelperResult)
+    {
+        @Model
+    }
+    <!-- Your GOOGLE ANALYTICS CODE Below-->
+    @*<script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'xx-xxxxxxxx-x']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>*@
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+        var responsiveHelper_dt_basic = undefined;
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+
+
+        $('#tblContatos').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'TC>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+            "oTableTools": {
+                "aButtons": [
+                "copy",
+                "csv",
+                   {
+                       "sExtends": "print",
+                       "sMessage": "Generated by CRM <i>(press Esc to close)</i>"
+                   }
+                ],
+                "sSwfPath": "/Scripts/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+            },
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tblContatos'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic.respond();
+            }
+        });
+    </script>
+
+</body>
+</html>

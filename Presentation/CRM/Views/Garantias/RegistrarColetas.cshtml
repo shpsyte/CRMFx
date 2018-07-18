@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Garantia>
+
+@Html.Hidden("cod_representante", Model.First().cod_representante)
+
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2> Registar coletas de Garantias </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7">
+                                        <a href="@Url.Action("ListWithOrderCollection")" class="btn btn-warning bg-color-yellow"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+                                        <a id="btbimprimir" class="btn btn-success" href="@Url.Action("ImpressaoNFDTodas", new { codigoRepresentante = @Model.First().cod_representante})">Registrar Coleta </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <table id="idtable" class="display projects-table table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+
+                                    <tr>
+                                        <th data-hide="phone,tablet"> Nome </th>
+                                        <th data-hide="phone,tablet"> Previsão Coleta </th>
+                                        <th data-hide="phone,tablet"> Notas Clientes </th>
+                                        <th data-hide="phone,tablet"> Nº Coleta </th>
+                                        <th data-hide="phone,tablet"> Volumes   </th>
+                                        <th data-hide="phone,tablet"> Procedimento  </th>
+                                        <th data-hide="phone,tablet" class="no-sort">Ind Coletado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td> @item.Ps_Pessoas.des_fantasia  </td>
+                                        <td> @( item.dta_previsao_coleta.HasValue ? item.dta_previsao_coleta.Value.ToShortDateString() : "" )  </td>
+                                        <td> @item.num_nf_cliente  </td>
+                                        <td> @item.num_coleta  </td>
+                                        <td> @item.volumes  </td>
+                                        <td> @item.cod_procedimento_vinculado  </td>
+                                        <td>
+                                            <input id="cbocoleta" data-id="@item.garantiaid" onclick="AddOrRemoveGarantia(this)" type="checkbox" checked="@( item.Ind_Coletado.HasValue ? item.Ind_Coletado > 0 ? true : false : false )" />
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    }
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+    <script>
+        pageSetUpTable("idtable", 150);
+    </script>
+    <script type="text/javascript">
+
+    function AddOrRemoveGarantia(element)
+    {
+
+        var isCheckedValue = element.checked;
+        var codigoDaGarantia = $(element).attr("data-id");
+
+        var data_to_pass = {
+            garantiaId: codigoDaGarantia, isDelete: !isCheckedValue
+        };
+
+
+
+        var url = '@Url.Action("AddOrRemoveRegistraColeta")';
+
+
+        $.ajax({
+            type: 'POST',
+            url:url,
+            dataType: 'json',
+            data: data_to_pass,
+            success: function (data) {
+                
+
+                if (data.error) {
+                    $.smallBox({
+                        title: "Erro!",
+                        content: "Não foi possível alterar esta garantia, por favor verifique: " + data.msg,
+                        color: "#296191",
+                        timeout: 1500,
+                        icon: "fa fa-bell swing animated"
+                    });
+                }
+                if (!data.error) {
+                    $.smallBox({
+                        title: "Sucesso",
+                        content: "O registro foi alterado com sucesso",
+                        color: "#5384AF",
+                        timeout: 1500,
+                        icon: "fa fa-bell"
+                    });
+                }
+
+            }
+        });
+
+
+    }
+
+
+
+    </script>
+}

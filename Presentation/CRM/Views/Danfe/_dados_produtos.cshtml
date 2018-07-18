@@ -1,0 +1,184 @@
+﻿@model Danzor.Print.DanzorPage
+
+<div class="bloco">
+   <div class="conteudo negrito fonte-7-pontos">DADOS DOS PRODUTOS / SERVIÇOS</div>
+   <table id="dados_produtos">
+      <thead>
+         <tr>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">CÓDIGO</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">DESCRIÇÃO DOS PRODUTOS / SERVIÇOS</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">NCM/SH</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">CST</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">CFOP</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">UNID</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">QUANT</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">VLR.UNIT.</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">VLR.TOTAL</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">BC.ICMS</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">VL.ICMS</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">VLR I.P.I</div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">
+                  Aliq
+                  ICMS
+               </div>
+            </th>
+            <th class="campo">
+               <div class="conteudo fonte-5-pontos">
+                  Aliq
+                  IPI
+               </div>
+            </th>
+
+             <th class="campo">
+                 <div class="conteudo fonte-5-pontos">
+                     BASE
+                     ICMS-ST
+                 </div>
+             </th>
+             <th class="campo">
+                 <div class="conteudo fonte-5-pontos">
+                    VALOR 
+                    ICMS-ST
+                 </div>
+             </th>
+             <th class="campo">
+                 <div class="conteudo fonte-5-pontos">
+                     % MVA
+                 </div>
+             </th>
+
+
+
+         </tr>
+      </thead>
+
+      @foreach (var item in @Model.Body.det)
+      {
+         <tr>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.prod.cProd.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                @Html.Raw(item.prod.xProd.Value)
+                   
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.prod.NCM.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @*@item.imposto.ICMS.First().CST.Value*@
+                   0
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.prod.CFOP.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.prod.uCom.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.prod.qCom.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.prod.vUnCom.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.prod.vProd.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.imposto.ICMS.First().vBC.Value
+               </div>
+            </td>
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.imposto.ICMS.First().vICMS.Value
+               </div>
+            </td>
+
+
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                    @item.imposto.IPI.IPITrib.vIPI.Value
+               </div>
+            </td>
+            
+             <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                  @item.imposto.ICMS.First().pICMS.Value%
+               </div>
+            </td>
+
+            <td class="campo asem-borda-superior-inferior">
+               <div class="conteudo fonte-7-pontos">
+                 @item.imposto.IPI.IPITrib.pIPI.Value%
+               </div>
+            </td>
+
+             <td class="campo asem-borda-superior-inferior">
+                 <div class="conteudo fonte-7-pontos">
+                     @item.imposto.ICMS.First().vBCST.Value
+                     
+
+                 </div>
+             </td>
+             <td class="campo asem-borda-superior-inferior">
+                 <div class="conteudo fonte-7-pontos">
+                     @item.imposto.ICMS.First().vICMSST.Value
+                 </div>
+             </td>
+             <td class="campo asem-borda-superior-inferior">
+                 <div class="conteudo fonte-7-pontos">
+                     @item.imposto.ICMS.First().pICMSST.Value
+                 </div>
+             </td>
+
+
+         </tr>
+
+      }
+   </table>
+
+</div>

@@ -1,0 +1,169 @@
+﻿@model CampanhaMarketingPgtoViewModel
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(a => a.CampanhaMarketingPgto.campanhamarketingpgtoid)
+@Html.HiddenFor(a => a.CampanhaMarketingPgto.campanhaid)
+@Html.HiddenFor(a => a.CampanhaMarketingPgto.cod_usuario)
+@Html.HiddenFor(a => a.CampanhaMarketingPgto.dta_inclusao)
+@Html.HiddenFor(a => a.CampanhaMarketingPgto.campanhamarketingpgtoid)
+@Html.HiddenFor(a => a.CampanhaMarketing.campanhaID)
+@Html.HiddenFor(model => model.CampanhaMarketingPgto.ind_total)
+@{ string ind_total = "N"; try { ind_total = Model.CampanhaMarketingPgto.ind_total.ToString(); } catch { ind_total = "N"; }
+    if (string.IsNullOrEmpty(ind_total)) { ind_total = "N"; } }
+
+<fieldset>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Forma do Pgto</label>
+            <label class="select">
+                @Html.DropDownListFor(p => p.CampanhaMarketingPgto.formapgtoid, ViewBag.formapgto as IEnumerable<SelectListItem>, String.Empty, new { @class = "form-control", @required = "required" })<i></i>
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.formapgtoid)
+            </label>
+        </section>
+
+        <section class="col col-6 hide5">
+            <label class="label">Documento</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-file-o"></i>
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.des_documento, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.des_documento)
+            </label>
+
+
+        </section>
+
+    </div>
+    <div class="row  show2">
+        <section class="col col-6">
+            <label class="label">Pedido</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-suitcase"></i>
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.num_pedido, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.num_pedido)
+            </label>
+
+
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Complemento</label>
+            <label class="input">
+
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.cod_compl, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.cod_compl)
+            </label>
+
+
+        </section>
+
+
+    </div>
+
+
+    <div class="row  show1">
+        <section class="col col-6">
+            <label class="label">Título</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-bank"></i>
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.num_titulo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.num_titulo)
+            </label>
+
+
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Parcela</label>
+            <label class="input">
+
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.num_parcela, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.num_parcela)
+            </label>
+
+
+        </section>
+    </div>
+
+    
+    <div class="row  show4">
+        <section class="col col-4">
+            <label class="label">Agência</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-bank"></i>
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.des_agencia, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.des_agencia)
+            </label>
+        </section>
+        <section class="col col-4">
+            <label class="label">Banco</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-reorder"></i>
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.des_banco, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.des_banco)
+            </label>
+        </section>
+        <section class="col col-4">
+            <label class="label">Conta</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-clipboard"></i>
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.des_conta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.des_conta)
+            </label>
+        </section>
+    </div>
+
+
+
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Valor do Pagamento</label>
+            <label class="input">
+                <i class="icon-prepend fa fa-dollar"></i>
+                @Html.TextBoxFor(m => m.CampanhaMarketingPgto.vlr_pgto, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.vlr_pgto)
+            </label>
+        </section>
+
+
+        
+        <section class="col col-6">
+            <label class="label">Total/Parcial</label>
+            <label class="checkbox">
+                <input type="checkbox" name="checkbox-inline" id="_indtotal" @(ind_total == "S" ? "checked='checked'" : "")>
+                <i></i> Pagamento Total da Campanha
+            </label>
+        </section>
+
+
+
+    </div>
+
+
+    <div class="row">
+        <section class="col col-12">
+            <label class="label">Imagem</label>
+            <input type="file" accept="application/pdf" name="Arquivo" id="Arquivo" value="Selecione a Imagem" />
+        </section>
+    </div>
+
+
+    <img id="Preview" src="#" alt="" />
+    
+
+
+    <div class="row">
+        <section class="col col-9">
+            <label class="label">Obs</label>
+            <label class="textarea textarea-resizable">
+                <i class="icon-prepend fa fa-comment"></i>
+                @Html.TextAreaFor(m => m.CampanhaMarketingPgto.des_observacao, new { @class = "custom-scroll", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.CampanhaMarketingPgto.des_observacao)
+            </label>
+        </section>
+       
+
+    </div>
+
+</fieldset>

@@ -1,0 +1,18 @@
+﻿@model Status
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.statusId)
+
+<fieldset>
+    <section>
+        <label class="label">Nome</label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.descricao, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.descricao)
+        </label>
+    </section>
+
+
+
+</fieldset>

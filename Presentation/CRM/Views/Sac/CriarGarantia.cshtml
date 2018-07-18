@@ -1,0 +1,130 @@
+﻿@model Ps_Sac_Garantia_Model
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <div class="row">
+
+            <!-- NEW COL START -->
+            <article class="col-sm-12 col-md-8 col-lg-8">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Finalização do S.A.C. com garantia</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding smart-form">
+                            @*using (Html.BeginForm("CriarProcedimento", "Sac", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
+                            @using (Html.BeginForm("CriarGarantia", "Sac", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.Partial("_CreateGarantia", Model)
+                                <footer>
+                                    <button type="submit" name="save" class="btn btn-success" value="save"> Criar </button>
+                                    <a href="@Url.Action("Details", new { id = Model.cod_sac})" class="btn btn-warning"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+                                </footer>
+                            }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+
+
+            <!-- END COL -->
+            <article class="col-sm-12 col-md-4 col-lg-4">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-greenLight" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Dados do SAC</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body smart-form">
+
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+
+                                    <div class="panel panel-title">
+                                        <div class="panel-body status">
+                                            <div class="who clearfix">
+                                                <span class="name"> Nome.: <b> @Model.Nome_Sac</b> </span>
+                                                <span class="name"> Assunto: <b> @Model.des_assunto </b> </span>
+                                                <span class="name"> Solicitação: <b> @Model.solicitacao</b> </span>
+                                                <span class="from"> Abertura: <b>@( Model._total_aberto.HasValue ? Model._total_aberto.Value.ToString(@"d\.hh\:mm\:ss") : "" ) atrás </b> -  @Model.origem </span>
+                                                <br />
+                                                <span class="name"><b> Modo de Fechamento: </b>  @Model.tipo</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- END ROW -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section pagespecific {
+    <script>
+        $(document).ready(function () {
+
+            $("#ProcedimentoAdm_NF_FOX")
+             .bind("blur", function () {
+                 if ($(this).val() == "") {
+                     $(this).val("");
+                     return;
+                 }
+                 else {
+                     //debugger;
+                     var _cd_cadastro = $('#ProcedimentoAdm_cd_cadastro').val();
+                     if (_cd_cadastro == null) { _cd_cadastro = 0; }
+                     var parametros = { nr_nota: $(this).val(), cd_cadastro: _cd_cadastro };
+                     $.ajax({
+                         type: "POST",
+                         url: "@Url.Action("ReadNF", "Sac")",
+                         data: parametros,
+                         success: function (dados) {
+                             var row = dados.DT_EMISSAO;
+                             $("#ProcedimentoAdm_DTA_NF_FOX").val(row);
+                         },
+                         dataType: "json"
+                     });
+                 }
+             });
+        });
+    </script>
+}

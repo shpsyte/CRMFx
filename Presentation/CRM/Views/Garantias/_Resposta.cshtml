@@ -1,0 +1,37 @@
+﻿@model Garantia_Resposta_Model
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.Garantia.garantiaid)
+
+<fieldset>
+
+    <div class="row">
+        <section class="col col-8">
+            <label class="label">Status da Garantia</label>
+            <label class="select">
+                @Html.DropDownList("cod_status", String.Empty) <i></i>
+            </label>
+        </section>
+
+        <section class="col col-4">
+            <label class="label">Notas Cliente</label>
+            <label class="select">
+                @Html.TextBoxFor(m => m.num_nf_cliente, new { @class = "form-control", @placeholder = "NF Cliente" })
+                @Html.ValidationMessageFor(a => a.num_nf_cliente)
+            </label>
+        </section>
+
+    </div>
+    <div>
+        <section>
+            <label class="label">Obs</label>
+            <label class="textarea textarea-resizable">
+                <i class="icon-prepend fa fa-comment"></i>
+                @Html.TextAreaFor(m => m.Obs, new { @class = "custom-scroll", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.Obs)
+            </label>
+        </section>
+
+    </div>
+
+</fieldset>

@@ -1,0 +1,164 @@
+﻿@model IEnumerable<GarantiaItem>
+
+
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2> Lista de Itens </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col col-md-6">
+                                        <strong> Msg.: </strong> <span id="Msg"> </span>
+                                    </div>
+                                    <div class="col col-md-6">
+                                        @using (Html.BeginForm("ImpressaoNFD", "Garantias", FormMethod.Post, new { @id = "form_post", @novalidate = "novalidate" }))
+                                        {
+
+                                                        <input type="hidden" id="cod_garantia_print" name="cod_garantia_print" value="@Model.First().garantiaid" />
+                                                        <input type="hidden" id="num_nota" name="num_nota" value="0" />
+
+                                                        @*<label class="label txt-color-orange">Obs</label>
+                                                        <div class="form-group">
+                                                            <textarea class="form-control" placeholder="Obs das Notas" id="ObsImpressao" name="ObsImpressao" rows="5"></textarea>
+                                                        </div>*@
+                                            <div class="modal-footer">
+                                                <input type="checkbox" id="registra_contabil" name="registra_contabil" value="true" checked />
+                                                <label for="registra_contabil">Registra em Contabilidade ?</label>
+                                                <input type="hidden" value="false" name="registra_contabil" />
+
+                                                <input type="checkbox" id="registra_impressao" name="registra_impressao" value="true" checked />
+                                                <label for="registra_impressao">Registra impressão ?</label>
+                                                <input type="hidden" value="false" name="registra_impressao" />
+                                                
+                                                <button type="submit" name="save" class="btn btn-success" value="save"> <span id="nbutton" name="nbutton"> Imprimir  </span> </button>
+                                            </div>
+                                        }
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                            <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th data-class="expand" class="no-sort">Código</th>
+                                        <th data-hide="phone" class="no-sort"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Descrição</th>
+                                        <th data-hide="phone,tablet" class="no-sort">Qtde</th>
+                                        <th data-hide="phone,tablet" class="no-sort">Nota</th>
+                                        <th data-hide="phone,tablet" class="no-sort">Vl. Unitário</th>
+                                        <th data-hide="phone,tablet" class="no-sort">Total</th>
+                                        <th data-hide="phone,tablet" class="no-sort"></th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>  @item.cod_foxlux  </td>
+                                            <td> @item.IE_Itens.des_item  </td>
+                                            <td> @item.qtd_lancamento  </td>
+                                            <td> @item.num_nota  </td>
+                                            <td> @item.vlr_lancamento  </td>
+                                            <td> @item.vlr_total  </td>
+                                            <td> <input type="checkbox" class="AddOrRemove" data-garantia-id="@item.garantiaid" data-cod-foxlux="@item.cod_foxlux" data-cod-item="@item.cod_item" data-num-nota="@item.num_nota" data-id="@item.garantiaitemid" onclick="AddOrRemove(this)"> </td>
+
+                                        </tr>
+
+                                    }
+                                    <!-- load by javascript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+    <script>
+        pageSetUpTable("idtable", 150);
+    </script>
+
+    <script>
+
+        function AddOrRemove(element) {
+
+            var ischeckedValue = element.checked;
+            var _Cod_Foxlux = $(element).attr("data-cod-foxlux");
+            var _Cod_item = $(element).attr("data-cod-item");
+            var _Nf = $(element).attr("data-num-nota");
+            var _garantiaitemid = $(element).attr("data-id");
+            var _garantiaid = $(element).attr("data-garantia-id");
+
+
+            var data_to_pass = {
+                garantiaId: _garantiaid, cod_foxlux: _Cod_Foxlux, cod_item: _Cod_item, isDelete: !ischeckedValue, num_nota: _Nf
+            };
+
+            var url = '@Url.Action("AddOrRemove")';
+
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: data_to_pass,
+                success: function (data) {
+
+                    $('#CartCount').text(data.CartCount);
+                    $('#CartTotal').text(data.CartTotal);
+                    $('#Msg').text(data.Msg);
+
+
+
+                }
+            });
+
+
+        }
+
+
+    </script>
+
+
+
+}

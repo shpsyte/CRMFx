@@ -1,0 +1,29 @@
+﻿@model Domain.Entity.Cargos
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Cargos</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.cod_cargo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.cod_cargo)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.des_cargo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.des_cargo)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

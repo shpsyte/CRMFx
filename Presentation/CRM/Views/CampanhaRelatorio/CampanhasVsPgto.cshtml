@@ -1,0 +1,103 @@
+﻿<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-3">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2> Selecione o filtro inicial para analisar as regionais </h2>
+
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding smart-form">
+                            @using (Html.BeginForm("CampanhasVsPgtoFilter", "CampanhaRelatorio"))
+                            {
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-4">
+                                            <label class="label">Data Inicial</label>
+                                            <label class="input">
+                                                <i class="icon-prepend fa fa-calendar"></i>
+                                                @Html.TextBox("dta_inicial", string.Empty, new { @class = "form-control date", @placeholder = "Data Inicial" })
+
+                                            </label>
+                                        </section>
+
+                                        <section class="col col-4">
+                                            <label class="label">Data Final</label>
+                                            <label class="input">
+                                                <i class="icon-prepend fa fa-calendar"></i>
+                                                @Html.TextBox("dta_final", string.Empty, new { @class = "form-control date", @placeholder = "Data Final" })
+                                            </label>
+                                        </section>
+
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <section class="col col-4">
+                                            <label class="label">Regional </label>
+                                            <label class="input">
+                                                <i class="icon-prepend fa fa-user"></i>
+                                                @Html.DropDownList("regionalid", null, "", new { @class = "form-control input" }) <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <section class="col col-4">
+                                            <label class="label">Situação das Campanhas</label>
+                                            <label class="input">
+                                                <i class="icon-prepend fa fa-user"></i>
+                                                @Html.DropDownList("statusId", null, "", new { @class = "form-control input" }) <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+
+                                </fieldset>
+                                <footer>
+                                    <button type="submit" name="save" class="btn btn-success" value="save"> Gerar </button>
+                                </footer>
+                            }
+                        </div>
+
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section pagespecific {
+    <script src="/scripts/plugin/bootstrap-tags/bootstrap-tagsinput.min.js"></script>
+
+    <script>
+        // START AND FINISH DATE
+        $('.date').datepicker({
+            dateFormat: 'dd/mm/yy',
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>',
+            onSelect: function (selectedDate) {
+                $('#finishdate').datepicker('option', 'minDate', selectedDate);
+            }
+        });
+
+    </script>
+}

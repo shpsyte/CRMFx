@@ -1,0 +1,40 @@
+﻿@model Int32
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- start row -->
+        <div class="row">
+            <h2 class="row-seperator-header"> Pagamento de campanhas</h2>
+            <div class="">
+
+                <div class="well">
+
+                    <h3>Pagamento <small> anexado com sucesso !</small></h3>
+
+                       
+
+
+                    <div class="well well-lg well-light">
+                        <p>
+                            <a class="btn btn-info btn-lg" role="button" href="/"> Voltar para Home </a>
+                            <a class="btn btn-success btn-lg" role="button" href="@Url.Action("List","CampanhaAnalise")"> Voltar para Campanhas </a>
+                            <a class="btn btn-warning btn-lg" role="button" href="@Url.Action("Details", "CampanhaMarketing", new { id = Model})"> Analise desta campanha </a>
+                            
+                        </p>
+                    </div>
+
+                    
+                   
+                </div>
+
+            </div>
+
+            
+
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>

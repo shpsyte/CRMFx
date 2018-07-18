@@ -1,0 +1,41 @@
+﻿@model Ps_Sac_Garantia_Model
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.cod_sac)
+@Html.HiddenFor(model => model.cod_cliente)
+@Html.HiddenFor(model => model.cod_representante)
+
+
+<fieldset>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Representante</label>
+            <label class="select">
+                @Html.DisplayFor(p => p.NomeRepresentante)
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Cliente</label>
+            <label class="select">
+                @Html.DisplayFor(p => p.Nome_Sac)
+            </label>
+        </section>
+    </div>
+
+
+    <div class="row">
+        <section class="col col-9">
+
+            <label class="label">Obs</label>
+            <label class="textarea textarea-resizable">
+                @Html.TextAreaFor(m => m.Garantia.obs, new { @class = "custom-scroll", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.Garantia.obs)
+            </label>
+        </section>
+        
+    </div>
+
+</fieldset>
+

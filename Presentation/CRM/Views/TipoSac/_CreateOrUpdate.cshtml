@@ -1,0 +1,35 @@
+﻿@model PS_Tipo_Sac
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.cod_tipo)
+
+<fieldset>
+    <section>
+        <label class="label">Tipo de Sac</label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.des_nome, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.des_nome)
+        </label>
+    </section>
+
+
+    <section>
+        <label class="label">Ao Finalizar o sac criar.:</label>
+        <label class="toggle">
+            @Html.RadioButtonFor(p => p.tp_finalizacao, "P")
+            <i data-swchon-text="Sim" data-swchoff-text="Não"></i>Procedimento
+        </label>
+        <label class="toggle">
+            @Html.RadioButtonFor(p => p.tp_finalizacao, "G")
+            <i data-swchon-text="Sim" data-swchoff-text="Não"></i>Garantia
+        </label>
+        <label class="toggle">
+            @Html.RadioButtonFor(p => p.tp_finalizacao, "F")
+            <i data-swchon-text="Sim" data-swchoff-text="Não"></i>Apenas Finaliza
+        </label>
+        @Html.ValidationMessageFor(model => model.tp_finalizacao)
+    </section>
+
+
+</fieldset>

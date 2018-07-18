@@ -1,0 +1,459 @@
+﻿@model int[]
+
+
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+@Html.Hidden("cod_cliente", Model[1])
+@Html.Hidden("garantiaId", Model[0])
+
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2> Lista de Itens </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+
+                                    <div class="col-xs-9 col-sm-5 col-md-6 col-lg-6">
+                                        <p class="">
+                                            <strong><i class="fa fa-check"></i> Qtde.: </strong>  <span id="CartCount"></span>
+                                            <br />
+                                            <strong><i class="fa fa-money"></i> Valor.: </strong> <span id="CartTotal"></span>
+                                            <br />
+                                            <strong> Msg.: </strong> <span id="Msg"> </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-3 col-sm-7 col-md-6 col-lg-6 text-right">
+                                            <button href="javascript:void(0)" onclick="ChamaItens();" class="btn btn-info">
+                                                <i class="fa fa-check"></i> <span class="hidden-mobile">Ver Itens Adicionados</span>
+                                            </button>
+
+                                            <button href="javascript:void(0)" onclick="ConfirmItens();" class="btn btn-success" type="submit"> 
+                                                <i class="fa fa-plus"></i> <span class="hidden-mobile">Confirmar Itens</span>
+                                            </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                                <table id="datatable_col_reorder" class="display projects-table table table-striped table-bordered table-hover" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="hasinput"> </th>
+                                            <th style="width:100px;" class="hasinput icon-addon">
+                                                <input id="dateselect_filter" type="text" placeholder="Data Faturamento" class="form-control datepicker" data-dateformat="dd/mm/yy">
+                                                <label for="dateselect_filter" class="glyphicon glyphicon-calendar no-margin padding-top-15" rel="tooltip" title="" data-original-title="Filter Date"></label>
+                                            </th>
+                                            <th style="width:70px;" class="hasinput"> <input type="text" class="form-control" placeholder="Item" /> </th>
+                                            <th style="width:350px;" class="hasinput"> <input type="text" class="form-control" placeholder="Descrição" /> </th>
+                                            <th class="hasinput"> </th>
+                                            <th style="width:90px;" class="hasinput"> <input type="text" class="form-control" placeholder="NF" /> </th>
+                                            <th class="hasinput"> </th>
+                                            <th class="hasinput"> </th>
+                                            
+                                            
+                                            <th class="hasinput"> </th>
+                                            <th style="width:80px;" class="hasinput"> </th>
+                                            <th class="hasinput"> </th>
+                                            <th class="hasinput"> </th>
+
+
+                                        </tr>
+                                        <tr>
+                                            <th data-hide="phone,tablet"></th>
+                                            <th data-hide="phone,tablet" class="no-sort">Data</th>
+                                            <th data-class="expand" class="no-sort">Código</th>
+                                            <th data-hide="phone" class="no-sort"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Descrição</th>
+                                            <th data-hide="phone,tablet" class="no-sort">Qtde</th>
+                                            <th data-hide="phone,tablet" class="no-sort">Nota</th>
+                                            <th data-hide="phone,tablet" class="no-sort">Vl. Unitário</th>
+                                            <th data-hide="phone,tablet" class="no-sort">Total</th>
+                                            @*<th data-hide="phone,tablet" class="no-sort">Ipi</th>
+                                             <th data-hide="phone,tablet" class="no-sort">Icms - St</th>*@
+                                            <th data-hide="phone,tablet" class="no-sort">Garantia</th>
+                                            <th data-hide="phone,tablet" class="no-sort">Qtde</th>
+                                            <th data-hide="phone,tablet" class="no-sort">Fator Divisor</th>
+                                            <th data-hide="phone,tablet" class="no-sort"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- load by javascript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+
+<script type="text/javascript">
+
+    function ConfirmItens() {
+        if (confirm("Deseja gravar os itens na garantia?") == true) {
+
+            var _cod_cliente = document.getElementById("cod_cliente").value;
+            var _garantiaId = document.getElementById("garantiaId").value;
+
+            var data_to_pass = { garantiaId: _garantiaId, cod_cliente: _cod_cliente };
+            var url = '@Url.Action("ConfirmItens")';
+            var ur_to_redirect = '@Url.Action("Details","Garantias")' + "/ID_TO_REPLACE";
+
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: data_to_pass,
+                beforeSend: function (XMLHttpRequest) {
+                    $("#Msg").empty();
+                    $("#Msg").append("iniciando...");
+                },
+                success: function (data) {
+                    if (data.hasError) {
+                        $('#Msg').text(data.Msg);
+                    } else {
+                        window.location.href = ur_to_redirect.replace("ID_TO_REPLACE", data.id);
+                    }
+                }
+            });
+        }
+    };
+
+    function ChamaItens() {
+        var _cod_cliente = document.getElementById("cod_cliente").value;
+        var _garantiaId = document.getElementById("garantiaId").value;
+        var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+        var urlopen = "/Garantiaitem/GetDetailsFromDoc?garantiaId=GARANTIA_ID&cod_cliente=COD_CLIENTE_ID"
+                .replace("GARANTIA_ID", _garantiaId)
+                .replace("COD_CLIENTE_ID", _cod_cliente)
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+
+    };
+
+    function AddOrRemove(element)
+    {
+       
+        var ischeckedValue = element.checked;
+        var _Cod_Foxlux = $(element).attr("data-cod-foxlux");
+        var _Cod_item = $(element).attr("data-cod-item");
+        var _Nf = $(element).attr("data-num-nota");
+        var _Elemtent2Get = $(element).attr("data-id");
+        var IntupQtde = document.getElementById(_Elemtent2Get).value;
+        var _QtdeOriginal = $(element).attr("data-qt-original");
+        var _cod_cliente = document.getElementById("cod_cliente").value;
+        var _garantiaId = document.getElementById("garantiaId").value;
+
+        var _Elementtogetfator = $(element).attr("data-fator");
+        _fator = document.getElementById(_Elementtogetfator).value;
+        
+
+        //var _Elemtent2GetVlUnitario = $(element).attr("data-vlr_unitario");
+        //var _vlr_unitario = document.getElementById(_Elemtent2GetVlUnitario).value;
+        //_vlr_unitario = _vlr_unitario.replace("R$", "");
+
+        
+
+
+        var _Elemtent2GetObsItem = $(element).attr("data-id-obs-item");
+        var _ObsItem = "";
+        try {
+            _ObsItem = document.getElementById(_Elemtent2GetObsItem).value;
+        }
+        catch (err) {
+            _ObsItem = "";
+        }
+
+     
+        
+        var _vlr_ipi = $(element).attr("data-vlr_ipi").replace("R$", "");
+        var _vlr_icms_subs = $(element).attr("data-vlr_icms_subs").replace("R$", "");
+        var _vlr_icms = $(element).attr("data-vlr_icms").replace("R$", "");
+        var _vlr_base_subs = $(element).attr("data-vlr_base_subs").replace("R$", "");
+        var _vlr_unitario = $(element).attr("data-vlr_unitario").replace("R$", "");
+
+        var _picms = $(element).attr("data-picms").replace(".", ",");
+        var _pipi = $(element).attr("data-pipi").replace(".", ",");
+        var _picmsst = $(element).attr("data-picmsst").replace(".", ",");
+        var _mvast = $(element).attr("data-mvast").replace(".", ",");
+
+
+        var data_to_pass = {
+            garantiaId: _garantiaId, cod_cliente: _cod_cliente, cod_foxlux: _Cod_Foxlux, cod_item: _Cod_item, isDelete: !ischeckedValue, qtde: IntupQtde,
+            num_nota: _Nf, vlr_unitario: _vlr_unitario, vlr_ipi: _vlr_ipi, vlr_icms_subs: _vlr_icms_subs, vlr_icms: _vlr_icms, vlr_base_subs: _vlr_base_subs,
+            obsitem: _ObsItem, fator: _fator, picms: _picms, pipi: _pipi, pcimsst: _picmsst, mvast: _mvast
+        };
+        var url = '@Url.Action("AddOrRemove")';
+
+
+        $.ajax({
+            type: 'POST',
+            url:url,
+            dataType: 'json',
+            data: data_to_pass,
+            success: function (data) {
+
+                $('#CartCount').text(data.CartCount);
+                $('#CartTotal').text(data.CartTotal);
+                $('#Msg').text(data.Msg);
+
+
+
+            }
+        });
+
+
+    }
+
+</script>
+
+    <script>
+
+        $(document).ready(function () {
+
+
+
+            var responsiveHelper_datatable_col_reorder = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var cod_cliente = document.getElementById("cod_cliente").value;
+
+            var url = "/GarantiaItem/ReadItemJsUsingSql/" + cod_cliente;
+
+            /* Formatting function for row details - modify as you need */
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">' +
+           //{ "data": "ObsItem", "mRender": function (data, type, full) { return '<input style="width:80px;" class="form-control input-xs" name="obs_item_' + full.num_seq + '" id="obs_item_' + full.num_seq + '" value="' + full.ObsItem + '" type="text">'; } }
+                    '<tr>' +
+                    '<td>Justificativa Item:</td>' +
+                    '<td>' + '<input style="width:100%;" class="form-control input-xs" name="obs_item_' + d.num_seq + '" id="obs_item_' + d.num_seq + '" value="' + d.ObsItem + '" type="text"> ' + '</td>' +
+                    '</tr>' +
+
+
+                    '<tr>' +
+                    '<td>Sequencia:</td>' +
+                    '<td>' + d.num_seq + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td style="width:100px">Cod. NL :</td>' +
+                    '<td>' + d.cod_item + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td style="width:100px">Cod. Foxlux :</td>' +
+                    '<td>' + d.cod_foxlux + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td style="width:100px">Item:</td>' +
+                    '<td>' + d.des_item + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Compra:</td>' +
+                    '<td>' + d.dta_lancamento  + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Dias:</td>' +
+                    '<td>' + d.dias + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>IPI:</td>' +
+                    '<td>' + d.vlr_ipi + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>ICMS-ST:</td>' +
+                    '<td>' + d.vlr_icms_subs + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>BASE ICMS-ST:</td>' +
+                    '<td>' + d.vlr_base_subs + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>ICMS:</td>' +
+                    '<td>' + d.vlr_icms + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>MVA:</td>' +
+                    '<td>' + d.mvast + '</td>' +
+                    '</tr>' +
+
+                    '</table>';
+            }
+
+
+            /* COLUMN SHOW - HIDE */
+            var otable = $('#datatable_col_reorder').DataTable({
+
+                // Tabletools options:
+                //   https://datatables.net/extensions/tabletools/button_options
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-6 hidden-xs'>r>" +
+                        "t" +
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                //"oTableTools": {
+                //    "aButtons": [
+                //    "copy",
+                //    "csv",
+                //       {
+                //           "sExtends": "print",
+                //           "sMessage": "Generated by CRM <i>(press Esc to close)</i>"
+                //       }
+                //    ],
+                //    "sSwfPath": "/Scripts/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+                //},
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_datatable_col_reorder) {
+                        responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#datatable_col_reorder'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_datatable_col_reorder.respond();
+                },
+                "bServerSide": true,
+                "sAjaxSource": url,
+                //"searchDelay": 3000,
+                "bProcessing": true,
+                "pageLength": 100,
+                "ordering": false,
+                "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                    // Bold the grade for all 'A' grade browsers
+                    if ( aData.Garantia == "N" )
+                    {
+                        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-down txt-color-orangeDark"> <i/> </b>');
+                        
+                    }else
+                    {
+                        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-up txt-color-green"> <i/> </b>');
+
+                    }
+                },
+
+                //  "columnDefs": [
+                //    { targets: 'no-sort', orderable: false }
+                //  ],
+
+                "aoColumns": [
+                               {
+                                   "class": 'details-control',
+                                   "orderable": false,
+                                   "data": null,
+                                   "defaultContent": ''
+                               },
+                               { "data": "dta_lancamento" },
+                               { "data": "cod_foxlux" },
+                               { "data": "des_item", "mRender": function (data, type, full) { return '<a href=\"#' + full.cod_foxlux + '\">' + full.des_item + '</a>'; } },
+                               { "data": "qtd_lancamento" },
+                               { "data": "num_documento" },
+                               //{ "data": "vlr_unitario", "mRender": function (data, type, full) { return '<input style="width:80px;" class="form-control input-xs" name="vlr_uni_' + full.num_seq + '" id="vlr_uni_' + full.num_seq + '" value="' + full.vlr_unitario + '" type="text">'; } },
+                               { "data": "vlr_unitario"},
+                               { "data": "vlr_total" },
+                               //{ "data": "vlr_ipi" },
+                               //{ "data": "vlr_icms_subs" },
+                               { "data": "dias" },
+
+                               { "data": "QtdeNova", "mRender": function (data, type, full) { return '<input style="width:80px;" class="form-control input-xs" data-id="des_cargo" name="' + full.num_seq + '" id="' + full.num_seq + '" value="' + full.QtdeNova + '" type="text">'; } },
+                               { "data": "Fator", "mRender":    function (data, type, full) { return '<input style="width:80px;" class="form-control input-xs" name="fator_' + full.num_seq + '" id="fator_' + full.num_seq + '" value="' + full.Fator + '" type="text">'; } },
+
+                               {
+                                   "data": "Check", "mRender": function (data, type, full) {
+                                       var _vlr = "vlr_uni_" + full.num_seq;
+                                       var _cod_item = full.cod_item;
+                                       var _full = full.num_seq;
+                                       var _nota = full.num_documento;
+                                       var _codFx = full.cod_foxlux + " ";
+                                       var _qtdeoriginal = full.QtdeNova;
+                                       var obsItem = full.ObsItem;
+                                       var _ft = "fator_" + full.num_seq;
+                                       
+
+
+                                       return '<input type="checkbox" class="AddOrRemove"  onclick="AddOrRemove(this)" data-id-obs-item="obs_item_' + _full + '" data-id="' +
+                                           _full + '" data-qt-original="' + _qtdeoriginal + '" data-cod-foxlux="' + _codFx + '" data-num-nota="' +
+                                           _nota + '" data-vlr_unitario="' + full.vlr_unitario + '" data-cod-item="' +
+                                           _cod_item + '"' + ' data-vlr_ipi="' + full.vlr_ipi + '" data-vlr_icms_subs="' + full.vlr_icms_subs + '" data-vlr_icms="'
+                                           + full.vlr_icms + '" data-vlr_base_subs="' + full.vlr_base_subs
+                                           + '" data-fator="' + _ft + '"'
+                                           + '  data-picms="' + full.picms + '" ' 
+                                           + '  data-pipi="' + full.pipi + '" ' 
+                                           + '  data-picmsst="' + full.picmsst + '" ' 
+                                           + '  data-mvast="' + full.mvast + '" ' 
+                                           +'>';
+
+
+                                   }
+                               }
+            ]
+            });
+
+
+            // Apply the filter
+            $("#datatable_col_reorder thead th input[type=text]").on('keyup change', function () {
+                otable
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+
+            });
+
+            $('#datatable_col_reorder tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = otable.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+        })
+
+
+
+</script>
+}

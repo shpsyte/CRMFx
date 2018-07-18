@@ -1,0 +1,565 @@
+﻿@model PSSacModel
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<style>
+    .smart-form .label {
+        display: inline-block !important;
+    }
+</style>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    
+    @if (Model.cod_novo > 0 && Model.cod_novo != Model.Ps_Sac.cod_sac)
+    {
+       <h1>Este SAC foi finalizado e novo atendimento está em <a href="@Url.Action("Details", "Sac", new { id = Model.cod_novo })"> @Model.cod_novo</a></h1>
+    }
+
+    @if (Model.cod_original > 0 && Model.cod_original != Model.Ps_Sac.cod_sac)
+    {
+        <h1>Este SAC está vinculado ao SAC <a href="@Url.Action("Details", "Sac", new { id = Model.cod_original })"> @Model.cod_original</a></h1>
+    }
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- START ROW -->
+        <div class="row">
+            <!-- NEW COL START -->
+            <article class="col-sm-12 col-md-8 col-lg-8">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>S.A.C.</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body smart-form">
+
+
+
+                            @using (Html.BeginForm())
+                            {
+
+
+                                <div class="panel-group smart-accordion-default" id="accordion">
+                                    <h2>Número do SAC: @Model.Ps_Sac.cod_sac </h2>
+                                    <br />
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i> Mostrar/Esconder Dados do Sac </a></h4>
+
+                                            <div class="panel panel-title">
+                                                <div class="panel-body status">
+                                                    <div class="who clearfix">
+                                                        @*<img src="~/content/img/avatars/female.png" alt="img" class="online">*@
+                                                        @{
+                                                            string cgc_cpf = (Model.Ps_Sac.PS_Pessoas_Sac != null ? Model.Ps_Sac.PS_Pessoas_Sac.cgc_cpf : "");
+                                                            string fnome = Model.Ps_Sac.PS_Pessoas_Sac != null ? Model.Ps_Sac.PS_Pessoas_Sac.des_pessoa : Model.Ps_Sac.des_nome != null ? Model.Ps_Sac.des_nome : "Não atribuído";
+                                                            string tipo_pessoa = Model.Ps_Sac.PS_Pessoas_Sac != null ? Model.Ps_Sac.PS_Pessoas_Sac.tipo : "";
+                                                            string _id = (Model.Ps_Sac.PS_Pessoas_Sac != null ? Model.Ps_Sac.PS_Pessoas_Sac.cod_pessoa : "");
+
+                                                        }
+
+
+
+                                                        @if ("L".Equals(tipo_pessoa))
+                                                        {
+                                                            <span class="neme"> <a class="btn btn-success" target="_blank" href="@Url.Action("Edit","Lead", new { id = _id })"> @fnome </a> </span>
+
+
+
+                                                        }
+                                                        @if ("E".Equals(tipo_pessoa))
+                                                        {
+                                                            <span class="neme"> <a class="btn btn-success" target="_blank" href="@Url.Action("ViewProfile","Account", new { id = _id })"> @fnome </a> </span>
+
+                                                        }
+
+                                                        @if ("C".Equals(tipo_pessoa))
+                                                        {
+                                                            <span class="neme"> <a class="btn btn-success" target="_blank" href="@Url.Action("Edit","Contacts", new { id = _id })"> @fnome </a> </span>
+
+                                                        }
+
+
+
+                                                        <span class="name"><b>Código.: </b>@_id </span>
+                                                        <span class="name"><b>Email.: </b>@( Model.Ps_Sac.PS_Pessoas_Sac != null ? Model.Ps_Sac.PS_Pessoas_Sac.des_email_cli : "") </span>
+                                                        <span class="name"><b>Fone.: </b>@( Model.Ps_Sac.PS_Pessoas_Sac != null ? Model.Ps_Sac.PS_Pessoas_Sac.tel_contato : "") </span>
+                                                        <span class="name"><b>Documento: </b> @Html.FormataCnpj(cgc_cpf) </span>
+                                                        <hr />
+                                                        <br />
+                                                        <span class="name"><b>Assunto.: </b>@Model.Ps_Sac.des_assunto </span>
+                                                        <span class="name"><b>Data Abertura.: </b>@Model.Ps_Sac.dta_abertura.Value.ToString() </span>
+
+                                                        <span class="from"><b>@Model.Ps_Sac._total_aberto.Value.ToString(@"d\.hh\:mm\:ss") atrás </b>  @( Model.Ps_Sac.PS_Origem_Sac != null ? " via " + Model.Ps_Sac.PS_Origem_Sac.des_nome : "") </span>
+                                                        <p><b>@( Model.Ps_Sac.PS_Estagio_Sac != null ? Model.Ps_Sac.PS_Estagio_Sac.des_nome : "")</b> - <b> @(Model.Ps_Sac.PS_Situacao_Sac != null ? Model.Ps_Sac.PS_Situacao_Sac.des_nome : "")</b></p>
+                                                        <p>Tags: <b><input type="text" class="" disabled="disabled" value="@Model.Ps_Sac.tag" data-role="tagsinput"> </b></p>
+                                                            
+                                                              
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            @{ bool _ind_finalizado = Model.Ps_Sac.PS_Estagio_Sac != null ? Model.Ps_Sac.PS_Estagio_Sac.ind_finalizacao == "S" : false; }
+                                            <footer>
+                                                <a class="pull-left btn btn-danger" href="javascript:void(0)" onclick="ChamaDocs(@Model.Ps_Sac.cod_sac)"> Documentos </a>
+                                                <a href="javascript:void(0);" onclick="GravaID(this);" data-id="@Model.Ps_Sac.cod_sac" data-toggle="modal" data-target="#VinculaNota" class="pull-left btn btn-danger"> <i class="fa fa-lg fa-angle-down"></i> Reabrir </a>
+                                                <a href="@Url.Action("Resposta", new { id = Model.Ps_Sac.cod_sac })" class="btn btn-info @Html.AddTextIf(_ind_finalizado, "disabled", "")"> <i class="fa fa-lg fa-edit"></i> Responder </a>
+                                                <a href="@Url.Action("List")" class="btn btn-warning"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+                                            </footer>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse">
+
+                                            @Html.Partial("_Details", Model.Ps_Sac)
+                                        </div>
+                                    </div>
+                                </div>
+                                                }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+
+            <div class="modal fade" id="VinculaNota" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Informe o motivo da reabertura</h4>
+                        </div>
+
+
+                        <label id="msgreturn"></label>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="label txt-color-orange">Garantia</label>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="ids" name="ids" placeholder="ID" disabled />
+                                    </div>
+                                    <label class="label txt-color-orange">Obs Reabertura</label>
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Comentários" id="Obs" name="Obs" rows="5" required></textarea>
+                                    </div>
+                                    <label class="label txt-color-orange">Novo Estágio</label>
+                                    <label class="select">
+                                        @Html.DropDownList("cod_estagio_reabre") <i></i>
+                                        @Html.ValidationMessageFor(m => m.Ps_Sac.tp_pessoa)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Cancelar
+                            </button>
+                            <a href="javascript:void(0);" onclick="Reabre(this);" data-id="@Model.Ps_Sac.cod_sac"
+                               class="btn btn-primary">Reabrir</a>
+
+                        </div>
+
+
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+            <!-- END COL -->
+            <article class="col-sm-12 col-md-4 col-lg-4">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Estatística</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body smart-form">
+
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title"> <a> Total em Dias/hh/mm </a></h4>
+                                    <div class="panel panel-title">
+                                        <div class="panel-body status">
+                                            <div class="who clearfix">
+                                                <ul class="list-inline">
+                                                    <li>
+                                                        <div class="easy-pie-chart txt-color-pinkDark easyPieChart" data-percent="@Model.Ps_Sac._total_aberto.Value.ToString("dd")" data-pie-size="60">
+                                                            <span class="percent txt-color-pinkDark"></span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="easy-pie-chart txt-color-greenLight easyPieChart" data-percent="@Model.Ps_Sac._total_aberto.Value.ToString("hh")" data-pie-size="60">
+                                                            <span class="percent txt-color-greenLight"></span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="easy-pie-chart txt-color-orange easyPieChart" data-percent="@Model.Ps_Sac._total_aberto.Value.ToString("mm")" data-pie-size="60">
+                                                            <span class="percent txt-color-orange"></span>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+
+                                                <span class="name"><b> @Model.Ps_Sac.des_assunto </b> </span>
+                                                <span class="from"><b> Solução: </b> @Model.Ps_Sac.des_solucao  </span>
+                                                <br />
+                                                <span class=""><b>Abertura:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Ps_Sac.dta_abertura.Value </b> </span>
+                                                <br />
+                                                <span class=""><b>Fechamento: @( Model.Ps_Sac.dta_finalizacao.HasValue ? Model.Ps_Sac.dta_finalizacao.Value.ToString() : "" ) </b> </span>
+                                                <br />
+                                                @{ string tipo; if (Model.Ps_Sac.PS_Tipo_Sac != null) { switch (Model.Ps_Sac.PS_Tipo_Sac.tp_finalizacao) { case "G": tipo = "Com Garantia"; break; case "P": tipo = "Com Procedimento"; break; default: tipo = "Apenas Finalizado"; break; } } else { tipo = "*"; } }
+                                                <span class="name"><b> Modo de Fechamento: </b>  @tipo</span>
+                                                <br />
+                                                <hr />
+
+                                                <span class="name">
+
+                                                    @{ string tipo_finalizacao = Model.Ps_Sac.PS_Tipo_Sac.tp_finalizacao; }
+                                                    @if (tipo_finalizacao.Equals("F"))
+                                                    {
+                                                        <b> Este sac não gerou Procedimento ou Garantia. </b>
+                                                    }
+
+                                                    @if (tipo_finalizacao.Equals("G"))
+                                                    {
+                                                        if (ViewBag.cod_gerado > 0)
+                                                        {
+                                                            <b> Garantia Gerada.: <a target="_blank" href="@Url.Action("Details", "Garantias", new { id = ViewBag.cod_gerado })"> @( ViewBag.cod_gerado)  </a>  </b>
+                                                        }
+                                                    }
+
+                                                    @if (tipo_finalizacao.Equals("P"))
+                                                    {
+                                                        string url = string.Format("http://procedimentos.grupofoxlux.com.br/Procedimento/ProcedimentoAdm/Details/{0}", ViewBag.cod_gerado);
+                                                        if (ViewBag.cod_gerado > 0)
+                                                        {
+                                                            <b> Procedimento Gerado.: <a target="_blank" href="@url"> @( ViewBag.cod_gerado)  </a>  </b>
+                                                        }
+
+                                                    }
+
+
+
+
+
+
+
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+
+
+            <article class="col-sm-12 col-md-8 col-lg-8">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-orange" id="wid-id-3">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Interações</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <h1>Interações</h1>
+                            <table id="idtable_s" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        
+                                        <th style="width:100px" data-hide="phone,tablet">Nome</th>
+                                        <th style="width:100px" data-hide="phone,tablet">De</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Para</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Data Troca</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Obs</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Tempo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in (ViewBag.troca_estagio as IEnumerable<sac_troca_estagio>).OrderBy(p => p.num_seq))
+                                    {
+                                        <tr>
+                                            @*<td>@product.num_seq</td>*@
+                                            <td data-hide="phone,tablet">@( product.Usuario != null ? product.Usuario.NOME : "")</td>
+                                            <td data-hide="phone,tablet">@( product.EstagioAnterior != null ? product.EstagioAnterior.des_nome : "")</td>
+                                            <td data-hide="phone,tablet">@( product.EstagioEntrada != null ? product.EstagioEntrada.des_nome : "")</td>
+                                            <td data-hide="phone,tablet">@product.dta_troca</td>
+                                            <td data-hide="phone,tablet">@product.obs</td>
+                                            <td data-hide="phone,tablet">@product._total_aberto.Value.ToString(@"d\.hh\:mm\:ss")</td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+
+
+            <article class="col-sm-12 col-md-4 col-lg-4">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-pink" id="wid-id-4">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Comentários</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+
+                            <h1>Notas</h1>
+                            <form method="post" class="well padding-bottom-10" onsubmit="return false;">
+                                <textarea maxlength="500" id="msgcliente" rows="2" class="form-control" placeholder="Notas"></textarea>
+                                <div class="margin-top-10">
+                                    <button data-id="@Model.Ps_Sac.cod_sac" type="submit" class="btn btn-sm btn-primary pull-right PostComente">
+                                        Post
+                                    </button>
+                                </div>
+                            </form>
+                            <table id="idtable" style="width:100%">
+                                <tbody>
+                                    <!-- load by javascript -->
+                                    @foreach (var product in ViewBag.comentarios as IEnumerable<Note>)
+                                    {
+                                        string nomeusuario = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(product.Usuario.NOME.ToLower());
+                                        decimal DifMinute = ((TimeSpan)(System.DateTime.Now - product.dta_inclusao)).Minutes;
+                                        <tr>
+                                            <td>
+                                                <div class="timeline-seperator text-center">
+                                                    <span>
+                                                        @product.dta_inclusao.ToShortDateString()&nbsp;&nbsp;-&nbsp;&nbsp;@product.dta_inclusao.ToShortTimeString() <small class="text-muted pull-right">
+                                                            @DifMinute Minutos atrás
+                                                        </small>
+                                                    </span>
+                                                </div>
+                                                <div class="chat-body no-padding profile-message">
+                                                    <ul>
+                                                        <li class="message">
+                                                            <img src="/Content/img/avatars/male.png" class="online" alt="sunny">
+                                                            <span class="message-text" style="min-height:50px;">
+                                                                <a href="javascript:void(0);" class="username">
+                                                                    @nomeusuario
+                                                                </a>
+                                                                <small class="text-muted pull-right">
+                                                                    Postou um comentário
+                                                                </small>
+                                                                <br />
+                                                                <span>
+                                                                    @product.msg
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+
+        </div>
+
+
+    </section>
+    <!-- end widget grid -->
+</div>
+
+
+@section pagespecific {
+    <script>
+
+        function ChamaDocs(garantiaid) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var id = 0;
+            var urlopen = "/Sac/GetDocs?id=PAR_ID"
+                .replace("PAR_ID", garantiaid)
+
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+        }
+    </script>
+
+
+    <script>
+
+        function GravaID(element) {
+            document.getElementById("ids").value = $(element).attr("data-id");
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function Reabre(element) {
+                    debugger;
+            var cCod_sac = $(element).attr("data-id");
+            var oObs = $("#Obs").val();
+            var cCod_estagio = $("#cod_estagio_reabre").val();
+
+
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                url: "@Url.Action("Reabrir", "Sac")",
+                data: { cod_sac: cCod_sac, obs: oObs, cod_estagio_reabre: cCod_estagio },
+                success: function (dados) {
+                    debugger;
+                    var resultado = dados.resultado;
+
+                    if (resultado == "OK") {
+                        //alert('SAC Aberto com sucesso');
+                        var surl = "../Details/" + dados.newCodSac;
+                        location.href = surl;
+                        //location.reload();
+                    } else {
+                        msgreturn.innerHTML = dados.MErro;
+                    }
+                }
+            });
+
+        }
+
+
+
+        pageSetUpTable("idtable_s", 5);
+
+
+        $(function () {
+            /*
+       * Smart Notifications
+       */
+            // Document.ready -> link up remove event handler
+            $(".PostComente").click(function () {
+                // Get the id from the link
+                //debugger;
+                var recordToUpdate = $(this).attr("data-id");
+                var text = $("#msgcliente").val();
+                var table = document.getElementById("idtable");
+                if (recordToUpdate != '') {
+                    $.ajax({
+                        dataType: "json",
+                        type: "POST",
+                        url: "@Url.Action("PostComentario", "Note")",
+                        data: { id: recordToUpdate, msg: text, origem: "SAC" },
+                        success: function (dados) {
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+                            var string = " <div class='timeline-seperator text-center'>  "
+                            + "       <span>                                              "
+                            + "                       _data_ <small class='text-muted pull-right'> "
+                            + "                            _minuto_ Minutos atrás "
+                            + "                        </small> "
+                            + "                    </span> "
+                            + "                </div> "
+                            + "                <div class='chat-body no-padding  profile-message'> "
+                            + "                    <ul> "
+                            + "                        <li class='message'> "
+                            + "                            <img src='/Content/img/avatars/male.png' class='online' alt='sunny'> "
+                            + "                            <span class='message-text' style='min-height:50px;'> "
+                            + "                                <a href='javascript:void(0);' class='username'> "
+                            + "                                    _nome_ "
+                            + "                                </a> "
+                            + "                                    <small class='text-muted pull-right'> "
+                            + "                                        Postou um comentário "
+                            + "                                    </small> "
+                            + "                                    <br /> "
+                            + "                                <span> "
+                            + "                                    _msg_ "
+                            + "                                </span> "
+                            + "                            </span>"
+                            + "                        </li>"
+                            + "                    </ul>"
+                            + "                </div>";
+                            string = string.replace('_data_', dados[0].DataPequena + "   -   " + dados[0].Horapequena);
+                            string = string.replace('_minuto_', '0');
+                            string = string.replace('_nome_', dados[0].User);
+                            string = string.replace('_msg_', dados[0].Mensagem);
+                            cell1.innerHTML = string;
+                            text = $("#msgcliente").val("");
+
+
+                            $.bigBox({
+                                title: "Post enviado",
+                                content: dados[0].Mensagem,
+                                color: "#3276B1",
+                                icon: "fa fa-bell swing animated",
+                                number: "1",
+                                timeout: 6000
+                            });
+
+                            e.preventDefault();
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,539 @@
+﻿@model IEnumerable<CampanhaMarketing>
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-3">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Lista</h2>
+                        <div class="widget-toolbar">
+                            <div class="bg-color-darken">
+                                @*@Model.Count()*@
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            @*<div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7">
+                                        <a href="@Url.Action("Input","CampanhaInput")" class="btn btn-success">
+                                            <i class="fa fa-plus"></i> <span class="hidden-mobile">Adicionar</span>
+                                            @Html.DropDownList("tipoacao", null, String.Empty, new { @class = "form-control input-lg" }) <i></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <!-- content goes here -->
+                            <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="hasinput"> <input type="text" class="form-control" placeholder="Nº" /> </th>
+                                        <th>Rgional</th>
+                                        <th>Nome</th>
+                                        <th class="hasinput">  @Html.DropDownList("segmentos", null, String.Empty) <i></i></th>
+                                        <th class="hasinput"> @Html.DropDownList("tipoacao", null, String.Empty) <i></i> </th>
+
+                                        <th class="hasinput"> <input type="text" class="form-control" placeholder="Cód.Cliente" /> </th>
+                                        <th class="hasinput"> <input type="text" class="form-control" placeholder="Cliente" /> </th>
+                                        <th> Status </th>
+                                        <th width="100px"> Gestão </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="VinculaNota" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Solicitação de Pgto à Campanha</h4>
+                </div>
+
+
+                @*@using (Html.BeginForm("GeraOrdemColeta", "Garantias", FormMethod.Post, new { @id = "form_post", @novalidate = "novalidate" }))*@
+                @using (Ajax.BeginForm("SolicitaPgtoCampanha", new AjaxOptions {  OnSuccess = "Sucesso" }))
+                {
+                    <div class="modal-body">
+                        
+                        <input type="hidden" id="id" name="id" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group smart-form">
+
+                                    <label> Usuários do Setor </label>
+                                    <label class="select">
+                                        @Html.DropDownList("estagio", null, String.Empty, new { @class = "select", @required = "required" })<i></i>
+                                    </label>
+
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group smart-form">
+
+                                    <label> Forma de Pgto</label>
+                                    <label class="select">
+                                        @Html.DropDownList("formapgto", null, String.Empty, new { @class = "select", @required = "required" })<i></i>
+                                    </label>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row dados_bancos">
+                            <div class="col-md-4 smart-form">
+                                <label class="label">Agência</label>
+                                <label class="input">
+                                    @Html.TextBox("des_agencia", null, new { @required = "required" })
+                                </label>
+
+                            </div>
+
+
+                            <div class="col-md-4 smart-form">
+                                <label class="label">Banco</label>
+                                <label class="input">
+                                    @Html.TextBox("des_banco", null, new { @required = "required" })
+                                </label>
+
+                            </div>
+
+
+                            <div class="col-md-4 smart-form">
+                                <label class="label">Conta Corrente</label>
+                                <label class="input">
+                                    @Html.TextBox("des_conta", null, new { @required = "required" })
+                                </label>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+
+                                <label> </label>
+                                <div class="form-group text-center">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="ind_total" id="ind_total">
+                                        <i></i> Pagamento Total da Campanha
+                                        <input type="hidden" value="false" name="ind_total" />
+
+
+                                    </label>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group  col-md-6">
+                                <label>Valor Pgto</label>
+                                <div class="form-group">
+                                    <input class="form-control" data-val="true" data-val-number="Deve ser um valor este campo." data-val-required="O campo é obrigatório." id="vlr_pgto" name="vlr_pgto" value="" type="text">
+                                    <span class="field-validation-valid" data-valmsg-for="vlr_pgto" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group  col-md-12">
+                                <label>Obs</label>
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="Comentários" id="Obs" name="Obs" rows="5" required></textarea>
+                                    <span class="field-validation-error" data-valmsg-for="Obs" data-valmsg-replace="true"><span for="Obs" class=""></span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                     
+                    </div>
+
+
+
+
+                    <div class="modal-footer">
+                        <p id="msgretorno"></p>
+                        
+                        <a class="btn btn-success hide1" target="_blank" id="linkprint" href="#"> Imprimir Solicitação</a>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Fechar
+                        </button>
+                        <button id="Enviar" type="submit" class="btn btn-primary">
+                            Gravar
+                        </button>
+
+                    </div>
+                }
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+
+</div>
+@section pagespecific {
+    <script>
+        $('.hide1').hide();
+        $('.dados_bancos').hide();
+
+        function GravaID(element) {
+            document.getElementById("id").value = $(element).attr("data-campanhaid");
+
+        }
+
+
+        function Sucesso(data) {
+
+            var isError = data.hasError;
+            if (!isError)
+            {
+                document.getElementById("msgretorno").innerHTML = data.Msg;
+
+                var _campanhaid = data.id;
+                var Obs = data.Obs;
+                var nome_forma = data.nome_forma;
+                var vlr_pgto = data.vlr_pgto;
+                var int_total = data.ind_total;
+
+
+                $('#estagio').val('0'); //value of your default option
+                $('#formapgto').val('0'); //value of your default option
+                $('#vlr_pgto').val('');
+                $('#Obs').val('');
+
+
+
+                var strWindowFeatures = "width=480,height=380,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+                var urlopen = "/CampanhaRelatorio/PrintFormaPgtos/?campanhaid=" + _campanhaid + "&obs=" + Obs + "&nome_forma=" + nome_forma + "&vlr_pgto=" + vlr_pgto + "&ind_total=" + ind_total;
+                window.open(urlopen, '_blank', strWindowFeatures, true);
+
+
+                var link = document.getElementById("linkprint");
+                link.setAttribute("href", urlopen);
+                $('.hide1').show();
+
+
+                //$('#VinculaNota').modal('hide');
+
+                alert('Email enviado com sucesso');
+            }else
+            {
+                document.getElementById("msgretorno").innerHTML = data.Msg;
+            }
+
+        }
+
+
+        function ChamaDocs(id) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var urlopen = "/CampanhaMarketing/GetDetailsFromDoc/MKT_ID"
+                    .replace("MKT_ID", id)
+
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+
+        }
+
+        function ChamaMDetails(id) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var urlopen = "/CampanhaAnalise/GetMinimumDetails/MKT_ID"
+                    .replace("MKT_ID", id)
+
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+
+        }
+
+
+        $(document).ready(function () {
+
+            var responsiveHelper_datatable_col_reorder = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var url = "/CampanhaAnalise/ReadWorkFlow/";
+
+
+
+            /* Formatting function for row details - modify as you need */
+            function format(d) {
+
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">' +
+                    '<tr>' +
+                    '<td style="width:100px">Representante:</td>' +
+                    '<td class="text-left">' + d.nome_representante + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Email:</td>' +
+                    '<td class="text-left">' + d.des_email  + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Data inicial:</td>' +
+                    '<td class="text-left">' + d.dta_inicial + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Data Final:</td>' +
+                    '<td class="text-left">' + d.dta_final + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Renova Aut.:</td>' +
+                    '<td class="text-left">' + d.ind_renova + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Meta:</td>' +
+                    '<td class="text-left">' + d.vlr_meta + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Contrato:</td>' +
+                    '<td class="text-left">' + d.vlr_contrato + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Custo:</td>' +
+                    '<td class="text-left">' + d.vlr_custo_medio + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Tipo Apuração:</td>' +
+                    '<td class="text-left">' + d.tip_apuracao + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Forma Pgto:</td>' +
+                    '<td class="text-left">' + d.des_fomra_pgto + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Agência:</td>' +
+                    '<td class="text-left">' + d.des_agencia + '</td>' +
+                    '</tr>' +
+
+
+                    '<tr>' +
+                    '<td style="width:100px">Banco:</td>' +
+                    '<td class="text-left">' + d.des_banco + '</td>' +
+                    '</tr>' +
+
+
+                    '<tr>' +
+                    '<td style="width:100px">Conta:</td>' +
+                    '<td class="text-left">' + d.des_conta + '</td>' +
+                    '</tr>' +
+
+
+                    '<tr>' +
+                    '<td style="width:100px">Obs:</td>' +
+                    '<td class="text-left">' + d.des_obervacao + '</td>' +
+                    '</tr>' +
+
+                 '<td>Action:</td>' +
+                    '<td>' +
+                       //'<a target="_blank" class="btn bg-color-teal txt-color-white" href="/Garantias/details/'+ d.garantiaid +'"> Detalhes </a> '+
+                       //'<a target="_blank" class="btn bg-color-orange txt-color-white" href="/Garantias/Resposta/' + d.garantiaid + '"> Mudar Status </a> ' +
+                       '<a target="javascript:void(0)" onclick="ChamaDocs(' + d.campanhaid + ');" class="btn bg-color-pink txt-color-white"> Ver Docs  <i class="fa fa-lg fa-comments"></i> </a> ' +
+                    '</td>'
+                 +
+
+                '<tr>' +
+               '<td style="width:100px">Editar:</td>' +
+               '<td class="text-left">' + '<a target="_blank" class="btn bg-color-orange txt-color-white" href="/CampanhaMarketing/Edit/' + d.campanhaid + '"> Alterar </a> ' + '</td>' +
+               '</tr>'
+
+
+                    '</table>';
+            }
+
+
+
+
+            /* COLUMN SHOW - HIDE */
+            var otable = $('#idtable').DataTable({
+
+                // Tabletools options:
+                //   https://datatables.net/extensions/tabletools/button_options
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-6 hidden-xs'>r>" +
+                         "t" +
+                         "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_datatable_col_reorder) {
+                        responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#idtable'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_datatable_col_reorder.respond();
+                },
+                "bServerSide": true,
+                "sAjaxSource": url,
+                "bProcessing": true,
+                "pageLength": 500,
+                "ordering": false,
+                "iDisplayLength": 500,
+                //"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                //    if ( aData.Garantia == "N" )
+                //    {
+                //        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-down txt-color-orangeDark"> <i/> </b>');
+
+                //    }else
+                //    {
+                //        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-up txt-color-green"> <i/> </b>');
+
+                //    }
+                //},
+                "columnDefs": [
+                    { targets: 'no-sort', orderable: false }
+                ],
+                "aoColumns": [
+                       { "data": "campanhaid", "mRender": function (data, type, full) { return ' <a href=\"../CampanhaMarketing/Details/' + full.campanhaid + '\">' + full.campanhaid + '</a>'; } },
+                       { "data": "cod_regional" },
+                       { "data": "des_nome"},
+                       { "data": "des_segmetno" },
+                       { "data": "des_acao", "mRender": function (data, type, full) { return full.des_acao.substring(0, 35); } },
+                       { "data": "cod_pessoa" },
+                       { "data": "nome_pessoa", "mRender": function (data, type, full) { return '<a target="_blank" href=\"../Account/ViewProfile/' + full.cod_pessoa + '\">' + full.nome_pessoa.substring(0, 20) + ' <i class="fa fa-external-link" aria-hidden="true"></i> ' + '</a>'; } },
+                       { "data": "status" },
+                       {
+                           "data": "acao", "mRender": function (data, type, full)
+                                                        {
+                                                            return '<div class="btn-group"> ' +
+                                                            '     <button class="btn btn-info"> ' +
+                                                            '         Ações' +
+                                                            '     </button> ' +
+                                                            '     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"> ' +
+                                                            '         <span class="caret"></span> ' +
+                                                            '     </button> ' +
+                                                            '     <ul class="dropdown-menu"> ' +
+                                                            '         <li> ' +
+                                                            '             <a href="javascript:void(0)" onclick="ChamaDocs(' + full.campanhaid + ');" > Documentos </a> ' +
+                                                            '         </li> ' +
+                                                            '         <li> ' +
+                                                            '             <a href="javascript:void(0)" onclick="ChamaMDetails(' + full.campanhaid + ');"> Pré-Analise </a> ' +
+                                                            '         </li> ' +
+                                                            '         <li> ' +
+                                                            '             <a href="javascript:void(0)" onclick="GravaID(this);" data-campanhaid="' + full.campanhaid + '" data-toggle="modal" data-target="#VinculaNota"> Solicitar Pgto </a> ' +
+                                                            '         </li> ' +
+                                                            '         <li class="divider"></li> ' +
+                                                            '         <li> ' +
+                                                            '             <a href="/CampanhaAnalise/InformaPgtoCamapanha/' + full.campanhaid + '" > Incluir Pgto </a> ' +
+                                                            '         </li> ' +
+                                                            '     </ul> ' +
+                                                            ' </div>'
+                                                        }
+
+
+
+                       }
+
+                ]
+
+
+
+
+
+
+
+            });
+            // Apply the filter
+
+
+            $("#segmentos").change(function () {
+                var tiposegmentoid = $("#segmentos :selected").text();
+                otable.column(3).search(tiposegmentoid).draw();
+
+            });
+
+
+            $("#tipoacao").change(function () {
+                var tipoacaoid = $("#tipoacao :selected").text();
+                otable.column(4).search(tipoacaoid).draw();
+
+            });
+
+
+
+            $("#formapgto").change(function () {
+                var tipoforma = $("#formapgto").val();
+
+                if  ( tipoforma == 4)
+                {
+                    $('.dados_bancos').show();
+                }else
+                {
+                    $('.dados_bancos').hide();
+                }
+
+
+            });
+
+
+            $("#idtable thead th input[type=text]").on('keyup change', function () {
+                otable
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+
+            });
+
+
+
+        })
+
+
+
+    </script>
+}

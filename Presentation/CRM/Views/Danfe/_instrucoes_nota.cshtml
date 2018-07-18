@@ -1,0 +1,107 @@
+﻿@model int[]
+
+<div class="bloco">
+    <table>
+        <tr>
+            <td class="campo">
+                <div class="conteudo negrito">INSTRUÇÕES PARA EMISSÃO</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="campo dados-adicionais">
+                <div class="conteudo fontin">
+                    @{
+        int garantia = Model[0];
+        int nota = Model[1];
+                    }
+                    <h2 class="campo_i msg-cliente text-center"><b>1.	ORIENTAÇÕES GERAIS</b>  </h2>
+                    <p class="campo_i msg-cliente">
+                        Favor emitir NF à <b>FOXLUX S.A</b> visto que houve alteração em nossa natureza jurídica, e será necessário a atualização em seu cadastro de LTDA para <b>S.A.</b>
+                    </p>
+                    <p>
+                        Colocar em dados adicionais da NF o endereço correto para envio do material à Foxlux:  <br />
+                        <b>FOXLUX FILIAL - Rua: ALTONIA, 238 - EMILIANO PERNETA - PINHAIS/PR CEP 83324-350</b>
+                    </p>
+                    <p class="campo_i msg-cliente">
+                        <b>CFOP A SER UTILIZADA</b>
+                        <br /> CFOP:6411 para itens com ST
+                        <br />  CFOP:6202 para itens sem ST
+                        <br /> Para o estado do <b>PR</b> usar CFOP <b>5411 para itens com ST ou 5202 para itens s/ ST.</b>
+                    </p>
+                    <h2 class="campo_i msg-cliente text-center"><b>2.	COMO SERÁ FEITO O RETORNO DA DEVOLUÇÃO:</b>  </h2>
+
+                    O <b>Grupo Foxlux</b> <b style="color:red">não atua com Remessa para conserto (retorno em produtos)</b>,
+                    <span class="fundo-amarelo">sendo assim o valor da NFD será concedido em crédito, que será abatido em duplicatas junto ao setor financeiro.</span>
+                    <h2 class="campo_i msg-cliente text-center"><b>3.	O QUE DEVE ESTAR DESTACADO NA NFD:</b>  </h2>
+                    <b>NFD ACIMA DE R$ 1.000,00:</b> Destacar a quantidade de volumes, peso, Frete por conta da Foxlux e nome da transportadora conforme a seguir:
+                    <ol>
+                        <li><b>ESTADOS DE: SP / RJ / ES:</b> EXPRESSO JUNDIAI- FL Brasil Holding Logística e Transp. LTDA</li>
+                        <li><b>REGIÃO NORTE / NORDESTE / MT / MS :</b> EMPRESA DE TRANSPORTES ATLAS</li>
+                        <li><b>REGIÃO SUL:</b> RODOBRAS TRANSPORTES RODOVIARIOS</li>
+                        <li><b>MG/DF/GO:</b> JOINVILENSE CARGAS EXPRESS LTDA</li>
+                    </ol>
+                    <b>NFD ABAIXO DE R$ 1.000,00:</b> Não há necessidade de destaques, visto que o representante Foxlux coletará material.
+
+                    <h2 class="campo_i msg-cliente text-center"><b>4.	ENVIO DA NFD + XML À FOXLUX</b>  </h2>
+
+                    ASSIM QUE NFD FOR EMITIDA, FAVOR ENCAMINHAR A MESMA IMEDIATAMENTE PARA OS E-MAIL’S  <br />
+                    <b>recebimento@grupofoxlux.com.br</b> e <b>jaison.coelho@grupofoxlux.com.br</b>
+                    <Br />
+                    <b class="fundo-amarelo">Somente com o recebimento da NFD, a coleta será solicitada.</b>
+                    <h2 class="campo_i msg-cliente text-center"><b>5.	MODELO DE COMO DESTACAR OS VALORES NA NFD:</b>  </h2>
+
+                    <table id="dados_produtos">
+                        <tbody>
+                            <tr>
+                                <th class="campo asem-borda-superior-inferio" style="background-color:#ff6a00; font-size:18px;">
+                                    <b>OPTANTE PELO SIMPLES NACIONAL</b>
+                                </th>
+                                <th class="campo asem-borda-superior-inferio" style="background-color:#ff6a00; font-size:12px; width:100px">VALOR</th>
+                                <th class="campo asem-borda-superior-inferio" style="background-color:#ff6a00; font-size:18px;">
+                                    <b>DEVE DESTACAR EM:</b>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR TOTAL DAS MERCADORIAS </td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "P")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO VALOR TOTAL DOS PRODUTOS </td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">BASE CALCULO ICMS</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "P")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">DADOS ADICIONAIS DA NF</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR DO ICMS</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "ICMS")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">DADOS ADICIONAIS DA NF</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR DO IPI</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "IPI")</td>
+                                <td style="background-color:#ffd800;" class="campo asem-borda-superior-inferior campo_i">SOMAR EM OUTRAS DESPESAS ACESSÓRIAS <br /><small>+MENCIONAR EM DADOS ADICIONAIS</small> </td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">BASE CALCULO ICMS ST</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "BICMSST")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">DADOS ADICIONAIS DA NF</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR ICMS ST</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "ICMSST")</td>
+                                <td style="background-color:#ffd800;" class="campo asem-borda-superior-inferior campo_i">SOMAR EM OUTRAS DESPESAS ACESSÓRIAS <br /><small>+MENCIONAR EM DADOS ADICIONAIS</small> </td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR TOTAL DA NOTA FISCAL</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "TOTAL")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO VALOR TOTAL DA NFD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr />
+                </div>
+            </td>
+
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,55 @@
+﻿@model GE_Status_Garantia
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.Cod_Status)
+
+<fieldset>
+    <section>
+        <label class="label">Nome</label>
+        <label class="input">
+            <i class="icon-prepend fa fa-user"></i>
+            @Html.TextBoxFor(m => m.des_nome, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.des_nome)
+        </label>
+    </section>
+
+    <section>
+        @Html.HiddenFor(model => model.ind_finalizacao, new { id = "ind_finalizacao" })
+
+
+
+        @{
+            string infinal = "N";
+
+            try
+            {
+                infinal = Model.ind_finalizacao.ToString();
+            }
+            catch
+            {
+                infinal = "N";
+            }
+
+            if (string.IsNullOrEmpty(infinal))
+            {
+                infinal = "N";
+            }
+
+
+
+
+        }
+
+        <label class="checkbox">
+            <input type="checkbox" name="checkbox-inline" id="_infinal" @(infinal == "S" ? "checked='checked'" : "")>
+            <i></i> Finalização
+        </label>
+
+        
+
+
+    </section>
+
+
+
+</fieldset>

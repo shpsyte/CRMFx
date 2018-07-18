@@ -1,0 +1,22 @@
+﻿@model PS_Estagio_Usuario_Model
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.Ps_Estagio_Usuario.idrow)
+@Html.HiddenFor(model => model.Ps_Estagio_Usuario.cod_estagio)
+@Html.HiddenFor(model => model.cod_estagio)
+
+
+<fieldset>
+    <legend> <i class="fa fa-arrow-right"></i>Adicionar usuário a.: @Model.nome_estagio</legend>
+    <section class="">
+        <label class="label">Usuário</label>
+        <label class="select">
+            @Html.DropDownListFor(p => p.Ps_Estagio_Usuario.cd_usuario, ViewBag.cd_usuario as IEnumerable<SelectListItem>, String.Empty, new { @class = "select2" })
+            @Html.ValidationMessageFor(model => model.Ps_Estagio_Usuario.cd_usuario)
+        </label>
+    </section>
+
+
+
+
+</fieldset>

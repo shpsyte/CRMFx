@@ -1,0 +1,292 @@
+﻿@model IEnumerable<CampanhaMarketing>
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-3">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Lista</h2>
+                        <div class="widget-toolbar">
+                            <div class="bg-color-darken">
+                                @*@Model.Count()*@
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7">
+                                        <a href="@Url.Action("Input","CampanhaInput")" class="btn btn-success">
+                                            <i class="fa fa-plus"></i> <span class="hidden-mobile">Adicionar</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- content goes here -->
+                            <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px" data-class="expand">Código</th>
+                                        <th>Nº</th>
+                                        <th>Regional</th>
+                                        <th>Nome</th>
+                                        <th>Cliente</th>
+
+
+                                        <th>Segmento</th>
+
+                                        <th>Estágio</th>
+                                        <th>Status</th>
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section pagespecific {
+    <script>
+
+        function ChamaDocs(id) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var urlopen = "/CampanhaMarketing/GetDetailsFromDoc/MKT_ID"
+                    .replace("MKT_ID", id)
+
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+
+        }
+
+
+        $(document).ready(function () {
+
+            var responsiveHelper_datatable_col_reorder = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var url = "/CampanhaMarketing/ReadWorkFlow/";
+
+
+
+            /* Formatting function for row details - modify as you need */
+            function format(d) {
+
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">' +
+                    '<tr>' +
+                    '<td style="width:100px">Representante:</td>' +
+                    '<td class="text-left">' + d.nome_representante + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Email:</td>' +
+                    '<td class="text-left">' + d.des_email  + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Data inicial:</td>' +
+                    '<td class="text-left">' + d.dta_inicial + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Data Final:</td>' +
+                    '<td class="text-left">' + d.dta_final + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Renova Aut.:</td>' +
+                    '<td class="text-left">' + d.ind_renova + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Meta:</td>' +
+                    '<td class="text-left">' + d.vlr_meta + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Contrato:</td>' +
+                    '<td class="text-left">' + d.vlr_contrato + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Custo:</td>' +
+                    '<td class="text-left">' + d.vlr_custo_medio + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Tipo Apuração:</td>' +
+                    '<td class="text-left">' + d.tip_apuracao + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Forma Pgto:</td>' +
+                    '<td class="text-left">' + d.des_fomra_pgto + '</td>' +
+                    '</tr>' +
+
+                    '<tr>' +
+                    '<td style="width:100px">Agência:</td>' +
+                    '<td class="text-left">' + d.des_agencia + '</td>' +
+                    '</tr>' +
+
+
+                    '<tr>' +
+                    '<td style="width:100px">Banco:</td>' +
+                    '<td class="text-left">' + d.des_banco + '</td>' +
+                    '</tr>' +
+
+
+                    '<tr>' +
+                    '<td style="width:100px">Conta:</td>' +
+                    '<td class="text-left">' + d.des_conta + '</td>' +
+                    '</tr>' +
+
+
+                    '<tr>' +
+                    '<td style="width:100px">Obs:</td>' +
+                    '<td class="text-left">' + d.des_obervacao + '</td>' +
+                    '</tr>' +
+
+                 '<td>Action:</td>' +
+                    '<td>' +
+                       //'<a target="_blank" class="btn bg-color-teal txt-color-white" href="/Garantias/details/'+ d.garantiaid +'"> Detalhes </a> '+
+                       //'<a target="_blank" class="btn bg-color-orange txt-color-white" href="/CampanhaMarketing/Edit/' + d.campanhaid + '"> Alterar </a> ',
+                       '<a target="javascript:void(0)" onclick="ChamaDocs(' + d.campanhaid + ');" class="btn bg-color-pink txt-color-white"> Ver Docs  <i class="fa fa-lg fa-comments"></i> </a> ' +
+                    '</td>' +
+
+                '<tr>' +
+               '<td style="width:100px">Editar:</td>' +
+               '<td class="text-left">' + '<a target="_blank" class="btn bg-color-orange txt-color-white" href="/CampanhaMarketing/Edit/' + d.campanhaid + '"> Alterar </a> ' + '</td>' +
+               '</tr>'
+
+
+
+                
+
+                    '</table>';
+            }
+
+
+
+
+            /* COLUMN SHOW - HIDE */
+            var otable = $('#idtable').DataTable({
+
+                // Tabletools options:
+                //   https://datatables.net/extensions/tabletools/button_options
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'>>" +
+                        "t" +
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_datatable_col_reorder) {
+                        responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#idtable'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_datatable_col_reorder.respond();
+                },
+                "bServerSide": true,
+                "sAjaxSource": url,
+                "bProcessing": true,
+                "pageLength": 500,
+                "iDisplayLength": 500,
+                //"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                //    if ( aData.Garantia == "N" )
+                //    {
+                //        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-down txt-color-orangeDark"> <i/> </b>');
+
+                //    }else
+                //    {
+                //        $('td:eq(8)', nRow).html('<b> <i class="fa fa-thumbs-o-up txt-color-green"> <i/> </b>');
+
+                //    }
+                //},
+                "columnDefs": [
+                    { targets: 'no-sort', orderable: false }
+                ],
+                "aoColumns": [
+                        {
+                            "class": 'details-control',
+                            "orderable": false,
+                            "data": null,
+                            "defaultContent": ''
+                        },
+                        { "data": "campanhaid" },
+                        { "data": "cod_regional" },
+                    
+                        { "data": "des_nome", "mRender": function (data, type, full) { return '<a href=\"Details/' + full.campanhaid + '\">' + full.des_nome + '</a>'; } },
+                       { "data": "nome_pessoa", "mRender": function (data, type, full) { return '<a href=\"../Account/ViewProfile/' + full.cod_pessoa + '\">' + full.nome_pessoa + '</a>'; } },
+                       { "data": "des_segmetno" },
+                       //{ "data": "des_acao" },
+                       { "data": "estagio" },
+                       { "data": "status" },
+                       { "data": "acao", "mRender": function (data, type, full) { return '<a class="btn btn-default" href=\"AprovaReprova/' + full.campanhaid + '\"> Aprova/Reprova </a>'; } },
+
+                       
+                ]
+
+
+
+
+            });
+
+
+
+            $('#idtable tbody').on('click', 'td.details-control', function () {
+                debugger;
+                var tr = $(this).closest('tr');
+                var row = otable.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+        })
+
+
+
+    </script>
+}

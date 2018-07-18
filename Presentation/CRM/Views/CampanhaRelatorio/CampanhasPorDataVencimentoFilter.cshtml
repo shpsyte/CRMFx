@@ -1,0 +1,153 @@
+﻿@model IEnumerable<RelatoCampanha>
+
+@{
+    ViewBag.PageClass = "minified";
+}
+
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-purple" id="wid-id-3">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Lista</h2>
+                        <div class="widget-toolbar">
+                            <div class="bg-color-purple">
+                                @*@Model.Count()*@
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7">
+                                        <a href="@Url.Action("Campanhas", "CampanhaRelatorio")" class="btn btn-success">
+                                            <i class="fa fa-plus"></i> <span class="hidden-mobile">Nova Consulta</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- content goes here -->
+                            <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th data-class="expand">Código </th>
+                                        <th data-hide="phone,tablet">Status</th>
+                                        <th data-hide="phone,tablet">Cód. Cliente</th>
+                                        <th data-hide="phone,tablet">Cliente</th>
+                                        <th data-hide="phone,tablet">Regional</th>
+                                        <th data-hide="phone,tablet">Representante</th>
+                                        <th data-hide="phone,tablet">Tipo Ação</th>
+                                        <th data-hide="phone,tablet">Valor Ação</th>
+                                        <th data-hide="phone,tablet">Pgtos</th>
+                                        <th> Detalhes </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ decimal? vlr = 0; }
+                                    @foreach (var product in Model)
+                                    {
+                                        @( vlr = product.segmentoid == 1 ? product.vlr_custo_medio : product.vlr_contrato )
+                                        <tr>
+                                            <td> <a href="@Url.Action("Details","CampanhaMarketing", new { id = product.campanhaid})"> @product.campanhaid  </a>  </td>
+                                            <td data-hide="phone,tablet"> @product.descricao </td>
+                                            <td data-hide="phone,tablet"> @product.cod_pessoa </td>
+                                            <td data-hide="phone,tablet"> <a target="_blank" href="@Url.Action("Account","ViewProfile", new { id = product.cod_pessoa})"> @product.des_pessoa <i class="fa fa-external-link" aria-hidden="true"></i> </a>  </td>
+                                            <td data-hide="phone,tablet"> @product.cod_regional </td>
+                                            <td data-hide="phone,tablet"> @product.des_representante </td>
+                                            <td data-hide="phone,tablet"> @product.des_acao </td>
+                                            <td data-hide="phone,tablet"> @( vlr.HasValue ? vlr.Value.ToString("C") : "0" ) </td>
+                                            <td data-hide="phone,tablet"> @product.vlr_pgto </td>
+                                            <td> <a target="_blank" class="btn btn-info" href="@Url.Action("Details","CampanhaMarketing", new { id = product.campanhaid})"> Detalhes <i class="fa fa-external-link" aria-hidden="true"></i> </a>  </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+    <!-- Modal -->
+    <!-- /.modal -->
+
+
+</div>
+@section pagespecific {
+    <script>
+
+        pageSetUpTable("idtable", 150);
+
+
+        function GravaID(element) {
+            document.getElementById("id").value = $(element).attr("data-campanhaid");
+
+        }
+
+
+        function Sucesso(data) {
+
+            var isError = data.hasError;
+            if (!isError)
+            {
+                document.getElementById("msgretorno").innerHTML = data.Msg;
+                var _campanhaid = data.id;
+                $('#estagio').val('0'); //value of your default option
+                $('#formapgto').val('0'); //value of your default option
+                $('#vlr_pgto').val('');
+                $('#Obs').val('');
+                $('#VinculaNota').modal('hide');
+
+                alert('Email enviado com sucesso');
+            }else
+            {
+                document.getElementById("msgretorno").innerHTML = data.Msg;
+            }
+
+        }
+
+
+        function ChamaDocs(id) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var urlopen = "/CampanhaMarketing/GetDetailsFromDoc/MKT_ID"
+                    .replace("MKT_ID", id)
+
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+
+        }
+
+        function ChamaMDetails(id) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var urlopen = "/CampanhaAnalise/GetMinimumDetails/MKT_ID"
+                    .replace("MKT_ID", id)
+
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+
+        }
+
+
+
+
+    </script>
+}

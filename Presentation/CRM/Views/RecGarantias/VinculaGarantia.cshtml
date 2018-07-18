@@ -1,0 +1,189 @@
+﻿@model Garantia_Procedimento_Model
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <div class="row">
+
+            <!-- NEW COL START -->
+            <article class="col-sm-12 col-md-8 col-lg-8">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Finalização da Garantia com procedimento</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding smart-form">
+                            @*using (Html.BeginForm("CriarProcedimento", "Sac", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
+                            @using (Html.BeginForm("VinculaGarantia", "RecGarantias", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.Partial("_CreateProcedimento", Model)
+                                <footer>
+                                    <button type="submit" name="save" class="btn btn-success" value="save"> Receber </button>
+                                    <a href="@Url.Action("ReceiveOrder", new { id = Model.Garantia.garantiaid})" class="btn btn-warning"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+                                </footer>
+                            }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+
+
+            <!-- END COL -->
+            <article class="col-sm-12 col-md-4 col-lg-4">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-greenDark" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Dados da Garantia</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body smart-form">
+
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+
+                                    <div class="panel panel-title">
+                                        <div class="panel-body status">
+                                            <div class="who clearfix">
+                                                <span class="name"> Nome.: <b> @Model.Garantia.Ps_Pessoas.des_pessoa</b> </span>
+                                                <span class="name"> Notas: <b> @Model.Garantia.num_nf_cliente </b> </span>
+                                                <span class="name"> Representante: <b> @Model.Garantia.Ps_Representante.des_pessoa</b> </span>
+                                                <span class="from"> Abertura: <b>@Model.Garantia.dta_inclusao.ToShortDateString()</b> </span>
+                                                <span class="from"> Valor : <b>@Model.Garantia.vlr_garantia.Value.ToString("c")</b> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- END ROW -->
+    </section>
+    
+    <!-- end widget grid -->
+</div>
+@section pagespecific {
+    <script>
+
+        //var objNF = document.querySelector('#ProcedimentoAdm_NF_FOX');
+
+        //objNF.addEventListener('blur',  () => {
+        //    if ($(this).val() == "") {
+        //        $(this).val("");
+        //        return;
+        //    } else {
+        //        let 
+
+        //    }
+        //});
+
+        
+
+
+
+        $(document).ready(function () {
+
+            //Dropdownlist Selectedchange event
+            $("#ProcedimentoAdm_CD_TIPO").change(function () {
+                $("#ProcedimentoAdm_MOTIVOID").empty();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetMotivos")', // we are calling json method
+                    dataType: 'json',
+                    data: { id: $("#ProcedimentoAdm_CD_TIPO").val() },
+                    success: function (states) {
+                        $.each(states, function (i, state) {
+                            $("#ProcedimentoAdm_MOTIVOID").append('<option value="' + state.Value + '">' +
+                                 state.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve states.' + ex);
+                    }
+                });
+                return false;
+            })
+
+
+
+            $("#ProcedimentoAdm_NF_FOX")
+                .bind("blur", function () {
+                     $('#msgNota').html("");
+                   
+
+                 if ($(this).val() == "") {
+                     $(this).val("");
+                     return;
+                 }
+                 else {
+                     $("#ProcedimentoAdm_DTA_NF_FOX").val("");
+                     $("#ProcedimentoAdm_cod_transportador").val("");
+
+
+                     var _cd_cadastro = $('#ProcedimentoAdm_CD_CADASTRO').val();
+                     $('#msgNota').html("");
+                     if (_cd_cadastro == null) { _cd_cadastro = 0; }
+                     var parametros = { nr_nota: $(this).val(), cd_cadastro: _cd_cadastro };
+                     $.ajax({
+                         type: "POST",
+                         url: "@Url.Action("ReadNF", "Sac")",
+                         data: parametros,
+                         success: function (dados) {
+                             var row = dados.nota.DT_EMISSAO;
+                             var cd_transportador = dados.nota.CD_TRANSPORTADOR;
+                             var _procedimento = dados.procedimento;
+                             var _msg = dados.msg;
+
+                             if (_msg) {
+                                 $('#msgNota').html(_msg);
+                             }
+
+                            
+
+                             $("#ProcedimentoAdm_DTA_NF_FOX").val(row);
+                             $("#ProcedimentoAdm_cod_transportador").val(cd_transportador);
+                         },
+                         dataType: "json"
+                     });
+                 }
+             });
+        });
+    </script>
+}

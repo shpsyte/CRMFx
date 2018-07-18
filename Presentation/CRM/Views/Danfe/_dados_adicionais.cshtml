@@ -1,0 +1,26 @@
+﻿@model Danzor.Print.DanzorPage
+
+<div class="bloco rodape">
+   <table id="dados_adicionais">
+      <tr>
+         <td class="campo">
+            <div class="conteudo negrito">DADOS ADICIONAIS</div>
+         </td>
+         <td class="campo">
+            <div class="conteudo negrito">RESERVADO AO FISCO</div>
+         </td>
+      </tr>
+      <tr>
+         <td class="campo dados-adicionais">
+            <div class="conteudo">
+                @Html.Raw(Model.Footer.infAdic.infCpl.Value)
+            </div>
+         </td>
+         <td class="campo reservado-fisco">
+            <div class="conteudo">
+               @Model.Footer.infAdic.infAdFisco.Value
+            </div>
+         </td>
+      </tr>
+   </table>
+</div>

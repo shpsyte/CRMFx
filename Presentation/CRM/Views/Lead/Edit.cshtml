@@ -1,0 +1,197 @@
+﻿@model Ps_Leads
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <div class="row">
+            <!-- NEW COL START -->
+            <article class="col-sm-12 col-md-8 col-lg-8">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Cadastro de Lead</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding smart-form">
+                            @using (Html.BeginForm())
+                            {
+                            @Html.Partial("_CreateOrUpdate", Model)
+
+                            <footer>
+                                <button type="submit" name="save" class="btn btn-success" value="save"> Salvar </button>
+                                <button type="submit" name="save-continue" class="btn btn-success" value="save-continue"> Salvar+ </button>
+                                <a href="@Url.Action("List")" class="btn btn-warning bg-color-yellow"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+                                <a href="@Url.Action("Create","Sac", new { tipo_pessoa = "L", cod_pessoa = Model.cod_lead})" class="btn btn-info"> <i class="fa fa-lg fa-plus"></i> Abrir Sac </a>
+
+
+                                <button type="submit" name="delete" class="btn btn-danger pull-left" value="delete"> Excluir </button>
+
+                            </footer>
+                            }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- END COL -->
+            <!-- NEW COL START -->
+            @if (Settings.EnableNotes) { 
+            <article class="col-sm-12 col-md-4 col-lg-4">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Notas de Lead</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+
+                            <h1>Notas</h1>
+                            <form method="post" class="well padding-bottom-10" onsubmit="return false;">
+                                <textarea maxlength="500" id="msgcliente" rows="2" class="form-control" placeholder="Notas"></textarea>
+                                <div class="margin-top-10">
+                                    <button data-id="@Model.cod_lead" type="submit" class="btn btn-sm btn-primary pull-right PostComente">
+                                        Post
+                                    </button>
+                                </div>
+                            </form>
+                            <table id="idtable" style="width:100%">
+                                <tbody>
+                                    <!-- load by javascript -->
+                                    @foreach (var product in ViewBag.comentarios as IEnumerable<Note>)
+                                    {
+                                        string nomeusuario = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(product.Usuario.NOME.ToLower());
+                                        decimal DifMinute = ((TimeSpan)(System.DateTime.Now - product.dta_inclusao)).Minutes;
+                                        <tr>
+                                            <td>
+                                                <div class="timeline-seperator text-center">
+                                                    <span>
+                                                        @product.dta_inclusao.ToShortDateString()&nbsp;&nbsp;-&nbsp;&nbsp;@product.dta_inclusao.ToShortTimeString() <small class="text-muted pull-right">
+                                                            @DifMinute Minutos atrás
+                                                        </small>
+                                                    </span>
+                                                </div>
+                                                <div class="chat-body no-padding profile-message">
+                                                    <ul>
+                                                        <li class="message">
+                                                            <img src="/Content/img/avatars/male.png" class="online" alt="sunny">
+                                                            <span class="message-text" style="min-height:50px;">
+                                                                <a href="javascript:void(0);" class="username">
+                                                                    @nomeusuario
+                                                                </a>
+                                                                <small class="text-muted pull-right">
+                                                                    Postou um comentário nesta conta
+                                                                </small>
+                                                                <br />
+                                                                <span>
+                                                                    @product.msg
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            }
+            <!-- END COL -->
+
+
+        </div>
+        <!-- END ROW -->
+    </section>
+    <!-- end widget grid -->
+</div>
+
+@section pagespecific {
+    <script type="text/javascript">
+
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".PostComente").click(function () {
+                // Get the id from the link
+                //debugger;
+                var recordToUpdate = $(this).attr("data-id");
+                var text = $("#msgcliente").val();
+                var table = document.getElementById("idtable");
+                if (recordToUpdate != '') {
+                    $.ajax({
+                        dataType: "json",
+                        type: "POST",
+                        url: "@Url.Action("PostComentario", "Note")",
+                        data: { id: recordToUpdate, msg: text, origem: "LEADS" },
+                        success: function (dados) {
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+                            var string = " <div class='timeline-seperator text-center'>  "
+                            + "       <span>                                              "
+                            + "                       _data_ <small class='text-muted pull-right'> "
+                            + "                            _minuto_ Minutos atrás "
+                            + "                        </small> "
+                            + "                    </span> "
+                            + "                </div> "
+                            + "                <div class='chat-body no-padding  profile-message'> "
+                            + "                    <ul> "
+                            + "                        <li class='message'> "
+                            + "                            <img src='/Content/img/avatars/male.png' class='online' alt='sunny'> "
+                            + "                            <span class='message-text' style='min-height:50px;'> "
+                            + "                                <a href='javascript:void(0);' class='username'> "
+                            + "                                    _nome_ "
+                            + "                                </a> "
+                            + "                                    <small class='text-muted pull-right'> "
+                            + "                                        Postou um comentário nesta conta "
+                            + "                                    </small> "
+                            + "                                    <br /> "
+                            + "                                <span> "
+                            + "                                    _msg_ "
+                            + "                                </span> "
+                            + "                            </span>"
+                            + "                        </li>"
+                            + "                    </ul>"
+                            + "                </div>";
+                            string = string.replace('_data_', dados[0].DataPequena + "   -   " + dados[0].Horapequena);
+                            string = string.replace('_minuto_', '0');
+                            string = string.replace('_nome_', dados[0].User);
+                            string = string.replace('_msg_', dados[0].Mensagem);
+                            cell1.innerHTML = string;
+                            text = $("#msgcliente").val("");
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

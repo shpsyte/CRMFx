@@ -1,0 +1,1146 @@
+﻿@model  CampanhaMarketingReviewModel
+<!-- MAIN CONTENT -->
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    @{
+
+        var segmento = Model.CampanhaMarketing.segmentoid;
+
+    }
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-7">
+                        <div class="well well-light well-sm no-margin no-padding">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="map" class="google_maps" style="width:100%; height:250px"></div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-4 profile-pic">
+                                            @Html.FirstLettersOfname(this.Model.CampanhaMarketing.Ps_Pessoas.des_pessoa.ToString())
+                                            <div class="padding-10">
+                                                <h4 class="font-md">
+                                                    <small>Cliente desde:</small>
+                                                    <br>
+                                                    <strong> @Html.ValueFor(model => model.CampanhaMarketing.Ps_Pessoas.dta_cadastro, "{0:dd/MM/yyyy}") </strong>
+                                                </h4>
+                                                <br>
+
+                                                <h4 class="font-md">
+                                                    <small>Data Inclusão</small>
+                                                    <br>
+                                                    <strong> @Html.ValueFor(model => model.CampanhaMarketing.dta_inclusao, "{0:dd/MM/yyyy}") </strong>
+                                                </h4>
+
+
+                                               
+
+                                                <br>
+                                                <h4 class="font-md">
+                                                    <small>Última Alteração</small>
+                                                    <br>
+                                                    <strong> @Html.ValueFor(model => model.CampanhaMarketing.dta_alteracao, "{0:dd/MM/yyyy}") </strong>
+                                                </h4>
+                                                <br>
+                                                <h4 class="font-md">
+                                                    <small>Tipo da Ação</small>
+                                                    <br>
+                                                    <strong> @Model.CampanhaMarketing.Segmentos.des_segmento </strong>
+                                                </h4>
+                                                <br>
+                                                <h4 class="font-md">
+                                                    <small>Ação da campanha</small>
+                                                    <br>
+                                                    <strong> @Model.CampanhaMarketing.TipoAcao.des_acao </strong>
+                                                </h4>
+                                                <br>
+                                                <h4 class="font-md">
+                                                    <small>Status da campanha</small>
+                                                    <br>
+                                                    <strong> @Model.CampanhaMarketing.Status.descricao </strong>
+                                                </h4>
+                                                <br>
+                                                <h4 class="font-md">
+                                                    <small>Estágio da campanha</small>
+                                                    <br>
+                                                    <strong> @Model.CampanhaMarketing.Estagio.descricao </strong>
+                                                </h4>
+                                                <br>
+
+
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <h1>
+                                                @{ string[] Nome = Model.CampanhaMarketing.Ps_Pessoas.des_pessoa.Split(' '); }
+                                                @Nome[0] <span class="semi-bold">@Nome[Nome.Count() - 1]</span>
+                                                <br>
+                                                <small> @Html.ValueFor(model => model.CampanhaMarketing.Ps_Pessoas.des_pessoa) </small>
+                                                <br />
+
+                                            </h1>
+                                            <p class="font-md">
+                                                @Model.CampanhaMarketing.Ps_Representantes.des_pessoa
+                                            </p>
+                                            <p>
+                                                Cep:&nbsp;&nbsp; <strong>@Model.CampanhaMarketing.Ps_Pessoas.num_cep  </strong>
+                                                <br />
+                                                Endereço:&nbsp;&nbsp; <strong>@Model.CampanhaMarketing.Ps_Pessoas.des_endereco  </strong>
+                                                <br />
+                                                Bairro:&nbsp;&nbsp; <strong>@Model.CampanhaMarketing.Ps_Pessoas.des_bairro </strong>
+                                                <br />
+                                                Cidade - UF:&nbsp;&nbsp; <strong>@Model.CampanhaMarketing.Ps_Pessoas.Cidade.des_cidade</strong> - <strong>@Model.CampanhaMarketing.Ps_Pessoas.Cidade.cod_uf</strong>
+                                            </p>
+
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-plus"></i>&nbsp;&nbsp;<span class="txt-color-darken">
+                                                            <a href="@Url.Action("Create","Sac", new { tipo_pessoa = "E", cod_pessoa = Model.CampanhaMarketing.cod_pessoa})">Abrir Sac</a>
+                                                        </span>
+                                                    </p>
+                                                </li>
+
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:@Html.ValueFor(model => model.CampanhaMarketing.Ps_Pessoas.des_email)">@Html.ValueFor(model => model.CampanhaMarketing.Ps_Pessoas.des_email)</a><br />
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:@Html.ValueFor(model => model.CampanhaMarketing.des_email)">@Html.ValueFor(model => model.CampanhaMarketing.des_email)</a>
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-info"></i>&nbsp;&nbsp;<span class="txt-color-darken"> <strong> CÓDIGO:  @Html.ValueFor(model => model.CampanhaMarketing.cod_pessoa) </strong> </span>
+                                                    </p>
+                                                </li>
+                                            </ul>
+
+
+
+                                            <hr />
+                                            <p class="font-md">
+                                                <a target="_blank" class="btn btn-primary" href="@Url.Action("ViewProfile", "Account", new { id = Model.CampanhaMarketing.cod_pessoa})"> Saber Mais...</a>
+                                                <a class="btn btn-info" href="javascript:void(0)" onclick="ChamaDocs(@Model.CampanhaMarketing.campanhaID);"> Documentos </a>
+                                                <a class="btn btn-success" href="javascritp:void(0)" onclick="GravaID(this);" data-id="@Model.CampanhaMarketing.campanhaID" data-toggle="modal" data-target="#VinculaNota"> Interagir </a>
+                                            </p>
+
+                                            <p class="font-md">
+                                                <a class="btn btn-warning" href="@Url.Action("AprovaReprova", new { id = Model.CampanhaMarketing.campanhaID })"> Aprovar/Reprovar </a>
+                                            </p>
+                                            <hr />
+                                            <p class="font-md">Obs.</p>
+                                            <p class="text-muted JustifyFull">@Model.CampanhaMarketing.des_observacao</p>
+                                            <hr />
+                                            <p class="font-md">Última Interação</p>
+                                            <p class="text-muted">@Model.CampanhaMarketing.des_ult_obs</p>
+                                            Por: <small class="font-sm text-muted" style="font-size:7px">@( Model.CampanhaMarketing.UsuarioAlteracao == null ? "System" : Model.CampanhaMarketing.UsuarioAlteracao.NOME) </small>
+
+                                        </div>
+
+
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <hr />
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-greenDark " id="wid-id-42">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-arrow-down"></i> </span>
+                                            <h2 class="text-center"> Interações </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body">
+
+                                                <div class="panel panel-default">
+
+                                                    <div class="panel-heading">
+                                                        <table id="idtable_s" class="table table-striped table-bordered table-hover" width="100%">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th style="width:100px" data-hide="phone,tablet">Nome</th>
+                                                                    <th style="width:100px" data-hide="phone,tablet">Para</th>
+                                                                    <th style="width:100px" data-hide="phone,tablet">Data</th>
+                                                                    <th style="width:100px" data-hide="phone,tablet">Obs</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var product in (Model.ListaEstagio).OrderBy(p => p.num_seq))
+                                                                {
+                                                                    <tr>
+                                                                        <td data-hide="phone,tablet">@( product.Usuario != null ? product.Usuario.NOME : "")</td>
+                                                                        <td data-hide="phone,tablet">@( product.EstagioAnterior != null ? product.EstagioAnterior.descricao : "")</td>
+                                                                        <td data-hide="phone,tablet">@product.dta_entrada</td>
+                                                                        <td data-hide="phone,tablet">@product.obs</td>
+
+
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-5">
+                        <section id="widget-grid" class="">
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-greenDark " id="wid-id-2">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-arrow-down"></i> </span>
+                                            <h2 class="text-center"> Análise Campanha </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body smart-form">
+                                                <div class="panel panel-default">
+
+                                                    <div class="panel-heading">
+
+                                                        <div class="panel panel-title">
+                                                            <div class="panel-body status">
+                                                                <div class="who clearfix">
+                                                                    <span class="name"><b> @Model.CampanhaMarketing.des_nome </b> </span>
+                                                                    <br />
+                                                                    <span class=""><b>Inclusão: @Model.CampanhaMarketing.dta_inclusao </b> </span>
+                                                                    <br />
+                                                                    <span class=""><b>Nº: @Model.CampanhaMarketing.campanhaID </b> </span>
+                                                                    <br />
+                                                                    <span class="name"><b>Status: @Model.CampanhaMarketing.Status.descricao </b> </span>
+                                                                    <hr />
+                                                                    <br />
+
+
+
+
+                                                                    <p class="">Período de Apuração</p>
+                                                                    <span class="">
+                                                                        <b>
+                                                                            Início : @( Model.CampanhaMarketing.dta_inicial.HasValue ? Model.CampanhaMarketing.dta_inicial.Value.ToShortDateString() : "" )
+                                                                            @if (segmento == 2 || segmento == 3)
+                                                                            {
+                                                                                <span class="">a </span> @(Model.CampanhaMarketing.dta_final.HasValue ? Model.CampanhaMarketing.dta_final.Value.ToShortDateString() : "")
+                                                                            }
+                                                                        </b>
+                                                                    </span>
+                                                                    @if (segmento == 3)
+                                                                    {
+                                                                        string apura = "";
+                                                                        switch (Model.CampanhaMarketing.tip_apuracao)
+                                                                        {
+                                                                            case "P":
+                                                                                apura = "Perído";
+                                                                                break;
+                                                                            case "M":
+                                                                                apura = "Mensal";
+                                                                                break;
+                                                                            case "T":
+                                                                                apura = "Trimenstral";
+                                                                                break;
+                                                                            case "A":
+                                                                                apura = "Anual";
+                                                                                break;
+
+                                                                        }
+                                                                        <br />
+                                                                        <span class="">
+                                                                            <b> Renova Automático : </b>@( Model.CampanhaMarketing.ind_renova == "S" ? "SIM" : "NÃO" )
+                                                                        </span>
+                                                                        <br />
+                                                                        <span class="">
+                                                                            <b> Apuração: </b> @( apura )
+                                                                        </span>
+
+                                                                    }
+
+
+                                                                    <hr />
+                                                                    <br />
+
+
+                                                                    <p class="">Custo da Campanha</p>
+                                                                    @if (segmento == 1)
+                                                                    {
+                                                                        <span class=""><b>Custo Aproximado: @( Model.CampanhaMarketing.vlr_custo_medio.HasValue ? Model.CampanhaMarketing.vlr_custo_medio.Value.ToString("C") : "0" ) </b> </span>
+                                                                    }
+                                                                    @if (segmento == 2 || segmento == 3)
+                                                                    {
+                                                                        if (segmento == 2)
+                                                                        {
+                                                                            <span class=""><b>Meta:</b> @( Model.CampanhaMarketing.vlr_meta.HasValue ? Model.CampanhaMarketing.vlr_meta.Value.ToString("C") : "0" )  </span>
+                                                                            <br />
+                                                                        }
+                                                                        if (Model.CampanhaMarketing.tip_pgto_premiacao == "V")
+                                                                        {
+                                                                            <span class=""><b> Valor Premiação/Contrato:</b> @( Model.CampanhaMarketing.vlr_contrato.HasValue ? Model.CampanhaMarketing.vlr_contrato.Value.ToString("C") : "0" )  </span>
+                                                                        }
+                                                                        if (Model.CampanhaMarketing.tip_pgto_premiacao == "P")
+                                                                        {
+                                                                            <span class=""><b> % Premiação/Contrato:</b> @( Model.CampanhaMarketing.per_contrato.HasValue ? Model.CampanhaMarketing.per_contrato.Value.ToString("F") : "0" ) % </span>
+                                                                        }
+                                                                        <br />
+
+                                                                        if (segmento == 2)
+                                                                        { 
+                                                                            <span class=""><b>% Atingido:</b> @( Model.per_atingido.HasValue ? Model.per_atingido.Value.ToString("P") : "" )  </span>
+                                                                        }
+                                                                    }
+
+                                                                    <span class="name"> @Model.CampanhaMarketing.Segmentos.des_segmento -   @Model.CampanhaMarketing.TipoAcao.des_acao</span>
+                                                                    <hr />
+                                                                    <br />
+
+
+                                                                    <p class="">Forma de Pagamentos</p>
+                                                                    <span class=""><i> @( Model.CampanhaMarketing.FormaPgto != null ? Model.CampanhaMarketing.FormaPgto.des_forma : "" ) </i> </span>
+                                                                    <br />
+                                                                    @if (segmento == 1 || segmento == 2)
+                                                                    {
+                                                                        if (!string.IsNullOrEmpty(Model.CampanhaMarketing.des_agencia))
+                                                                        {
+                                                                            <span class=""> Agência: @( " " + Model.CampanhaMarketing.des_agencia + "  " + " Banco: " + Model.CampanhaMarketing.des_banco + " CC: " + Model.CampanhaMarketing.des_conta )  </span>
+                                                                        }
+                                                                    }
+
+
+                                                                </div>
+
+
+                                                                <hr />
+                                                                <br />
+                                                                <h4 class="alert alert-info"> Total pagamentos efetuados @( Model.vlr_total_pago.HasValue ? Model.vlr_total_pago.Value.ToString("c") : "0" )  </h4>
+                                                                <h4 class="alert alert-warning"> Total Contrato/Campanha @( Model.CampanhaMarketing.vlr_contrato.HasValue ? Model.CampanhaMarketing.vlr_contrato.Value.ToString("c") : "0" )  </h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+
+
+
+
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-blueLight " id="wid-id-52">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-money"></i> </span>
+                                            <h2 class="text-center"> Pagamentos </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body no-padding">
+                                                <div class="widget-body-toolbar">
+                                                    <div class="row">
+                                                        <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7">
+                                                            <a href="@Url.Action("InformaPgtoCamapanha", "CampanhaAnalise", new { id = Model.CampanhaMarketing.campanhaID})" class="btn btn-success">
+                                                                <i class="fa fa-plus"></i> <span class="hidden-mobile">Novo Pagamento</span>
+                                                            </a>
+
+                                                            <a href="javascript:void(0)" data-campanhaid="@Model.CampanhaMarketing.campanhaID" data-toggle="modal" data-target="#VinculaNota2" class="btn btn-info"> 
+                                                                <i class="fa fa-user"></i> <span class="hidden-mobile">Solicitar Pagamento</span>
+                                                            </a> 
+
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel panel-default">
+
+                                                    <div class="panel-heading">
+                                                        <table id="idtable_pgot" class="table table-striped table-bordered table-hover" width="100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width:180px" data-class="expand">Forma</th>
+                                                                    @*<th style="width:100px" data-hide="phone,tablet">Quem</th>*@
+                                                                    <th data-hide="phone,tablet">Data Pgto</th>
+                                                                    <th data-hide="phone,tablet">Valor</th>
+                                                                    <th data-hide="phone,tablet">Doc</th>
+                                                                    <th data-hide="phone,tablet">Comprovante</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var product in (Model.ListaPgto.OrderBy(p => p.campanhamarketingpgtoid)))
+                                                                {
+                                                                    <tr>
+
+                                                                        <td>@( product.FormaPgto != null ? product.FormaPgto.des_forma : "System")</td>
+                                                                        @*<td data-hide="phone,tablet">@( product.Usuario != null ? product.Usuario.NOME : "System")</td>*@
+                                                                        <td data-hide="phone,tablet">@product.dta_inclusao.ToShortDateString()</td>
+                                                                        <td data-hide="phone,tablet">@product.vlr_pgto.ToString("c")</td>
+                                                                        <td data-hide="phone,tablet"><a target="_blank" href="@Url.Action("Download","CampanhaAnalise",new { id=product.campanhamarketingpgtoid})"> @product.campanhamarketingpgtoid </a></td>
+                                                                        <td data-hide="phone,tablet"><a target="_blank" href="@Url.Action("PrintFormaPgto","CampanhaRelatorio",new { campanhaid=product.campanhaid ,  campanhamarketingpgtoid=product.campanhamarketingpgtoid})"> Imprimir </a></td>
+
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+
+
+
+
+
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-6">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-check"></i> </span>
+                                            <h2 class="text-center"> Faturamento </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                @if (segmento == 1)
+                                                                {
+                                                                    <span class="text-info">Desde a campanha </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="text-info">Entre a Campanha </span>
+                                                                }
+                                                                <h1><span class="text-success">  @Html.AddTextIf(Model.vlr_faturado.HasValue, Convert.ToString(Html.ValueFor(model => model.vlr_faturado, "{0:0,0.##}")), "-") </span></h1>
+                                                                <br />
+                                                                @if (segmento == 2)
+                                                                {
+                                                                    <span class="text-info">Meta</span>
+                                                                    <h1><span class="text-success">  @Html.AddTextIf(Model.CampanhaMarketing.vlr_meta.HasValue, Convert.ToString(Html.ValueFor(model => model.CampanhaMarketing.vlr_meta, "{0:0,0.##}")), "-") </span></h1>
+                                                                }
+
+                                                            </div>
+
+                                                            @if (segmento == 2)
+                                                            {
+                                                                <div class="col-md-6">
+                                                                    <div class="easy-pie-chart txt-color-green easyPieChart" data-percent="@( Convert.ToInt32(Model.per_atingido*100) )" data-pie-size="180">
+                                                                        <span class="percent percent-sign txt-color-green font-xl semi-bold">@( Convert.ToInt32(Model.per_atingido * 100) )</span>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+
+
+
+
+
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-greenDark " id="wid-id-8">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-arrow-down"></i> </span>
+                                            <h2 class="text-center"> Rentabilidade </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="easy-pie-chart txt-color-greenLight easyPieChart" data-percent="@( Model.DadosDoCrm != null ? Model.DadosDoCrm.per_rent_ant.Value : 0) " data-pie-size="110">
+                                                                <span class="percent percent-sign txt-color-greenLight font-xl semi-bold">&nbsp;</span>
+                                                            </div>
+                                                            <br />
+                                                            <span class="text-success">@System.DateTime.Now.AddYears(-1).Year</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="easy-pie-chart txt-color-darken easyPieChart" data-percent="@( Model.DadosDoCrm != null ? Model.DadosDoCrm.per_rentabilidade : 0 )" data-pie-size="110">
+                                                                <span class="percent percent-sign txt-color-darken font-xl semi-bold">&nbsp;</span>
+                                                            </div>
+                                                            <br />
+                                                            <span class="text-danger">@System.DateTime.Now.AddYears(0).Year</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-blue " id="wid-id-4">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-plus"></i> </span>
+                                            <h2 class="text-center"> Compras </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            @if(Model.DadosDoCrm != null) { 
+                                                            <h1><span class="text-success"> @Html.ValueFor(model => model.DadosDoCrm.dta_ult_compra, "{0:dd/MM/yyyy}") </span></h1>
+                                                            }
+                                                            <span class="text-info">Última Compra</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm != null, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_maior_compra, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-info">Valor da Maior</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-red" id="wid-id-3">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                                            <h2 class="text-center"> Devoluções </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm != null, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_dev_ant, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-success">@System.DateTime.Now.AddYears(-1).Year</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm != null, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_devolucao, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-success">@System.DateTime.Now.AddYears(0).Year</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                            <!-- row -->
+                            <!-- end row -->
+                            <!-- end row -->
+                        </section>
+
+                        @if (Settings.EnableNotes)
+                        {
+                            <h1>Notas</h1>
+                            <form method="post" class="well padding-bottom-10" onsubmit="return false;">
+                                <textarea maxlength="500" id="msgcliente" rows="2" class="form-control" placeholder="O que você está pensando ?"></textarea>
+                                <div class="margin-top-10">
+                                    <button data-id="@Model.CampanhaMarketing.campanhaID" type="submit" class="btn btn-sm btn-primary pull-right PostComente">
+                                        Post
+                                    </button>
+                                </div>
+                            </form>
+                            <table id="idtable" style="width:100%">
+                                <tbody>
+                                    <!-- load by javascript -->
+                                    @foreach (var product in Model.ListaComentarios.OrderByDescending(a => a.dta_inclusao))
+                                    {
+                                        string nomeusuario = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(product.Usuario.NOME.ToLower());
+                                        decimal DifMinute = ((TimeSpan)(System.DateTime.Now - product.dta_inclusao)).Minutes;
+                                        <tr>
+                                            <td>
+                                                <div class="timeline-seperator text-center">
+                                                    <span>
+                                                        @product.dta_inclusao.ToShortDateString()&nbsp;&nbsp;-&nbsp;&nbsp;@product.dta_inclusao.ToShortTimeString() <small class="text-muted pull-right">
+                                                            @DifMinute Minutos atrás
+                                                        </small>
+                                                    </span>
+                                                </div>
+                                                <div class="chat-body no-padding profile-message">
+                                                    <ul>
+                                                        <li class="message">
+                                                            <img src="/Content/img/avatars/male.png" class="online" alt="sunny">
+                                                            <span class="message-text" style="min-height:50px;">
+                                                                <a href="javascript:void(0);" class="username">
+                                                                    @nomeusuario
+                                                                </a>
+                                                                <small class="text-muted pull-right">
+                                                                    Postou um comentário nesta conta
+                                                                </small>
+                                                                <br />
+                                                                <span>
+                                                                    @product.msg
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="VinculaNota" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Informe os dados da coleta</h4>
+                </div>
+
+
+                @*@using (Html.BeginForm("GeraOrdemColeta", "Garantias", FormMethod.Post, new { @id = "form_post", @novalidate = "novalidate" }))*@
+                @using (Ajax.BeginForm("Interagindo", new AjaxOptions { OnSuccess = "Sucesso" }))
+                {
+                   <div class="modal-body">
+                        <p id="msgretorno"></p>
+                        <input type="hidden" id="id" name="id"  value="@Model.CampanhaMarketing.campanhaID"/>
+
+
+                        <div class="row">
+                            <div class="form-group  col-md-12">
+                                <label>Obs</label>
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="Comentários" id="Obs" name="Obs" rows="5" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Gravar
+                        </button>
+
+                    </div>
+                }
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="VinculaNota2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Solicitação de Pgto à Campanha</h4>
+                </div>
+
+
+                @*@using (Html.BeginForm("GeraOrdemColeta", "Garantias", FormMethod.Post, new { @id = "form_post", @novalidate = "novalidate" }))*@
+                @using (Ajax.BeginForm("SolicitaPgtoCampanha", "CampanhaAnalise", new AjaxOptions { OnSuccess = "SucessoPgto" }))
+                {
+                    <div class="modal-body">
+
+                        <input type="hidden" id="id" name="id" value="@Model.CampanhaMarketing.campanhaID" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group smart-form">
+
+                                    <label> Usuários do Setor </label>
+                                    <label class="select">
+                                        @Html.DropDownList("estagio", null, String.Empty, new { @class = "select", @required = "required" })<i></i>
+                                    </label>
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group smart-form">
+
+                                    <label> Forma de Pgto</label>
+                                    <label class="select">
+                                        @Html.DropDownList("formapgto", null, String.Empty, new { @class = "select", @required = "required" })<i></i>
+                                    </label>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row dados_bancos">
+                            <div class="col-md-4 smart-form">
+                                <label class="label">Agência</label>
+                                <label class="input">
+                                    @Html.TextBox("des_agencia", null, new { @required = "required" })
+                                </label>
+
+                            </div>
+
+
+                            <div class="col-md-4 smart-form">
+                                <label class="label">Banco</label>
+                                <label class="input">
+                                    @Html.TextBox("des_banco", null, new { @required = "required" })
+                                </label>
+
+                            </div>
+
+
+                            <div class="col-md-4 smart-form">
+                                <label class="label">Conta Corrente</label>
+                                <label class="input">
+                                    @Html.TextBox("des_conta", null, new { @required = "required" })
+                                </label>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+
+                                <label> </label>
+                                <div class="form-group text-center">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="ind_total" id="ind_total">
+                                        <i></i> Pagamento Total da Campanha
+                                        <input type="hidden" value="false" name="ind_total" />
+
+
+                                    </label>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group  col-md-6">
+                                <label>Valor Pgto</label>
+                                <div class="form-group">
+                                    <input class="form-control" data-val="true" data-val-number="Deve ser um valor este campo." data-val-required="O campo é obrigatório." id="vlr_pgto" name="vlr_pgto" value="" type="text">
+                                    <span class="field-validation-valid" data-valmsg-for="vlr_pgto" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group  col-md-12">
+                                <label>Obs</label>
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="Comentários" id="Obs" name="Obs" rows="5" required></textarea>
+                                    <span class="field-validation-error" data-valmsg-for="Obs" data-valmsg-replace="true"><span for="Obs" class=""></span></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+                    <div class="modal-footer">
+                        <p id="msgretorno"></p>
+
+                        <a class="btn btn-success hide1" target="_blank" id="linkprint" href="#"> Imprimir Solicitação</a>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Fechar
+                        </button>
+                        <button id="Enviar" type="submit" class="btn btn-primary">
+                            Gravar
+                        </button>
+
+                    </div>
+                }
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+
+    <!-- end row -->
+    @Html.HiddenFor(p => p.CampanhaMarketing.Ps_Pessoas.des_endereco)
+    @Html.HiddenFor(p => p.CampanhaMarketing.Ps_Pessoas.num_cep)
+    @Html.HiddenFor(p => p.CampanhaMarketing.Ps_Pessoas.des_bairro)
+    @Html.HiddenFor(p => p.CampanhaMarketing.Ps_Pessoas.Cidade.des_cidade)
+    @Html.HiddenFor(p => p.CampanhaMarketing.Ps_Pessoas.Cidade.cod_uf)
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+
+    <script type="text/javascript">
+
+        pageSetUpTable("idtable_s", 5);
+
+        function GravaID(element) {
+            document.getElementById("id").value = $(element).attr("data-campanhaid");
+
+        }
+
+        $('.hide1').hide();
+        $('.dados_bancos').hide();
+
+        $("#formapgto").change(function () {
+            var tipoforma = $("#formapgto").val();
+
+            if (tipoforma == 4) {
+                $('.dados_bancos').show();
+            } else {
+                $('.dados_bancos').hide();
+            }
+
+
+        });
+
+        function SucessoPgto(data) {
+
+            var isError = data.hasError;
+            if (!isError) {
+                document.getElementById("msgretorno").innerHTML = data.Msg;
+
+                var _campanhaid = data.id;
+                var Obs = data.Obs;
+                var nome_forma = data.nome_forma;
+                var vlr_pgto = data.vlr_pgto;
+                var int_total = data.ind_total;
+
+
+                $('#estagio').val('0'); //value of your default option
+                $('#formapgto').val('0'); //value of your default option
+                $('#vlr_pgto').val('');
+                $('#Obs').val('');
+
+
+
+                var strWindowFeatures = "width=480,height=380,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+                var urlopen = "/CampanhaRelatorio/PrintFormaPgtos/?campanhaid=" + _campanhaid + "&obs=" + Obs + "&nome_forma=" + nome_forma + "&vlr_pgto=" + vlr_pgto + "&ind_total=" + ind_total;
+                window.open(urlopen, '_blank', strWindowFeatures, true);
+
+
+                var link = document.getElementById("linkprint");
+                link.setAttribute("href", urlopen);
+                $('.hide1').show();
+
+
+                //$('#VinculaNota').modal('hide');
+
+                alert('Email enviado com sucesso');
+            } else {
+                document.getElementById("msgretorno").innerHTML = data.Msg;
+            }
+
+        }
+            /* COLUMN SHOW - HIDE */
+            var otable = $("#idtable_pgot").dataTable({
+                //   https://datatables.net/extensions/tabletools/button_options
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'><'col-sm-6 col-xs-6 hidden-xs'>>" +
+                        "t" +
+                        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                
+                
+                "autoWidth": true,
+                //"bProcessing": true,
+                "pageLength": 5
+            });
+
+
+        
+
+        function GravaID(element) {
+            document.getElementById("id").value = $(element).attr("data-id");
+
+        }
+
+        function Sucesso(data) {
+            var isError = data.hasError;
+
+            if (!isError) {
+                location.reload();
+                document.getElementById("Obs").value = "";
+
+            }
+
+        }
+    </script>
+
+
+
+    <script src="/scripts/plugin/x-editable/x-editable.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC0VxY6KEDgqnCUw2Skk7gJa9ZcncNm9ZQ&signed_in=true"></script>
+    @Scripts.Render("~/scripts/maps")
+    <script type="text/javascript">
+        function ChamaDocs(id) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var urlopen = "/CampanhaMarketing/GetDetailsFromDoc/MKT_ID"
+                    .replace("MKT_ID", id)
+
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+
+        }
+
+
+
+        $(document).ready(function () {
+            $.fn.editable.defaults.url = '@Url.Action("PostInfo", "Account")';
+            $('#dta_fundacao').editable({
+                datepicker: {
+                    todayBtn: 'linked'
+                }
+            });
+            $('#des_evento').editable({
+                showbuttons: 'bottom'
+            });
+            $('#des_clube').editable({
+                showbuttons: 'bottom'
+            });
+            $('#des_acao').editable({
+                showbuttons: 'bottom'
+            });
+            $('#des_outras').editable({
+                showbuttons: 'bottom'
+            });
+        });
+        $(document).ready(function () {
+            var endereco = document.getElementById("CampanhaMarketing_Ps_Pessoas_des_endereco").value;
+            var cep = document.getElementById("CampanhaMarketing_Ps_Pessoas_num_cep").value;
+            var bairro = document.getElementById("CampanhaMarketing_Ps_Pessoas_des_bairro").value;
+            var des_cidade = document.getElementById("CampanhaMarketing_Ps_Pessoas_Cidade_des_cidade").value;
+            var uf = document.getElementById("CampanhaMarketing_Ps_Pessoas_Cidade_cod_uf").value;
+            var enderecocompleto = endereco + ' ' + des_cidade + ' ' + uf + ' ' + cep;
+            initMap(enderecocompleto, "map");
+        });
+
+
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".PostComente").click(function () {
+                // Get the id from the link
+                //debugger;
+                var recordToUpdate = $(this).attr("data-id");
+                var text = $("#msgcliente").val();
+                var table = document.getElementById("idtable");
+                if (recordToUpdate != '') {
+                    $.ajax({
+                        dataType: "json",
+                        type: "POST",
+                        url: "@Url.Action("PostComentario", "Note")",
+                        data: { id: recordToUpdate, msg: text, origem: "CAMPANHA" },
+                        success: function (dados) {
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+                            var string = " <div class='timeline-seperator text-center'>  "
+                            + "       <span>                                              "
+                            + "                       _data_ <small class='text-muted pull-right'> "
+                            + "                            _minuto_ Minutos atrás "
+                            + "                        </small> "
+                            + "                    </span> "
+                            + "                </div> "
+                            + "                <div class='chat-body no-padding profile-message'> "
+                            + "                    <ul> "
+                            + "                        <li class='message'> "
+                            + "                            <img src='/Content/img/avatars/male.png' class='online' alt='sunny'> "
+                            + "                            <span class='message-text' style='min-height:50px;'> "
+                            + "                                <a href='javascript:void(0);' class='username'> "
+                            + "                                    _nome_ "
+                            + "                                </a> "
+                            + "                                    <small class='text-muted pull-right'> "
+                            + "                                        Postou um comentário nesta conta "
+                            + "                                    </small> "
+                            + "                                    <br /> "
+                            + "                                <span> "
+                            + "                                    _msg_ "
+                            + "                                </span> "
+                            + "                            </span>"
+                            + "                        </li>"
+                            + "                    </ul>"
+                            + "                </div>";
+                            string = string.replace('_data_', dados[0].DataPequena + "   -   " + dados[0].Horapequena);
+                            string = string.replace('_minuto_', '0');
+                            string = string.replace('_nome_', dados[0].User);
+                            string = string.replace('_msg_', dados[0].Mensagem);
+                            cell1.innerHTML = string;
+                            text = $("#msgcliente").val("");
+                            //$.each(dados, function (key, val) {
+                            //    var tr = $('<tr></tr>');
+                            //    $.each(val, function (k, v) {
+                            //        $('<td>' + v + '</td>').appendTo(tr);
+                            //    });
+                            //    tr.appendTo('#idtable');
+                            //});
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,477 @@
+﻿<!-- MAIN CONTENT -->
+<style>
+    .flot-text {
+        font-size: 12px;
+    }
+    .flot-x-axis div.flot-tick-label {
+        /* Rotate Axis Labels */
+        transform: translateX(50%) rotate(90deg); /* CSS3 */
+        transform-origin: 0 0;
+        -ms-transform: translateX(50%) rotate(90deg); /* IE */
+        -ms-transform-origin: 0 0;
+        -moz-transform: translateX(50%) rotate(90deg); /* Firefox */
+        -moz-transform-origin: 0 0;
+        -webkit-transform: translateX(50%) rotate(90deg); /* Safari and Chrome */
+        -webkit-transform-origin: 0 0;
+        -o-transform: translateX(50%) rotate(90deg); /* Opera */
+        -o-transform-origin: 0 0;
+        font: normal small-caps bold 11px/13px sans-serif;
+        color: rgb(84, 84, 84);
+        left: 1px;
+        text-align: center;
+        font-weight: 100;
+        /*top: 165px !important;*/
+    }
+</style>
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-sm-12">
+                <!-- new widget -->
+                <div class="jarviswidget" id="wid-id-0"
+                     data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
+                        <h2>Abertura SAC por Dia</h2>
+                        <ul class="nav nav-tabs pull-right in" id="myTab">
+                            <li class="active">
+                                <a data-toggle="tab" href="#s1"><i class="fa fa-clock-o"></i> <span class="hidden-mobile hidden-tablet">Ocorrência Sac </span></a>
+                            </li>
+                        </ul>
+                    </header>
+                    <!-- widget div-->
+                    <div class="no-padding">
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                        </div>
+                        <!-- end widget edit box -->
+                        <div class="widget-body">
+                            <!-- content -->
+                            <div id="myTabContent" class="tab-content">
+                                <div class="tab-pane fade active in padding-10 no-padding-bottom" id="s1">
+                                    <div class="row no-space">
+                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <div id="bar-chart" class="chart"></div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats">
+                                            <div class="row">
+                                                <div class="text-center"><small class="text-center"> Top 4 - Totalização por Tipo </small></div>
+                                                @{ 
+                                                    int qtde = 1;
+                                                    string stylecolor = "";
+                                                }
+                                                @foreach (var product in (ViewBag.sac_por_tipo as IEnumerable<w_sac_por_tipo>))
+                                                {
+
+                                                    if (qtde == 1) { stylecolor = "bg-color-blueDark";  }
+                                                    if (qtde == 2) { stylecolor = "bg-color-blue"; }
+                                                    if (qtde == 3) { stylecolor = "bg-color-blue"; }
+                                                    if (qtde == 4) { stylecolor = "bg-color-greenLight"; }
+
+                                                    <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
+                                                        <span class="text"> @product.Tipo_Ocorrencia <span class="pull-right"> @product.Percentual%</span> </span>
+                                                        <div class="progress">
+                                                            <div class="progress-bar @stylecolor" style="width: @product.Percentual%"></div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    if (qtde == 4)
+                                                    {
+                                                        break;
+                                                    }
+                                                    qtde++;
+                                                }
+
+                                                <span class="show-stat-buttons"> 
+                                                
+                                                   <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> 
+                                                    <a href="@Url.Action("List","Sac", new { ind_aberta = true, ind_meus = true})" class="btn btn-warning btn-block hidden-xs">Sac Andamento</a> 
+                                                    </span>
+
+                                                
+                                                   <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <a href="http://procedimentos.grupofoxlux.com.br/" class="btn btn-default btn-block hidden-xs">Meus Procedimentos</a> </span> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="show-stat-microcharts">
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                            <h1> <small class="text-center"> Procedimentos Abertos: </small>
+                                                <a href="http://procedimentos.grupofoxlux.com.br/">
+                                                    @Html.QtdeProcedimentoAberto()
+                                                </a>
+                                            
+                                            </h1>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                            <h1> <small class="text-center"> Ocorrencias Abertos: </small> <a href="@Url.Action("List","Sac")"> @Html.QtdeSacAberto()  </a>    </h1>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                            <h1> <small class="text-center"> Vl. Garantias.: </small> <a href="@Url.Action("ListWithOrderCollection", "RecGarantias")"> @( Html.ValorGatAbertoTransito().HasValue ? Html.ValorGatAbertoTransito().Value.ToString("c")  : "0" )</a>   </h1>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                            <h1> <small class="text-center"> Feeds Deste mês: </small>  <a href="@Url.Action("Index","Feeds")"> @Html.QtdeFeedsMes() </a> </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end s1 tab pane -->
+                            </div>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+        <!-- row -->
+        <div class="row hidden" >
+            <article class="col-sm-12 col-md-12 col-lg-6">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-bars txt-color-white"></i> </span>
+                        <h2 class="text-center"> Procedimento por departamento </h2>
+                        <div class="widget-toolbar">
+                            <div class="badge bg-color-blueDark">
+                                @Html.QtdeProcedimentoAberto()
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding" style="min-height:300px;">
+                            <!-- content goes here -->
+                            <div id="bar-chart-pd" class="chart" style="overflow: visible;width:100%"></div>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <article class="col-sm-12 col-md-12 col-lg-6">
+                <!-- new widget -->
+                <div class="jarviswidget jarviswidget-color-greenLight" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-bars txt-color-white"></i> </span>
+                        <h2 class="text-center"> Top Áreas com maior tempo </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body widget-hide-overflow no-padding">
+                            <!-- content goes here -->
+                            <div id="bar-chart-top10" class="chart" style="overflow: visible;width:100%"></div>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section pagespecific {
+    <script>
+        $(document).ready(function () {
+
+            @*function VerNotify() {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ReadNewSac", "CRM")",
+                    //data: parametros,
+                  success: function (dados) {
+                    var row = dados.DT_EMISSAO;
+                    var cd_transportador = dados.CD_TRANSPORTADOR;
+                             
+
+                    $("#ProcedimentoAdm_DTA_NF_FOX").val(row);
+                    $("#ProcedimentoAdm_cod_transportador").val(cd_transportador);
+                    debugger;
+
+                    if (row == null)
+                    {
+                        $("#ProcedimentoAdm_NF_FOX").val("");
+                    }
+                },
+                dataType: "json"
+                });
+
+
+                $.bigBox({
+                    title: "Big Information box",
+                    content: "This message will dissapear in 6 seconds!",
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    number: "1"
+                });
+            }
+
+            setInterval(function () { VerNotify(); }, 5000);*@
+
+          
+
+            /* chart colors default */
+            var $chrt_border_color = "#efefef";
+            var $chrt_grid_color = "#DDD"
+            var $chrt_main = "#E24913";
+            /* red       */
+            var $chrt_second = "#6595b4";
+            /* blue      */
+            var $chrt_third = "#FF9F01";
+            /* orange    */
+            var $chrt_fourth = "#7e9d3a";
+            /* green     */
+            var $chrt_fifth = "#BD362F";
+            /* dark red  */
+            var $chrt_mono = "#000";
+            /* Sin chart */
+            //var dataset = [{ label: "2012 Average Temperature", data: data, color: "#5482FF" }];
+            //var ticks = [[0, "London"], [1, "New York"], [2, "New Delhi"], [3, "Taipei"], [4, "Beijing"], [5, "Sydney"]];
+            var fonts = {
+                size: 11,
+                lineHeight: 13,
+                style: "italic",
+                weight: "bold",
+                family: "sans-serif",
+                variant: "small-caps",
+                color: "#545454"
+            };
+
+
+            if ($("#bar-chart-pd").length) {
+                $.ajax({
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    url: '@Url.Action("GetData", "Crm", new { id = 1})',
+                    //error: function () {
+                    //  alert("An error occurred.");
+                    //},
+                    success: function (data) {
+                        var data_Controller = [];
+                        var xaxis = [];
+                        var dataset = new Array();
+                        $.each(data, function (i, item) {
+                            //alert(data[i].Nome);
+                            data_Controller.push([data[i].Ordem, data[i].Qtde]);
+                            xaxis.push([data[i].Ordem, data[i].Nome]);
+                        });
+                        dataset.push({ data: data_Controller, bars: { show: true, barWidth: 0, order: 1 }, points: { show: true } });
+                        var fonts = {
+                            size: 11,
+                            lineHeight: 13,
+                            style: "italic",
+                            weight: "bold",
+                            family: "sans-serif",
+                            variant: "small-caps",
+                            color: "#545454"
+                        };
+                        //Display graph
+                        $.plot($("#bar-chart-pd"), dataset, {
+                            colors: [$chrt_fourth, $chrt_second, "#666", "#BBB"],
+                            grid: {
+                                show: true,
+                                hoverable: true,
+                                clickable: true,
+                                tickColor: $chrt_border_color,
+                                borderWidth: 0,
+                                borderColor: $chrt_border_color,
+                            },
+                            xaxis: {
+                                mode: "categories",
+                                position: "bottom",
+                                tickLength: 0,
+                                ticks: xaxis
+                            },
+                            legend: true,
+                            tooltip: true,
+                            tooltipOpts: {
+                                content: "<b>%x</b> = <span>%y</span>",
+                                defaultTheme: false
+                            }
+                        });
+                    }
+                });
+            }
+            if ($("#bar-chart-top10").length) {
+                $.ajax({
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    url: '@Url.Action("GetData", "Crm", new { id = 2 })',
+                    // error: function () {
+                    //     alert("An error occurred.");
+                    // },
+                    success: function (data) {
+                        var data_Controller_2 = [];
+                        var xaxis_2 = [];
+                        var yaxis_2 = [];
+                        var data_pie = [];
+                        var dataset_2 = new Array();
+                        $.each(data, function (i, item) {
+                            //alert(data[i].Nome);
+                            data_pie[i] = {
+                                label: (data[i].Codigo + ':' + data[i].Nome),
+                                data: data[i].Qtde
+                            }
+                            data_Controller_2.push([data[i].Qtde, data[i].Ordem]);
+                            yaxis_2.push([data[i].Ordem, data[i].Nome]);
+                        });
+                        dataset_2.push({ data: data_Controller_2, bars: { show: true, barWidth: 0.5, order: 1, horizontal: true } });
+                        //Display graph
+                        $.plot($("#bar-chart-top10"), data_pie, {
+                            series: {
+                                pie: {
+                                    show: true,
+                                    innerRadius: 0.5,
+                                    //radius: 500,
+                                    label: {
+                                        show: true,
+                                        formatter: function (label, series) {
+                                            return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label.substring(0, 25) + '<br/>' + Math.round(series.percent) + '% </div>';
+                                        },
+                                        background: {
+                                            opacity: 0.8
+                                        }
+                                    }
+                                }
+                            },
+                            grid: {
+                                hoverable: false,
+                                clickable: false
+                            },
+                            legend: {
+                                show: false,
+                                noColumns: 1, // number of colums in legend table
+                                labelFormatter: null, // fn: string -> string
+                                labelBoxBorderColor: "#000", // border color for the little label boxes
+                                container: null, // container (as jQuery object) to put legend in, null means default on top of graph
+                                position: "se", // position of default legend container within plot
+                                margin: [5, 10], // distance from grid edge to default legend container within plot
+                                backgroundColor: "#efefef", // null means auto-detect
+                                backgroundOpacity: 1 // set to 0 to avoid background
+                            }
+                        });
+                    }
+                });
+            }
+
+
+            if ($("#bar-chart").length) {
+                $.ajax({
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    url: '@Url.Action("GetData", "Crm", new { id = 3})',
+                    //error: function () {
+                    //  alert("An error occurred.");
+                    //},
+                    success: function (data) {
+                        var data_Controller = [];
+                        var xaxis = [];
+                        var dataset = new Array();
+                        $.each(data, function (i, item) {
+                            data_Controller.push([data[i].Ordem, data[i].Qtde]);
+                        });
+                        //dataset.push({ data: data_Controller, bars: { show: true, barWidth: 0.7, order: 1 } });
+                        dataset.push({ data: data_Controller });
+                        var fonts = {
+                            size: 11,
+                            lineHeight: 13,
+                            style: "italic",
+                            weight: "bold",
+                            family: "sans-serif",
+                            variant: "small-caps",
+                            color: "#545454"
+                        };
+                        //Display graph
+
+
+                        var options_a = {
+                            series: {
+                                lines: {
+                                    show: true,
+                                    lineWidth: 1,
+                                    fill: true,
+                                    fillColor: {
+                                        colors: [{
+                                            opacity: 0.1
+                                        }, {
+                                            opacity: 0.15
+                                        }]
+                                    }
+                                },
+                                //points: { show: true },
+                                shadowSize: 0
+                            },
+                            selection: {
+                                mode: "x"
+                            },
+                            grid: {
+                                show: true,
+                                hoverable: true,
+                                clickable: true,
+                                tickColor: $chrt_border_color,
+                                borderWidth: 0,
+                                borderColor: $chrt_border_color,
+                            },
+                            legend: true,
+                            tooltip: true,
+                            tooltipOpts: {
+                                content: "<b>%x</b> = <span>%y</span>",
+                                defaultTheme: false
+                            },
+                            colors: [$chrt_second],
+
+                        };
+
+                        var options_b = {
+                            colors: [$chrt_fourth, $chrt_second, "#666", "#BBB"],
+                            grid: {
+                                show: true,
+                                hoverable: true,
+                                clickable: true,
+                                tickColor: $chrt_border_color,
+                                borderWidth: 0,
+                                borderColor: $chrt_border_color,
+                            },
+                            legend: true,
+                            tooltip: true,
+                            tooltipOpts: {
+                                content: "<b>%x</b> = <span>%y</span>",
+                                defaultTheme: false
+                            }
+                        }
+
+                        $.plot($("#bar-chart"), dataset, options_a);
+                    }
+                });
+            }
+
+
+        });
+    </script>
+}

@@ -1,0 +1,1008 @@
+﻿@model  DadosDoCrmModel
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-7">
+                        <div class="well well-light well-sm no-margin no-padding">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="map" class="google_maps" style="width:100%; height:250px"></div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-4 profile-pic">
+                                            @Html.FirstLettersOfname(this.Model.DadosDoCrm.des_pessoa.ToString())
+                                            <div class="padding-10">
+                                                <h4 class="font-md">
+                                                    <small>Cliente desde:</small>
+                                                    <br>
+                                                    <strong> @Html.ValueFor(model => model.DadosDoCrm.dta_cadastro, "{0:dd/MM/yyyy}") </strong>
+                                                </h4>
+                                                <br>
+                                                @*<h4 class="font-md">
+                                                    <small>Limite de Crédito</small>
+                                                    <br>
+                                                    <strong> @Html.ValueFor(model => model.DadosDoCrm.lim_credito, "{0:0,0.##}") </strong>
+                                                </h4>*@
+                                                <br>
+                                                <h4 class="font-md">
+                                                    <small>Fat. @System.DateTime.Now.AddYears(-1).Year </small>
+                                                    <br>
+                                                    <strong> @Html.ValueFor(model => model.DadosDoCrm.vlr_fat_ant, "{0:0,0.##}") </strong>
+                                                </h4>
+                                                <br>
+                                                <h4 class="font-md">
+                                                    <small>Fat. @System.DateTime.Now.Year </small>
+                                                    <br>
+                                                    <strong> @Html.ValueFor(model => model.DadosDoCrm.vlr_faturamento, "{0:0,0.##}") </strong>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <h1>
+                                                @{ string[] Nome = !String.IsNullOrEmpty(Model.DadosDoCrm.des_fantasia) ? Model.DadosDoCrm.des_fantasia.Split(' ') : Model.DadosDoCrm.des_pessoa.Split(' '); }
+                                                @Nome[0] <span class="semi-bold">@Nome[Nome.Count() - 1]</span>
+                                                <br>
+                                                <small> @Html.ValueFor(model => model.DadosDoCrm.des_pessoa) </small>
+
+
+                                            </h1>
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-plus"></i>&nbsp;&nbsp;<span class="txt-color-darken">
+                                                            <a href="@Url.Action("Create","Sac", new { tipo_pessoa = "E", cod_pessoa = Model.DadosDoCrm.cod_pessoa})">Abrir Sac</a>
+                                                        </span>
+                                                    </p>
+                                                </li>
+
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span class="txt-color-darken">@Html.FormataCnpj(string.IsNullOrEmpty(Model.DadosDoCrm.cgc_cpf) ? Model.DadosDoCrm.cod_pessoa : Model.DadosDoCrm.cgc_cpf)</span>
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken">@Html.ValueFor(model => model.DadosDoCrm.tel_contato)</span>
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:@Html.ValueFor(model => model.DadosDoCrm.des_email_cli)">@Html.ValueFor(model => model.DadosDoCrm.des_email_cli)</a>
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-info"></i>&nbsp;&nbsp;<span class="txt-color-darken">@Html.ValueFor(model => model.DadosDoCrm.cod_pessoa)</span>
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                            <hr />
+                                            <p class="font-md">
+                                                <i>Quem me representa...</i>
+                                            </p>
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <p class="text-muted">
+                                                        ( @Html.ValueFor(p => p.DadosDoCrm.cod_gerente) )  @Html.ValueFor(p => p.DadosDoCrm.des_gerente)
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="text-muted">
+                                                        ( @Html.ValueFor(p => p.DadosDoCrm.cod_representante_cli) ) @Html.ValueFor(p => p.DadosDoCrm.des_represetante)
+                                                        <br /><i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:@Html.ValueFor(model => model.DadosDoCrm.des_email_rep)">@Html.ValueFor(model => model.DadosDoCrm.des_email_rep)</a>
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="text-muted">
+                                                        DIRETORIA: ( @Html.ValueFor(p => p.DadosDoCrm.cod_diretoria) )  @Html.ValueFor(p => p.DadosDoCrm.des_diretoria)
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    <p class="text-muted">
+                                                        @Html.ValueFor(p => p.DadosDoCrm.regiao_cliente)
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                            <hr />
+                                            <p class="font-md">
+                                                <i>Um pouco sobre mim...</i>
+                                            </p>
+                                            @{
+                                                string NomeColigada = Model.DadosDoCrm.des_grupo; string cod_grupo = Model.DadosDoCrm.cod_grupo;
+                                                DateTime dt_utima = Model.DadosDoCrm.dta_ult_compra.HasValue ? Model.DadosDoCrm.dta_ult_compra.Value : System.DateTime.Now;
+                                                int DiffDIas = ((TimeSpan)(System.DateTime.Now - dt_utima)).Days;
+                                            }
+                                            <p>
+                                                @Html.AddTextIf(cod_grupo != "0", "Sou parte da coligada <strong>" + "<a href=/Account/ViewProfile/" + cod_grupo + ">" + Html.ValueFor(p => p.DadosDoCrm.des_grupo) + "(" +
+                                                         Html.ValueFor(p => p.DadosDoCrm.cod_grupo)
+                                                         + ")" + " </a> </strong>", "Não tenho coligada, ")
+                                                e não tenho faturamento a <strong class="text-danger">@DiffDIas dias. </strong>
+                                            </p>
+                                            <p>
+                                                Minha atividade é <strong> @Model.DadosDoCrm.atividade </strong> e meu segmento é
+                                                <strong class="text-info"> @Model.DadosDoCrm.segmento </strong>, além disso
+                                                meus faturamentos  são efetuados com a operação <br /><strong>  @Model.DadosDoCrm.cod_oper . </strong>
+                                            </p>
+                                            <p>Eu <strong>  @Html.AddTextIf(Html.ValueFor(p => p.DadosDoCrm.ind_consumidor).Equals("N"), "Não sou consumidor final", "Sou consumdior Final") </strong> </p>
+                                            <hr>
+                                            @if (!Model.IsColigada)
+                                            {
+                                                <p class="font-md">
+                                                    <i>Estou localizado no endereço...</i>
+                                                </p>
+                                                <p>
+                                                    Cep:&nbsp;&nbsp; <strong>@Model.DadosDoCrm.cep  </strong>
+                                                    <br />
+                                                    Endereço:&nbsp;&nbsp; <strong>@Model.DadosDoCrm.des_endereco  </strong>
+                                                    <br />
+                                                    Bairro:&nbsp;&nbsp; <strong>@Model.DadosDoCrm.bairro </strong>
+                                                    <br />
+                                                    Cidade - UF:&nbsp;&nbsp; <strong>@Model.DadosDoCrm.des_cidade</strong> - <strong>@Model.DadosDoCrm.uf</strong>
+                                                    <br />
+                                                    Região:&nbsp;&nbsp;<strong>@Model.DadosDoCrm.regiao_geografica</strong>
+                                                </p>
+                                            }
+                                            <a href="mailto:@Html.ValueFor(model => model.DadosDoCrm.des_email_cli)" class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Enviar Email</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.IsColigada)
+                            {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <hr>
+                                        <div class="padding-10">
+                                            <ul class="nav nav-tabs tabs-pull-right">
+                                                <li class="active">
+                                                    <a href="#aColigada" data-toggle="tab">Clientes Coligada</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content padding-top-10">
+
+                                                <div class="tab-pane fade in active" id="aColigada">
+                                                    <div class="alert alert-info fade in">
+                                                        <button class="close" data-dismiss="alert">
+                                                            ×
+                                                        </button>
+                                                        <i class="fa-fw fa fa-info"></i>
+                                                        <strong>@Model.ListaClientesDaColigada.Count() </strong> clientes desta coligada!
+                                                    </div>
+                                                    <table id="tblClientesCOligada" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-class="expand">Código</th>
+                                                                <th data-hide="phone,tablet">Nome</th>
+                                                                <th>Faturamento</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+                                                            @foreach (var product in Model.ListaClientesDaColigada)
+                                                            {
+                                                                <tr>
+                                                                    <td><a href="@Url.Action("ViewProfile", "Account", new { id = @product.cod_pessoa })"> @product.cod_pessoa </a></td>
+                                                                    <td>@product.des_pessoa</td>
+                                                                    <td>@product.vlr_faturamento.ToString("c") </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div><!-- end tab -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (!Model.IsColigada)
+                            {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <hr>
+                                        <div class="padding-10">
+                                            <ul class="nav nav-tabs tabs-pull-right">
+                                                <li class="active">
+                                                    <a href="#a2" data-toggle="tab">Pedidos</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#a1" data-toggle="tab">Notas Fiscais</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#a3" data-toggle="tab">Títulos</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#a4" data-toggle="tab">Ocorrências</a>
+                                                </li>
+                                                <li class="pull-left">
+                                                    <span class="margin-top-10 display-inline"><i class="fa fa-rss text-success"></i> Últimas Atividades</span>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content padding-top-10">
+                                                <div class="tab-pane fade" id="a1">
+                                                    <div class="alert alert-info fade in">
+                                                        <button class="close" data-dismiss="alert">
+                                                            ×
+                                                        </button>
+                                                        <i class="fa-fw fa fa-info"></i>
+                                                        <strong>@Model.Listanotafisccais.Count() Notas </strong> deste cliente!
+                                                    </div>
+                                                    <table id="tblnotas" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-class="expand">Nota</th>
+                                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>Emissão </th>
+                                                                <th data-hide="phone,tablet">Operação</th>
+                                                                <th>Valor Nota</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var product in Model.Listanotafisccais)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @String.Concat(product.num_nota)
+                                                                    </td>
+                                                                    <td>@product.dta_emissao.ToShortDateString()</td>
+                                                                    <td>@product.des_oper</td>
+                                                                    <td>@product.vlr_total_bruto.ToString("c")</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+
+
+                                                </div>
+                                                <div class="tab-pane fade in active" id="a2">
+                                                    <div class="alert alert-info fade in">
+                                                        <button class="close" data-dismiss="alert">
+                                                            ×
+                                                        </button>
+                                                        <i class="fa-fw fa fa-info"></i>
+                                                        <strong>@Model.Listapedidos.Count() pedidos </strong> deste cliente!
+                                                    </div>
+                                                    <table id="tblpedido" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-class="expand">Pedido</th>
+                                                                <th data-hide="phone,tablet">Compl</th>
+                                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>Emissão </th>
+                                                                <th data-hide="phone,tablet">Situação</th>
+                                                                <th>Valor Faturamento</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var product in Model.Listapedidos)
+                                                            {
+                                                                <tr class="@Html.AddTextIf(product.des_situacao.Equals("PEDIDO CANCELADO"), "text-danger", "text-success")">
+                                                                    <td>@String.Concat(product.num_pedido)</td>
+                                                                    <td>@String.Concat(product.cod_compl)</td>
+                                                                    <td>@product.dta_emissao.ToShortDateString()</td>
+                                                                    <td>@product.des_situacao</td>
+                                                                    <td>@( product.valorpedido.HasValue ? product.valorpedido.Value.ToString("c") : "0")</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div><!-- end tab -->
+                                                <div class="tab-pane fade" id="a3">
+                                                    <div class="alert alert-info fade in">
+                                                        <button class="close" data-dismiss="alert">
+                                                            ×
+                                                        </button>
+                                                        <i class="fa-fw fa fa-info"></i>
+                                                        <strong>@Model.ListaTitulos.Count() títulos em aberto </strong> deste cliente!
+                                                    </div>
+                                                    <table id="tbTitulos" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-class="expand">Título</th>
+                                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>Vencimento </th>
+                                                                <th data-hide="phone,tablet">Dias em Atraso</th>
+                                                                <th>Saldo</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var product in Model.ListaTitulos)
+                                                                    {
+                                                                <tr class="@Html.AddTextIf(product.diasatraso > 0, "text-danger", "text-info")">
+                                                                    <td>@String.Concat(product.num_titulo, "-", product.num_parcela)</td>
+                                                                    <td>@product.dta_vencimento.ToShortDateString()</td>
+                                                                    <td>@product.diasatraso</td>
+                                                                    <td>@product.valortitulo.ToString("c") </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div><!-- end tab -->
+                                                <div class="tab-pane fade" id="a4">
+                                                    <div class="alert alert-info fade in">
+                                                        <button class="close" data-dismiss="alert">
+                                                            ×
+                                                        </button>
+                                                        <i class="fa-fw fa fa-info"></i>
+                                                        <strong>@Model.ListaOcorrencia.Count() Ocorrências </strong> deste cliente!
+                                                    </div>
+                                                    <table id="tbOcorrencia" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-class="expand">Código</th>
+                                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>Emissão</th>
+                                                                <th data-hide="phone,tablet">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var product in Model.ListaOcorrencia)
+                                                                {
+                                                                <tr>
+                                                                    <td><a href="@Url.Action("Details","Sac", new { id = product.cod_sac })">  @product.cod_sac </a></td>
+                                                                    <td>@product.dta_abertura.ToShortDateString()</td>
+                                                                    <td>@product.status</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div><!-- end tab -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- end row -->
+                            }
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-5">
+                        <section id="widget-grid" class="">
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-greenDark " id="wid-id-2">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-arrow-down"></i> </span>
+                                            <h2 class="text-center"> Rentabilidade </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="easy-pie-chart txt-color-greenLight easyPieChart" data-percent="@Model.DadosDoCrm.per_rent_ant" data-pie-size="110">
+                                                                <span class="percent percent-sign txt-color-greenLight font-xl semi-bold"></span>
+                                                            </div>
+                                                            <br />
+                                                            <span class="text-success">@System.DateTime.Now.AddYears(-1).Year</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="easy-pie-chart txt-color-darken easyPieChart" data-percent="@Model.DadosDoCrm.per_rentabilidade" data-pie-size="110">
+                                                                <span class="percent percent-sign txt-color-darken font-xl semi-bold"></span>
+                                                            </div>
+                                                            <br />
+                                                            <span class="text-danger">@System.DateTime.Now.AddYears(0).Year</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-red" id="wid-id-3">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-check"></i> </span>
+                                            <h2 class="text-center"> Devoluções </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm.vlr_dev_ant.HasValue, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_dev_ant, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-success">@System.DateTime.Now.AddYears(-1).Year</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm.vlr_devolucao.HasValue, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_devolucao, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-success">@System.DateTime.Now.AddYears(0).Year</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                            <!-- row -->
+                            @if (Settings.EnableMkt) { 
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget" id="wid-id-6">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-check"></i> </span>
+                                            <h2 class="text-center"> Outras Informações </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-info text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Data Fundação</td>
+                                                            <td>
+                                                                <a href="#" id="dta_fundacao" data-type="date" data-viewformat="dd/mm/yyyy"
+                                                                   data-pk="@Model.DadosDoCrm.cod_pessoa"
+                                                                   data-name="dta_fundacao"
+                                                                   data-placement="left"
+                                                                   data-original-title="Qual a data de abertura da empresa ?">
+                                                                    @Html.ValueFor(model => model.PerfilCrm.dta_fundacao, "{0:dd/MM/yyyy}")
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Eventos com Vendedores? Quais?</td>
+                                                            <td>
+                                                                <a href="form-x-editable.html#" id="des_evento" data-type="textarea"
+                                                                   data-pk="@Model.DadosDoCrm.cod_pessoa"
+                                                                   data-name="des_evento"
+                                                                   data-placeholder="Your comments here..."
+                                                                   data-original-title="Enter comments">@Html.ValueFor(model => model.PerfilCrm.des_evento)</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Clube ou Eventos que participa? </td>
+                                                            <td>
+                                                                <a href="form-x-editable.html#" id="des_clube" data-type="textarea"
+                                                                   data-pk="@Model.DadosDoCrm.cod_pessoa"
+                                                                   data-name="des_clube"
+                                                                   data-placeholder="Your comments here..."
+                                                                   data-original-title="Enter comments">@Html.ValueFor(model => model.PerfilCrm.des_clube)</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Apoia Ações Sociais? Quais?</td>
+                                                            <td>
+                                                                <a href="form-x-editable.html#" id="des_acao" data-type="textarea"
+                                                                   data-pk="@Model.DadosDoCrm.cod_pessoa"
+                                                                   data-name="des_acao"
+                                                                   data-placeholder="Your comments here..."
+                                                                   data-original-title="Enter comments">@Html.ValueFor(model => model.PerfilCrm.des_acao)</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Outras Informações</td>
+                                                            <td>
+                                                                <a href="form-x-editable.html#" id="des_outras" data-type="textarea"
+                                                                   data-pk="@Model.DadosDoCrm.cod_pessoa"
+                                                                   data-name="des_outras"
+                                                                   data-placeholder="Your comments here..."
+                                                                   data-original-title="Enter comments">@Html.ValueFor(model => model.PerfilCrm.des_outras)</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            }
+                            <!-- end row -->
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-blue " id="wid-id-4">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-check"></i> </span>
+                                            <h2 class="text-center"> Compras </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success"> @Html.ValueFor(model => model.DadosDoCrm.dta_ult_compra, "{0:dd/MM/yyyy}") </span></h1>
+                                                            <span class="text-info">Última Compra</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm.vlr_maior_compra.HasValue, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_maior_compra, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-info">Valor da Maior</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                            <!-- row -->
+                            <div class="row hide">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-orange " id="wid-id-5">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-check"></i> </span>
+                                            <h2 class="text-center"> Marketing </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+
+
+
+
+                                            <div class="widget-body ">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm.vlr_investimento.HasValue, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_investimento, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-primary">Investimento</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h1><span class="text-success">  @Html.AddTextIf(Model.DadosDoCrm.vlr_bonus.HasValue, Convert.ToString(Html.ValueFor(model => model.DadosDoCrm.vlr_bonus, "{0:0,0.##}")), "-") </span></h1>
+                                                            <span class="text-primary">Bônus</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                            <!-- row -->
+                            <div class="row">
+                                <!-- NEW WIDGET START -->
+                                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-purple" id="wid-id-7">
+                                        <header>
+                                            <span class="widget-icon"> <i class="fa fa-user"></i> </span>
+                                            <h2 class="text-center"> Contatos </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div>
+                                            <!-- widget edit box -->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                                <input class="form-control" type="text">
+                                                <span class="note"><i class="fa fa-info text-success"></i> Altere o título deste grid de dados...</span>
+                                            </div>
+                                            <!-- widget content -->
+                                            <div class="widget-body ">
+                                                <div class="widget-body-toolbar">
+                                                    <a href="@Url.Action("Create", "Contacts", new { Accountid = @Model.DadosDoCrm.cod_pessoa } )" class="btn btn-success hidden-mobile"><i class="fa fa-plus"></i> Adicionar</a>
+                                                </div>
+                                                <table id="tblContatos" class="table table-striped table-bordered table-hover" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-class="expand">Nome</th>
+                                                            @*<th data-hide="phone,tablet"><i class="fa fa-fw fa-envelope txt-color-blue hidden-md hidden-sm hidden-xs"></i>Email</th>
+                                                                <th data-hide="phone,tablet">Cargo</th>*@
+                                                            <th data-hide="phone,tablet"><i class="fa fa-fw fa-phone txt-color-blue hidden-md hidden-sm hidden-xs"></i>Fone</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var product in Model.ListaContato)
+                                                        {
+                                                            <tr>
+                                                                <td><a href="@Url.Action("Edit", "Contacts", new { id = @product.cod_contato })"> @product.des_nome </a></td>
+                                                                <td data-hide="phone,tablet">@product.des_fone</td>
+                                                            </tr>
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- end widget content -->
+                                        </div>
+                                        <!-- end widget div -->
+                                    </div>
+                                    <!-- end widget -->
+                                </article>
+                                <!-- WIDGET END -->
+                            </div>
+                            <!-- end row -->
+                        </section>
+
+                        @if (Settings.EnableNotes)
+                        { 
+                        <h1>Notas</h1>
+                        <form method="post" class="well padding-bottom-10" onsubmit="return false;">
+                            <textarea maxlength="500" id="msgcliente" rows="2" class="form-control" placeholder="O que você está pensando ?"></textarea>
+                            <div class="margin-top-10">
+                                <button data-id="@Model.DadosDoCrm.cod_pessoa" type="submit" class="btn btn-sm btn-primary pull-right PostComente">
+                                    Post
+                                </button>
+                            </div>
+                        </form>
+                        <table id="idtable" style="width:100%">
+                            <tbody>
+                                <!-- load by javascript -->
+                                @foreach (var product in Model.ListaComentarios.OrderByDescending(a => a.dta_inclusao))
+                                {
+                                    string nomeusuario = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(product.Usuario.NOME.ToLower());
+                                    decimal DifMinute = ((TimeSpan)(System.DateTime.Now - product.dta_inclusao)).Minutes;
+                                    <tr>
+                                        <td>
+                                            <div class="timeline-seperator text-center">
+                                                <span>
+                                                    @product.dta_inclusao.ToShortDateString()&nbsp;&nbsp;-&nbsp;&nbsp;@product.dta_inclusao.ToShortTimeString() <small class="text-muted pull-right">
+                                                        @DifMinute Minutos atrás
+                                                    </small>
+                                                </span>
+                                            </div>
+                                            <div class="chat-body no-padding profile-message">
+                                                <ul>
+                                                    <li class="message">
+                                                        <img src="/Content/img/avatars/male.png" class="online" alt="sunny">
+                                                        <span class="message-text" style="min-height:50px;">
+                                                            <a href="javascript:void(0);" class="username">
+                                                                @nomeusuario
+                                                            </a>
+                                                            <small class="text-muted pull-right">
+                                                                Postou um comentário nesta conta
+                                                            </small>
+                                                            <br />
+                                                            <span>
+                                                                @product.msg
+                                                            </span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+    @Html.HiddenFor(p => p.DadosDoCrm.des_endereco)
+    @Html.HiddenFor(p => p.DadosDoCrm.cep)
+    @Html.HiddenFor(p => p.DadosDoCrm.bairro)
+    @Html.HiddenFor(p => p.DadosDoCrm.des_cidade)
+    @Html.HiddenFor(p => p.DadosDoCrm.uf)
+</div>
+<!-- END MAIN CONTENT -->
+@section pagespecific {
+    <script src="/scripts/plugin/x-editable/x-editable.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC0VxY6KEDgqnCUw2Skk7gJa9ZcncNm9ZQ&signed_in=true"></script>
+    @Scripts.Render("~/scripts/maps")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.fn.editable.defaults.url = '@Url.Action("PostInfo", "Account")';
+            $('#dta_fundacao').editable({
+                datepicker: {
+                    todayBtn: 'linked'
+                }
+            });
+            $('#des_evento').editable({
+                showbuttons: 'bottom'
+            });
+            $('#des_clube').editable({
+                showbuttons: 'bottom'
+            });
+            $('#des_acao').editable({
+                showbuttons: 'bottom'
+            });
+            $('#des_outras').editable({
+                showbuttons: 'bottom'
+            });
+        });
+        $(document).ready(function () {
+            var endereco = document.getElementById("DadosDoCrm_des_endereco").value;
+            var cep = document.getElementById("DadosDoCrm_cep").value;
+            var bairro = document.getElementById("DadosDoCrm_bairro").value;
+            var des_cidade = document.getElementById("DadosDoCrm_des_cidade").value;
+            var uf = document.getElementById("DadosDoCrm_uf").value;
+            var enderecocompleto = endereco + ' ' + des_cidade + ' ' + uf + ' ' + cep;
+            initMap(enderecocompleto, "map");
+        });
+        var responsiveHelper_dt_basic = undefined;
+        var responsiveHelper_dt_nota = undefined;
+        var responsiveHelper_dt_titulos = undefined;
+        var responsiveHelper_dt_conatos = undefined;
+        var responsiveHelper_dt_coligada = undefined;
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+        $('#tblContatos').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                "t" +
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "bFilter": false,
+            "bLengthChange": false,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_conatos) {
+                    responsiveHelper_dt_conatos = new ResponsiveDatatablesHelper($('#tblContatos'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_conatos.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_conatos.respond();
+            }
+        });
+        $('#tblpedido').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                "t" +
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "order": [[0, "desc"]],
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tblpedido'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic.respond();
+            },
+            "aoColumns": [
+                   {
+                       "sName": "pedido", "mRender": function (data, type, full) {
+                           return '<a href="javascript:void(0)" onclick="ChamaItens(' + full[0] + "," + full[1] + ", 'pe_pedidos' " + ');">' + full[0] + '</a>';
+                       }
+                   },
+                   { "sName": "cod_compl" },
+                   { "sName": "emissao" },
+                   { "sName": "Situacao" },
+                   { "sName": "valor" }
+            ]
+        });
+        $('#tblnotas').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                "t" +
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "order": [[0, "desc"]],
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_nota) {
+                    responsiveHelper_dt_nota = new ResponsiveDatatablesHelper($('#tblnotas'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_nota.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_nota.respond();
+            },
+            "aoColumns": [
+                   {
+                       "sName": "nota", "mRender": function (data, type, full) {
+                           return '<a href="javascript:void(0)" onclick="ChamaItens(' + full[0] + "," + '0' + ", 'ns_notas' " + ');">' + full[0] + '</a>';
+                       }
+                   },
+                   { "sName": "emissao" },
+                   { "sName": "operacao" },
+                   { "sName": "valor" }
+            ]
+        });
+
+
+        $('#tblClientesCOligada').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                "t" +
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "order": [[1, "desc"]],
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_coligada) {
+                    responsiveHelper_dt_coligada = new ResponsiveDatatablesHelper($('#tblClientesCOligada'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_coligada.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_coligada.respond();
+            }
+        });
+
+        $('#tbTitulos').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                "t" +
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "order": [[1, "desc"]],
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_titulos) {
+                    responsiveHelper_dt_titulos = new ResponsiveDatatablesHelper($('#tbTitulos'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_titulos.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_titulos.respond();
+            }
+        });
+        function ChamaItens(num_pedido, cod_compl, tipo) {
+            var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+            var id = 0;
+            var urlopen = "/Account/GetDetailsFromDoc?Accountid=PAR_ID&num_pedido=PAR_NUM_PEDIDO&cod_compl=PAR_COD_COMPL&tipo=PAR_TIPO"
+                .replace("PAR_ID", id)
+                .replace("PAR_NUM_PEDIDO", num_pedido)
+                .replace("PAR_COD_COMPL", cod_compl)
+                .replace("PAR_TIPO", tipo);
+            window.open(urlopen, '_blank', strWindowFeatures, true);
+        }
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".getItens").click(function () {
+                // Get the id from the link
+                //debugger;
+                //window.open('/Home/CreatePartialView', '_blank', 'left=100,top=100,width=400,height=300,toolbar=1,resizable=0');
+                var strWindowFeatures = "width=800,height=600,menubar=no,location=no,resizable=no,scrollbars=yes,status=yes,toolbar=no";
+                var id = $(this).attr("data-id");
+                var num_pedido = $(this).attr("data-num_pedido");
+                var cod_compl = $(this).attr("data-cod_compl");
+                var tipo = $(this).attr("data-tipo");
+                var urlopen = "/Account/GetDetailsFromDoc?Accountid=PAR_ID&num_pedido=PAR_NUM_PEDIDO&cod_compl=PAR_COD_COMPL&tipo=PAR_TIPO"
+                    .replace("PAR_ID", id)
+                    .replace("PAR_NUM_PEDIDO", num_pedido)
+                    .replace("PAR_COD_COMPL", cod_compl)
+                    .replace("PAR_TIPO", tipo);
+                window.open(urlopen, '_blank', strWindowFeatures, true);
+            })
+        });
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".PostComente").click(function () {
+                // Get the id from the link
+                //debugger;
+                var recordToUpdate = $(this).attr("data-id");
+                var text = $("#msgcliente").val();
+                var table = document.getElementById("idtable");
+                if (recordToUpdate != '') {
+                    $.ajax({
+                        dataType: "json",
+                        type: "POST",
+                        url: "@Url.Action("PostComentario", "Note")",
+                        data: { id: recordToUpdate, msg: text, origem: "ACCOUNT" },
+                        success: function (dados) {
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+                            var string = " <div class='timeline-seperator text-center'>  "
+                            + "       <span>                                              "
+                            + "                       _data_ <small class='text-muted pull-right'> "
+                            + "                            _minuto_ Minutos atrás "
+                            + "                        </small> "
+                            + "                    </span> "
+                            + "                </div> "
+                            + "                <div class='chat-body no-padding profile-message'> "
+                            + "                    <ul> "
+                            + "                        <li class='message'> "
+                            + "                            <img src='/Content/img/avatars/male.png' class='online' alt='sunny'> "
+                            + "                            <span class='message-text' style='min-height:50px;'> "
+                            + "                                <a href='javascript:void(0);' class='username'> "
+                            + "                                    _nome_ "
+                            + "                                </a> "
+                            + "                                    <small class='text-muted pull-right'> "
+                            + "                                        Postou um comentário nesta conta "
+                            + "                                    </small> "
+                            + "                                    <br /> "
+                            + "                                <span> "
+                            + "                                    _msg_ "
+                            + "                                </span> "
+                            + "                            </span>"
+                            + "                        </li>"
+                            + "                    </ul>"
+                            + "                </div>";
+                            string = string.replace('_data_', dados[0].DataPequena + "   -   " + dados[0].Horapequena);
+                            string = string.replace('_minuto_', '0');
+                            string = string.replace('_nome_', dados[0].User);
+                            string = string.replace('_msg_', dados[0].Mensagem);
+                            cell1.innerHTML = string;
+                            text = $("#msgcliente").val("");
+                            //$.each(dados, function (key, val) {
+                            //    var tr = $('<tr></tr>');
+                            //    $.each(val, function (k, v) {
+                            //        $('<td>' + v + '</td>').appendTo(tr);
+                            //    });
+                            //    tr.appendTo('#idtable');
+                            //});
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

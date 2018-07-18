@@ -1,0 +1,19 @@
+﻿.bold {
+    font-weight: bold;
+}
+
+
+.fontin {
+    /*font-weight: 100;*/
+    
+    text-justify: inter-word;
+    font-family: 'PT Mono', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: .05em;
+    color: #212529;
+}
+
+.fundo-amarelo {
+    background-color: #fce800;
+}

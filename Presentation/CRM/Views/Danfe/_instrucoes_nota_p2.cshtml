@@ -1,0 +1,148 @@
+﻿@model int[]
+
+<div class="bloco">
+    <table>
+        <tr>
+            <td class="campo">
+                <div class="conteudo negrito">INSTRUÇÕES PARA EMISSÃO</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="campo dados-adicionais">
+                <div class="conteudo fontin">
+                    @{
+        int garantia = Model[0];
+        int nota = Model[1];
+                    }
+
+
+
+
+                    <table id="dados_produtos">
+                        <tbody>
+                            <tr>
+                                <th class="campo asem-borda-superior-inferio" style="background-color:#ff6a00; font-size:18px;">
+                                    <b>NÃO OPTANTE PELO SIMPLES NACIONAL</b>
+                                </th>
+                                <th class="campo asem-borda-superior-inferio" style="background-color:#ff6a00; font-size:12px; width:100px">VALOR</th>
+                                <th class="campo asem-borda-superior-inferio" style="background-color:#ff6a00; font-size:18px;">
+                                    <b>DEVE DESTACAR EM:</b>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR TOTAL DAS MERCADORIAS </td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "P")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO PRÓPRIO DA NFD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">BASE CALCULO ICMS</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "P")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO PRÓPRIO DA NFD</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR DO ICMS</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "ICMS")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO PRÓPRIO DA NFD</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR DO IPI</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "IPI")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO PRÓPRIO DA NFD</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">BASE CALCULO ICMS ST</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "BICMSST")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO PRÓPRIO DA NFD</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR ICMS ST</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "ICMSST")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO PRÓPRIO DA NFD</td>
+                            </tr>
+                            <tr>
+                                <td class="campo asem-borda-superior-inferior campo_i">VALOR TOTAL DA NOTA FISCAL</td>
+                                <td class="campo asem-borda-superior-inferior campo_i"> @Html.ValoresGat(garantia, nota, "TOTAL")</td>
+                                <td class="campo asem-borda-superior-inferior campo_i">CAMPO PRÓPRIO DA NFD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 class="campo_i msg-cliente text-center"><b>6.	COLETA DOS MATERIAIS</b>  </h2>
+
+
+                    <span style="text-decoration: underline;">NFD’s com valores de até <b>R$ 1.000,00</b></span>
+                    o Representante Foxlux que fará a coleta do material, e nos informará para que possamos disponibilizar o crédito.
+                    <br />
+                    <br />
+                    <span style="text-decoration: underline;">NFD’s com valores acima de <b>R$ 1.000,00</b></span>
+                    a Transportadora quem fará a coleta do material.
+
+                    <p class="fundo-amarelo text-center">
+                        Coletas são solicitadas e autorizadas pela Foxlux, após o recebimento da NFD.
+                        Favor identificar todos os volumes com o nº da NFD
+                    </p>
+
+
+                    <h2 class="campo_i msg-cliente text-center"><b>7.	PÓS ENTRADA DA MERCADORIA NA FOXLUX</b>  </h2>
+
+
+
+                    ITENS PÓS-ENTRADA NA FOXLUX, SERÃO CONFERIDOS E ANALISADOS CONFORME CHECK LIST VIDE ANEXO A ESTAS INSTRUÇÕES NO E-MAIL
+                    <br />
+                    <ul class="bold">
+                        <li>
+                            Ressaltamos que o crédito desta devolução será concedido conforme o resultado do laudo de análise técnica do setor responsável.
+
+                        </li>
+                        <li style="color:red">
+                            LÂMPADAS E ITENS QUEBRADOS NÃO TEM DIREITO A GARANTIA. CASO ESTES FOREM ENVIADOS, SERÃO DESCONSIDERADOS DO CRÉDITO.
+
+                        </li>
+                        <li style="color:red">
+                            FALTA DE MATERIAL E ITENS DE OUTRAS MARCAS NO ATO DA CONFERENCIA, SERÃO DESCONSIDERADOS DO CRÉDITO.
+
+                        </li>
+                        <li style="color:red">
+                            ITENS COM FABRICAÇÃO ATÉ DEZEMBRO DE 2014 SERÃO DESCONSIDERADOS DO CREDITO.
+
+                        </li>
+
+                    </ul>
+
+                    <h2 class="campo_i msg-cliente text-center"><b>8.	DUVIDAS E APOIO NA EMISSÃO DA NFD</b>  </h2>
+
+
+
+                    Caso tenha alguma dúvida referente a emissão de <span style="text-decoration: underline">NFD- Nota Fiscal de Devolução</span> , por favor entre em contato com o nosso setor contábil, através do telefone (41) 3302- 8155
+                    <br /> Ou enviar para o e-mail abaixo a sua solicitação com este arquivo em anexo:
+                    <br />
+                    <br />
+                    <span class="bold">XML,MVA,ALÍQUOTAS:</span>
+                    <br />
+                    <span style="color: blue">alex.santos@grupofoxlux.com.br</span>
+                    <br />
+                    <span class="bold">DESTAQUE DE IMPOSTOS, DEMAIS DÚVIDAS:</span>
+                    <br />
+                    <span style="color: blue">andressa.medeiros@grupofoxlux.com.br</span>
+
+                    <h2 class="campo_i msg-cliente text-center"><b>9.	LIBERAÇÃO DE CREDITO</b>  </h2>
+                    <br />
+                    NFD acima de R$ 1.000,00 – <b>somente após entrada e conferencia física na Foxlux.</b><br />
+                    NFD abaixo de R$ 1.000,00- <b>somente após o representante confirmar via e-mail a coleta do material.</b>
+                    <br />Dúvidas sobre <b>abatimentos de créditos,</b> favor solicitar diretamente ao representante de Vendas ou setor financeiro, através do contato a seguir:
+                    <br />
+                    <span style="color: blue">credito.devolucao@grupofoxlux.com.br 41</span> – 3302-8169
+                    <br />
+                    <br />
+                    <span style="margin: auto; width: 50%; padding: 40%; ">
+                        Atenciosamente,
+                    </span><br />
+                    <span class="bold" style="width: 50%; padding: 35%; font-size: 20px;  ">GRUPO FOXLUX</span>
+
+
+                </div>
+            </td>
+
+        </tr>
+    </table>
+</div>

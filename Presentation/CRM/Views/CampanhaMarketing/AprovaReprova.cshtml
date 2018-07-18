@@ -1,0 +1,106 @@
+﻿@model CampanhaMarketing_Model
+@{
+    ViewBag.PageClass = "minified";
+}
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    @{ Html.RenderPartialIf("_MiniDashboard", Settings.EnableMiniDashborad); }
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- START ROW -->
+        <div class="row">
+
+            <!-- NEW COL START -->
+            <article class="col-sm-12 col-md-6 col-lg-6">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Campanha de Marketing</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding smart-form">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.Partial("_AprovaReprova", Model)
+                                <footer>
+                                    <button type="submit" name="save-continue" class="btn btn-success" value="save-continue"> Aprovado >> </button>
+                                    <button type="submit" name="save" class="btn btn-danger" value="save"> << Reprovado </button>
+                                    <a href="@Url.Action("Details", new { id = Model.CampanhaMarketing.campanhaID})" class="btn btn-warning"> <i class="fa fa-lg fa-arrow-left"></i> Voltar </a>
+
+                                </footer>
+                            }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- END COL -->
+
+            <article class="col-sm-12 col-md-6 col-lg-68">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-orange" id="wid-id-2">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Trocas de Estágios</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Altere o título deste grid de dados...</span>
+                        </div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <h1>Interações</h1>
+                            <table id="idtable" class="table table-striped table-bordered table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px" data-class="expand">Nome</th>
+                                        <th style="width:100px" data-hide="phone,tablet">De</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Para</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Data Entrada</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Obs</th>
+                                        <th style="width:100px" data-hide="phone,tablet">Tempo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in (ViewBag.troca_estagio as IEnumerable<CampanhaMarketingEstagios>).OrderBy(p => p.num_seq))
+                                    {
+                                        <tr>
+
+                                            <td>@( product.Usuario != null ? product.Usuario.NOME : "System")</td>
+                                            <td data-hide="phone,tablet">@( product.EstagioAnterior != null ? product.EstagioAnterior.descricao : "")</td>
+                                            <td data-hide="phone,tablet">@( product.EstagioEntrada != null ? product.EstagioEntrada.descricao : "")</td>
+                                            <td data-hide="phone,tablet">@product.dta_entrada</td>
+                                            <td data-hide="phone,tablet">@product.obs</td>
+                                            <td data-hide="phone,tablet">@product._total_aberto.Value.ToString(@"d\.hh\:mm\:ss")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- END ROW -->
+    </section>
+    <!-- end widget grid -->
+</div>

@@ -1,0 +1,97 @@
+﻿@model Garantia
+
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.garantiaid)
+@Html.HiddenFor(model => model.dta_inclusao)
+@Html.HiddenFor(model => model.dta_finalizacao)
+@Html.HiddenFor(model => model.cod_usuario)
+@Html.HiddenFor(model => model.vlr_garantia)
+@Html.HiddenFor(model => model.vlr_ngarantia)
+
+@Html.HiddenFor(model => model.ind_cancelada)
+@Html.HiddenFor(model => model.ind_coleta_direta)
+@Html.HiddenFor(model => model.ind_emitido_coleta)
+@Html.HiddenFor(model => model.ind_emitido_nf)
+
+@Html.HiddenFor(model => model. num_coleta)
+@Html.HiddenFor(model => model.dta_previsao_coleta)
+@Html.HiddenFor(model => model.dta_coleta)
+
+@Html.HiddenFor(model => model.cod_transportador)
+@Html.HiddenFor(model => model.protocolo)
+
+
+
+@{ bool bloqueaestagio = ViewBag.bloqueiaEstagio != null; }
+@{
+    if (bloqueaestagio)
+    {
+        Html.HiddenFor(model => model.cod_status);
+    }
+}
+
+<fieldset>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Representante</label>
+            <label class="select">
+                @Html.DropDownList("cod_representante", null, String.Empty, new { @class = "select" }) <i></i>
+                @Html.ValidationMessageFor(a => a.cod_representante)
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Cliente</label>
+            <label class="select">
+                @Html.DropDownList("cod_cliente", null, String.Empty, new { @class = "select" })<i></i>
+                @Html.ValidationMessageFor(a => a.cod_cliente)
+            </label>
+
+        </section>
+    </div>
+
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Notas Cliente</label>
+            <label class="select">
+                @Html.TextBoxFor(m => m.num_nf_cliente, new { @class = "form-control", @placeholder = "NF Cliente" })
+                @Html.ValidationMessageFor(a => a.num_nf_cliente)
+            </label>
+        </section>
+
+        <section class="col col-6">
+            <label class="label">Status</label>
+            <label class="select">
+                @if (bloqueaestagio)
+                {
+                    <span>@Model.GE_Status_Garantia.des_nome</span>
+
+                }
+                else
+                {
+                    @Html.DropDownList("cod_status", String.Empty)<i></i>
+                    @Html.ValidationMessageFor(a => a.cod_status)
+                }
+                
+
+                
+            </label>
+        </section>
+    </div>
+
+
+    <div class="row">
+        <section class="col col-9">
+            <label class="label">Observação</label>
+            <label class="textarea textarea-resizable">
+                <i class="icon-prepend fa fa-comment"></i>
+        @Html.TextAreaFor(m => m.obs, new { @class = "custom-scroll", @rows = "2" })        
+            </label>
+        </section>
+    </div>
+
+
+
+</fieldset>

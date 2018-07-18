@@ -1,0 +1,153 @@
+﻿@model IEnumerable<CampanhaMarketingDoc>
+
+<!DOCTYPE html>
+<html lang="pt-br" id="@ViewBag.PageId" class="@Settings.CurrentTheme">
+<head>
+    <meta charset=" utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title> @Html.T("Nomeapp") </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Basic Styles -->
+    @Styles.Render("~/content/smartadmin")
+</head>
+<body class="minified">
+    <div>
+
+        <div id="content" class="">
+            <h1>
+                Documentos inseridos Marketing
+            </h1>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="well no-padding">
+                        <table id="tblContatos" class="table table-striped table-bordered table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-class="expand" style="width:100px">Código</th>
+                                    <th>Caminho</th>
+                                    <th>Deletar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model)
+                                {
+                                    <tr id="row-@product.CampanhaMarketingDocId">
+                                        <td>@product.CampanhaMarketingDocId</td>
+                                        <td><a target="_blank" href="@Url.Action("Download", "CampanhaMarketing", new { id= @product.CampanhaMarketingDocId })"> @product.nome_arquivo </a></td>
+                                        <td>
+                                            <a data-id="@product.CampanhaMarketingDocId" href="javascript:void(0)" class="btn btn-danger" onclick="removeitem(this)"> Remover </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+
+
+                @using (Html.BeginForm("AddDocCampanha", "CampanhaMarketing", FormMethod.Post, new { @id = "form_post", @novalidate = "novalidate", enctype = "multipart/form-data" }))
+                {
+                    <input type="hidden" id="campanhaid" name="campanhaid" value="@ViewBag.CampanhaId" />
+
+                    <div class="modal-body">
+                        <section class="col-md-12">
+                            <label class="input">
+                                <input type="file" id="uploadImages" name="uploadImages" multiple="multiple" class="input-files" />
+                            </label>
+                        </section>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Gravar
+                        </button>
+                    </div>
+                }
+            </div>
+
+        </div>
+</div>
+        <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script> if (!window.jQuery) { document.write('<script src="/scripts/libs/jquery-2.1.1.min.js"><\/script>'); } </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script> if (!window.jQuery.ui) { document.write('<script src="/scripts/libs/jquery-ui-1.10.3.min.js"><\/script>'); } </script>
+
+        <!-- IMPORTANT: SmartAdmin Core -->
+        @Scripts.Render("~/scripts/smartadmin")
+
+        <!-- DataTables : plugin -->
+        @Scripts.Render("~/scripts/datatables")
+
+      
+        <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
+        <script>
+            $(document).ready(function () {
+                pageSetUp();
+                drawBreadCrumb();
+            });
+
+
+
+
+            function removeitem(element) {
+                // Get the id from the link
+                var recordToDelete = $(element).attr("data-id");
+
+                if (recordToDelete != '') {
+                    
+                    // Perform the ajax post
+                    $.post("/CampanhaMarketing/RemoveDocFromCampanha", { "id": recordToDelete },
+                        function (data) {
+                            $('#row-' + data.id).fadeOut('slow');
+                            $('#cart-total').text(data.total);
+
+                        });
+                }
+            }
+
+
+
+        </script>
+
+
+
+
+        <!-- Full Calendar -->
+
+
+
+    <script type="text/javascript">
+        var responsiveHelper_dt_basic = undefined;
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+
+
+        $('#tblContatos').dataTable({
+            "autoWidth": false,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tblContatos'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic.respond();
+            }
+        });
+    </script>
+</body>
+</html>
