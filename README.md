@@ -5,8 +5,7 @@ and Customer Services.
 
 ## Print Screen
 - **Quick start** - This is a first screen after login
-[Imgur](https://i.imgur.com/8uySLS5.png)
-
+[![Build Status](https://i.imgur.com/8uySLS5.png)]
 
 Simply to use.
 
