@@ -10,7 +10,7 @@ CRM-Fx is a sofwater application build with VS2017 and Oracle 11c where my custo
 
 ## Print Screen
 - **Quick start** - This is a first screen after login
-[![Build Status](https://i.imgur.com/8uySLS5.png)]
+![Build Status](https://i.imgur.com/8uySLS5.png)
 
 Simply to use.
 
