@@ -5,7 +5,7 @@ and Customer Services.
 
 ## Print Screen
 - **Quick start** - This is a first screen after login
-[![CRM]("CRM - page.png")]
+[Imgur](https://i.imgur.com/8uySLS5.png)
 
 
 Simply to use.
