@@ -1,7 +1,12 @@
 # CRM - Fx
 
-CRM-Fx is a sofwater application build with VS2017 and Oracle 11c where my customer can plan and control Sales, Satistics, Issue,
-and Customer Services.
+CRM-Fx is a sofwater application build with VS2017 and Oracle 11c where my customer can plan and control Sales, Satistics, Issue and Customer Services.
+
+- [x] Dashboard
+- [x] Services Customer
+- [x] Marketing Plan
+- [x] Insurence Control
+- [x] Reports
 
 ## Print Screen
 - **Quick start** - This is a first screen after login
