@@ -753,6 +753,7 @@ namespace CRM.Controllers
                 dta_abertura = System.DateTime.Now,
                 dta_finalizacao = null,
                 tp_pessoa = data.tp_pessoa
+                
             };
 
 
@@ -823,7 +824,7 @@ namespace CRM.Controllers
             
         }
 
-
+      
         //
         // GET: /TipoLead/Edit/5
         public ActionResult Edit(int id)
@@ -833,6 +834,10 @@ namespace CRM.Controllers
 
             if (_ind_finalizada)
             { return RedirectToAction("Details", new { id = id }); }
+
+
+            ViewBag.cod_empresa = data.GetEmpresa(data.cod_empresa);
+            
 
             ViewBag.tp_pessoa = new SelectList(db.Combo.Where(p => p.TIPO == 6), "Value", "Text", data.tp_pessoa);
             ViewBag.cod_pessoa = (from a in

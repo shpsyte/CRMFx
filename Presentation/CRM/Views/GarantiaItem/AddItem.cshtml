@@ -73,10 +73,11 @@
                                             <th style="width:350px;" class="hasinput"> <input type="text" class="form-control" placeholder="Descrição" /> </th>
                                             <th class="hasinput"> </th>
                                             <th style="width:90px;" class="hasinput"> <input type="text" class="form-control" placeholder="NF" /> </th>
+                                            <th style="width:90px;" class=""> </th>
                                             <th class="hasinput"> </th>
                                             <th class="hasinput"> </th>
-                                            
-                                            
+
+
                                             <th class="hasinput"> </th>
                                             <th style="width:80px;" class="hasinput"> </th>
                                             <th class="hasinput"> </th>
@@ -91,10 +92,11 @@
                                             <th data-hide="phone" class="no-sort"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Descrição</th>
                                             <th data-hide="phone,tablet" class="no-sort">Qtde</th>
                                             <th data-hide="phone,tablet" class="no-sort">Nota</th>
+                                            <th data-hide="phone,tablet" class="no-sort">Unidade</th>
                                             <th data-hide="phone,tablet" class="no-sort">Vl. Unitário</th>
                                             <th data-hide="phone,tablet" class="no-sort">Total</th>
                                             @*<th data-hide="phone,tablet" class="no-sort">Ipi</th>
-                                             <th data-hide="phone,tablet" class="no-sort">Icms - St</th>*@
+        <th data-hide="phone,tablet" class="no-sort">Icms - St</th>*@
                                             <th data-hide="phone,tablet" class="no-sort">Garantia</th>
                                             <th data-hide="phone,tablet" class="no-sort">Qtde</th>
                                             <th data-hide="phone,tablet" class="no-sort">Fator Divisor</th>
@@ -210,12 +212,13 @@
         var _pipi = $(element).attr("data-pipi").replace(".", ",");
         var _picmsst = $(element).attr("data-picmsst").replace(".", ",");
         var _mvast = $(element).attr("data-mvast").replace(".", ",");
+        var _cod_unidade = $(element).attr("data-cod_unidade").replace(".", ",");
 
 
         var data_to_pass = {
             garantiaId: _garantiaId, cod_cliente: _cod_cliente, cod_foxlux: _Cod_Foxlux, cod_item: _Cod_item, isDelete: !ischeckedValue, qtde: IntupQtde,
             num_nota: _Nf, vlr_unitario: _vlr_unitario, vlr_ipi: _vlr_ipi, vlr_icms_subs: _vlr_icms_subs, vlr_icms: _vlr_icms, vlr_base_subs: _vlr_base_subs,
-            obsitem: _ObsItem, fator: _fator, picms: _picms, pipi: _pipi, pcimsst: _picmsst, mvast: _mvast
+            obsitem: _ObsItem, fator: _fator, picms: _picms, pipi: _pipi, pcimsst: _picmsst, mvast: _mvast, cod_unidade: _cod_unidade
         };
         var url = '@Url.Action("AddOrRemove")';
 
@@ -384,7 +387,8 @@
                                { "data": "cod_foxlux" },
                                { "data": "des_item", "mRender": function (data, type, full) { return '<a href=\"#' + full.cod_foxlux + '\">' + full.des_item + '</a>'; } },
                                { "data": "qtd_lancamento" },
-                               { "data": "num_documento" },
+                                { "data": "num_documento" },
+                                { "data": "cod_unidade" },
                                //{ "data": "vlr_unitario", "mRender": function (data, type, full) { return '<input style="width:80px;" class="form-control input-xs" name="vlr_uni_' + full.num_seq + '" id="vlr_uni_' + full.num_seq + '" value="' + full.vlr_unitario + '" type="text">'; } },
                                { "data": "vlr_unitario"},
                                { "data": "vlr_total" },
@@ -417,7 +421,8 @@
                                            + '  data-picms="' + full.picms + '" ' 
                                            + '  data-pipi="' + full.pipi + '" ' 
                                            + '  data-picmsst="' + full.picmsst + '" ' 
-                                           + '  data-mvast="' + full.mvast + '" ' 
+                                           + '  data-mvast="' + full.mvast + '" '
+                                           + '  data-cod_unidade="' + full.cod_unidade + '" ' 
                                            +'>';
 
 

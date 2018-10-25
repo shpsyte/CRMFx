@@ -781,12 +781,7 @@ namespace CRM.Controllers
 
         public ActionResult ImpressaoNFD(int cod_garantia_print, string ObsImpressao, int num_nota, bool registra_contabil, bool registra_impressao)
         {
-            //string caminho = Path.Combine(HttpContext.Server.MapPath("~/Content/XmlDeNotas/NOTA.xml"));
-
-            //var result = (from  o in db.GarantiaItem
-            //            where o.garantiaid == cod_garantia_print
-            //            group o by new { o.garantiaid, o.num_nota} into g
-            //            select new { Garantiaid = g.Key.garantiaid, Nota = g.Key.num_nota }).ToList();
+            
 
             int nextt = 0;
 
@@ -863,7 +858,7 @@ namespace CRM.Controllers
         {
 
             Obs += "Garantia número " + id.ToString("d8");
-            // inserrir na
+            //inserrir na
             //db.GarantiaNotaClienteImpressao;
             //db.GarantiaNotaClienteItem;
 
@@ -1395,7 +1390,15 @@ namespace CRM.Controllers
                 _xml.WriteStartElement("dest");//dest
 
                 _xml.WriteStartElement("CNPJ");//CNPJ do destinatário
-                _xml.WriteString("01.723.086/0001-43");// tam. 0-14
+
+                if (DadosDoCliente.cod_gerente >= 4000 && DadosDoCliente.cod_gerente <= 4999)
+                {
+                    _xml.WriteString("01.723.086/0005-77");// tam. 0-14
+                }
+                else { 
+                    _xml.WriteString("01.723.086/0001-43");// tam. 0-14
+                }
+
                 _xml.WriteEndElement();
                 //or
                 //_xml.WriteStartElement("CPF");//CPF do destinatário
@@ -1405,54 +1408,110 @@ namespace CRM.Controllers
                 _xml.WriteStartElement("xNome");//Razão Social ou nome do destinatário
                 _xml.WriteString("FOXLUX SA");// tam 2-60
                 _xml.WriteEndElement();
+
                 #region enderDest
-                _xml.WriteStartElement("enderDest");//enderDest
 
-                _xml.WriteStartElement("xLgr");//Logradouro
-                _xml.WriteString("RUA SANTA HELENA");// tam. 2-60
-                _xml.WriteEndElement();
+                if (DadosDoCliente.cod_gerente >= 4000 && DadosDoCliente.cod_gerente <= 4999)
+                {
+                    _xml.WriteStartElement("enderDest");//enderDest
 
-                _xml.WriteStartElement("nro");//Número
-                _xml.WriteString("894");// 1-60
-                _xml.WriteEndElement();
-                //Ocorrencia 0-1
-                _xml.WriteStartElement("xCpl");//Complemento
-                _xml.WriteString("");// tam. 1-60
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("xLgr");//Logradouro
+                    _xml.WriteString("RODOVIA BR 101 - SUL, S/N KM 80,55 GALPAO B2");// tam. 2-60
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("xBairro");//Bairro
-                _xml.WriteString("EMILIANO PERNETA");//tam 1-60
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("nro");//Número
+                    _xml.WriteString("S/N");// 1-60
+                    _xml.WriteEndElement();
+                    //Ocorrencia 0-1
+                    _xml.WriteStartElement("xCpl");//Complemento
+                    _xml.WriteString("KM 80,55 GALPAO B2");// tam. 1-60
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("cMun");//Código do município
-                _xml.WriteString("4119152");//tam 7
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("xBairro");//Bairro
+                    _xml.WriteString("JARDIM JORDÃO");//tam 1-60
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("xMun");//Nome do município
-                _xml.WriteString("PINHAIS");//tam 2-60
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("cMun");//Código do município
+                    _xml.WriteString("4119152");//tam 7
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("UF");//Sigla da UF
-                _xml.WriteString("PR");// tam. 2
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("xMun");//Nome do município
+                    _xml.WriteString("JABOATAO DOS GUARARAPES");//tam 2-60
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("CEP");//Código do CEP, Informar os zeros não significativos.
-                _xml.WriteString("83.324-325");// tam. 8
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("UF");//Sigla da UF
+                    _xml.WriteString("PE");// tam. 2
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("cPais");//Código do País
-                _xml.WriteString("1058");// tam 2-4
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("CEP");//Código do CEP, Informar os zeros não significativos.
+                    _xml.WriteString("54.320-230");// tam. 8
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("xPais");//Nome do País
-                _xml.WriteString("Brasil");// tam. 2-60
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("cPais");//Código do País
+                    _xml.WriteString("1058");// tam 2-4
+                    _xml.WriteEndElement();
 
-                _xml.WriteStartElement("fone");//Telefone
-                _xml.WriteString("41 3302-8100");//6-14
-                _xml.WriteEndElement();
+                    _xml.WriteStartElement("xPais");//Nome do País
+                    _xml.WriteString("Brasil");// tam. 2-60
+                    _xml.WriteEndElement();
 
-                _xml.WriteEndElement();//enderDest
+                    _xml.WriteStartElement("fone");//Telefone
+                    _xml.WriteString("41 3302-8100");//6-14
+                    _xml.WriteEndElement();
+
+                    _xml.WriteEndElement();//enderDest
+                }
+                else
+                {
+
+                    _xml.WriteStartElement("enderDest");//enderDest
+
+                    _xml.WriteStartElement("xLgr");//Logradouro
+                    _xml.WriteString("RUA SANTA HELENA");// tam. 2-60
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("nro");//Número
+                    _xml.WriteString("894");// 1-60
+                    _xml.WriteEndElement();
+                    //Ocorrencia 0-1
+                    _xml.WriteStartElement("xCpl");//Complemento
+                    _xml.WriteString("");// tam. 1-60
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("xBairro");//Bairro
+                    _xml.WriteString("EMILIANO PERNETA");//tam 1-60
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("cMun");//Código do município
+                    _xml.WriteString("4119152");//tam 7
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("xMun");//Nome do município
+                    _xml.WriteString("PINHAIS");//tam 2-60
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("UF");//Sigla da UF
+                    _xml.WriteString("PR");// tam. 2
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("CEP");//Código do CEP, Informar os zeros não significativos.
+                    _xml.WriteString("83.324-325");// tam. 8
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("cPais");//Código do País
+                    _xml.WriteString("1058");// tam 2-4
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("xPais");//Nome do País
+                    _xml.WriteString("Brasil");// tam. 2-60
+                    _xml.WriteEndElement();
+
+                    _xml.WriteStartElement("fone");//Telefone
+                    _xml.WriteString("41 3302-8100");//6-14
+                    _xml.WriteEndElement();
+
+                    _xml.WriteEndElement();//enderDest
+                }
                 #endregion
 
                 _xml.WriteStartElement("IE");//IE

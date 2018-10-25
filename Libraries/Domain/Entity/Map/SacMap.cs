@@ -166,6 +166,7 @@ namespace Domain.Entity.Map
             this.Property(x => x.cod_categoria).HasColumnName("COD_CATEGORIA").IsOptional();
             this.Property(x => x.cod_estagio).HasColumnName("COD_ESTAGIO").IsOptional();
             this.Property(x => x.cod_usuario).HasColumnName("COD_USUARIO").IsRequired();
+            this.Property(x => x.cod_empresa).HasColumnName("COD_EMPRESA").IsRequired();
             this.Property(x => x.tag).HasColumnName("TAG").IsOptional();
 
 

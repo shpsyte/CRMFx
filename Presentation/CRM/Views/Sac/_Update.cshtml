@@ -32,13 +32,16 @@
             </label>
         </section>
 
-        @*<section class="col col-4">
-                <label class="label">Nome</label>
-                <label class="input">
-                    <i class="icon-prepend fa fa-user"></i>
-                    @Html.TextBoxFor(m => m.des_nome, new { @class = "form-control", @placeholder = "Nome" })
-                </label>
-            </section>*@
+        <section class="col col-4">
+            <label class="label">Origem</label>
+            <label class="select">
+                @Html.DropDownList("cod_empresa") <i></i>
+                @Html.ValidationMessageFor(m => m.cod_empresa)
+            </label>
+        </section>
+ 
+
+
     </div>
 
     <div class="row">

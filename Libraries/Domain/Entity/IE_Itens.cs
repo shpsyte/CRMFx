@@ -61,6 +61,8 @@ namespace Domain.Entity
         public decimal picmsst { get; set; }
         public decimal mvast { get; set; }
 
+        public int? cod_unidade { get; set; }
+
 
 
     }

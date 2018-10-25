@@ -104,6 +104,8 @@ namespace Domain.Entity.Map
             this.Property(x => x.pipi).HasColumnName("PIPI").IsOptional();
             this.Property(x => x.picmsst).HasColumnName("PICMSST").IsOptional();
             this.Property(x => x.mvast).HasColumnName("MVAST").IsOptional();
+            this.Property(x => x.cod_unidade).HasColumnName("COD_UNIDADE").IsOptional();
+            
 
 
 
@@ -174,6 +176,8 @@ namespace Domain.Entity.Map
             this.Property(c => c.pipi).HasColumnName("PIPI").IsOptional();
             this.Property(c => c.picmsst).HasColumnName("PICMSST").IsOptional();
             this.Property(c => c.mvast).HasColumnName("MVAST").IsOptional();
+            this.Property(c => c.cod_unidade).HasColumnName("COD_UNIDADE").IsOptional();
+            
 
 
         }

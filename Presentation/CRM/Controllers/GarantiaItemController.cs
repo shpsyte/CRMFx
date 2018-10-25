@@ -31,7 +31,7 @@ namespace CRM.Controllers
                             " ORDER BY num_seq DESC)  Tmp Where NUM_SEQ >= {0} and rownum <= {1} ";
 
         string SQLBASEPREENCHECLASS = "SELECT * FROM " +
-                            " (select b.num_seq, a.cod_cliente, c.des_pessoa, b.cod_item, ie_cod_completo_sp(b.cod_item, '107') Cod_Foxlux, d.des_item, b.dta_lancamento, " +
+                            " (select a.cod_unidade, b.num_seq, a.cod_cliente, c.des_pessoa, b.cod_item, ie_cod_completo_sp(b.cod_item, '107') Cod_Foxlux, d.des_item, b.dta_lancamento, " +
                             "        trunc(sysdate) - b.dta_lancamento Dias, b.qtd_lancamento, cast( b.num_documento as varchar2(20) ) num_documento , b.vlr_total, cast(b.vlr_total / b.qtd_lancamento as number(18, 4)) Vlr_unitario, " +
                             " cast(b.vlr_ipi / b.qtd_lancamento as number(18, 4)) vlr_ipi , cast(b.vlr_icms_subs / b.qtd_lancamento as number(18, 4)) vlr_icms_subs , " +
                             " cast(b.vlr_icms / b.qtd_lancamento as number(18, 4)) vlr_icms, cast(b.vlr_base_subs / b.qtd_lancamento as number(18, 4)) vlr_base_subs " +
@@ -160,7 +160,8 @@ namespace CRM.Controllers
                              picms = c.picms,
                              pipi = c.pipi,
                              picmsst = c.picmsst,
-                             mvast = c.mvast
+                             mvast = c.mvast,
+                             cod_unidade = c.cod_unidade
                          };
 
             JsonResult jsonResult = Json(new
@@ -421,7 +422,7 @@ namespace CRM.Controllers
 
         public ActionResult AddOrRemove(int garantiaId, int cod_cliente, string cod_foxlux, int cod_item,  bool isDelete, decimal qtde, int num_nota, decimal vlr_unitario
             , decimal vlr_ipi, decimal vlr_icms_subs, decimal vlr_icms, decimal vlr_base_subs, string obsitem, decimal fator,
-            decimal picms, decimal pipi, decimal pcimsst, decimal mvast
+            decimal picms, decimal pipi, decimal pcimsst, decimal mvast, int cod_unidade
 
             )
         {
@@ -449,7 +450,8 @@ namespace CRM.Controllers
                     picms = picms,
                     pipi = pipi,
                     picmsst = pcimsst,
-                    mvast = mvast 
+                    mvast = mvast ,
+                    cod_unidade = cod_unidade
 
                 };
                 db.CartItem.Add(NewItem);
@@ -548,7 +550,8 @@ namespace CRM.Controllers
                     picms = a.picms,
                     pipi = a.pipi,
                     picmsst = a.picmsst,
-                    mvast = (a.mvast > 0 ? a.mvast : 0)
+                    mvast = (a.mvast > 0 ? a.mvast : 0),
+                    cod_unidade = a.cod_unidade
                     
                 };
                 db.GarantiaItem.Add(NewItem);

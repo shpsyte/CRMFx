@@ -1,4 +1,5 @@
 ﻿using CRM.App_Helpers;
+using CRM.Extends;
 using CRM.Models;
 using Domain.Entity;
 using System;
@@ -45,8 +46,7 @@ namespace CRM.Controllers
             }
             ViewBag.sac_por_tipo = db.w_sac_por_tipo.ToList();
 
-
-
+          
             return View();
         }
 

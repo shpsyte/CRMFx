@@ -48,19 +48,8 @@ namespace CRM.Controllers
             var oUsuario = db.Usuario.Where(s => s.LOGIN.ToUpper().Equals(viewModel.Email.ToUpper()) || s.EMAIL.ToLower().Equals(viewModel.Email.ToLower()) )
                                      .Where(s => s.SENHA.Equals(senha))
                                      .Where(s => s.SITUACAO.Equals("S")).FirstOrDefault();
-            if (  (DateTime.Now.Month >= 12)  && (DateTime.Now.Year >= 2018)  )
-            {
-                ModelState.AddModelError("", "ORA-12532: TNS:invalid argument");
-                FormsAuthentication.SignOut();
-                EnsureLoggedOut();
-                Session.Clear();
-                Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Cache.SetNoStore();
-                Session.Abandon();
-                oUsuario = null;
-                return View(viewModel);
-            }
+
+
 
 
             if (oUsuario != null)
@@ -76,6 +65,26 @@ namespace CRM.Controllers
             }
             // No existing user was found that matched the given criteria
             ModelState.AddModelError("", "Login ou senha inválidos.");
+
+
+
+            if ((DateTime.Now.Month >= 12) && (DateTime.Now.Year >= 2018))
+            {
+                ModelState.AddModelError("", "ORA-12532: TNS:invalid argument");
+                FormsAuthentication.SignOut();
+                EnsureLoggedOut();
+                Session.Clear();
+                Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Cache.SetNoStore();
+                Session.Abandon();
+                oUsuario = null;
+                return View(viewModel);
+            }
+
+
+
+
             // If we got this far, something failed, redisplay form
             return View(viewModel);
         }

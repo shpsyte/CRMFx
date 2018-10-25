@@ -83,6 +83,8 @@ namespace Domain.Entity
         public DateTime? dta_contabil { get; set; }
         public DateTime? dta_filial   { get; set; }
 
+       
+
 
 
 
@@ -247,6 +249,8 @@ namespace Domain.Entity
         public decimal? picmsst { get; set; }
         public decimal? mvast { get; set; }
 
+        public int? cod_unidade { get; set; }
+
         [NotMapped]
         public decimal TotalFora { get { return this.qtd_faltante + this.qtd_outras_marcas + this.qtd_fora_garantia; } }
 
@@ -386,6 +390,7 @@ namespace Domain.Entity
 
     public partial class CartItem
     {
+        
         public int garantiaId { get; set; }
         public int recordId { get; set; }
         public int cod_item { get; set; }
@@ -406,6 +411,7 @@ namespace Domain.Entity
         public decimal picmsst { get; set; }
         public decimal mvast { get; set; }
 
+        public int? cod_unidade { get; set; }
 
     }
 

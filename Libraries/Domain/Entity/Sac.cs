@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+
 namespace Domain.Entity
 {
 
@@ -200,6 +202,9 @@ namespace Domain.Entity
         public int? cod_estagio { get; set; }
         public int cod_usuario { get; set; }
 
+        [Required]
+        public int cod_empresa { get; set; }
+
         public string tag { get; set; }
 
 
@@ -214,8 +219,30 @@ namespace Domain.Entity
         public virtual Usuario Usuario { get; set; }
 
 
+        public IList<SelectListItem> GetEmpresa(int select)
+        {
+             
+            var _dbCountries = new List<TemEmpresa>
+            {
+                new TemEmpresa {cod_empresa = 1, descricao = "FOXLUX"},
+                new TemEmpresa {cod_empresa = 2, descricao = "FAMASTIL"},
+            
+            };
+            var countries = _dbCountries
+                .Select(x => new SelectListItem { Text = x.descricao, Value = x.cod_empresa.ToString(), Selected = x.cod_empresa == select })
+                .ToList();
+            //countries.Insert(0, new SelectListItem { Text = "Escola a Empresa", Value = "" });
+            return countries;
+        }
+
     }
 
+
+    public partial class TemEmpresa
+    {
+        public int cod_empresa { get; set; }
+        public string descricao { get; set; }
+    }
 
 
     public partial class Ps_Sac_Ps_Sac
