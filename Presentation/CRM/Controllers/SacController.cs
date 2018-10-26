@@ -496,9 +496,10 @@ namespace CRM.Controllers
 
         public ActionResult Create(string tipo_pessoa = null, string cod_pessoa = null)
         {
+            PS_Sac data = new PS_Sac();
 
             ViewBag.tp_pessoa = new SelectList(db.Combo.Where(p => p.TIPO == 6), "Value", "Text", string.IsNullOrEmpty(tipo_pessoa) ? "" : tipo_pessoa);
-            
+            ViewBag.cod_empresa = data.GetEmpresa(1);
 
             if (string.IsNullOrEmpty(cod_pessoa))
             {
@@ -604,8 +605,8 @@ namespace CRM.Controllers
         public ActionResult Create(PS_Sac data, bool continueAdd, FormCollection form, IEnumerable<HttpPostedFileBase> files)
         {
 
+            ViewBag.cod_empresa = data.GetEmpresa(data.cod_empresa);
 
-            
 
 
             ViewBag.tp_pessoa = new SelectList(db.Combo.Where(p => p.TIPO == 6), "Value", "Text", data.tp_pessoa);
