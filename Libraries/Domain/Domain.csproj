@@ -69,6 +69,7 @@
     <Compile Include="Entity\Clientes.cs" />
     <Compile Include="Entity\Dados_crm.cs" />
     <Compile Include="Entity\Fake.cs" />
+    <Compile Include="Entity\Dashboard.cs" />
     <Compile Include="Entity\NotaEntrada.cs" />
     <Compile Include="Entity\Garantia.cs" />
     <Compile Include="Entity\GE_Status_Garantia.cs" />

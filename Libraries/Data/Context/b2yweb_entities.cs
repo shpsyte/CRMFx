@@ -173,6 +173,10 @@ namespace Data.Context
             modelBuilder.Entity<Grafico1>().HasKey(s => new { s.CD_DEPARTAMENTO });
             modelBuilder.Entity<Grafico2>().ToTable("GRAFICO2", shemma);
             modelBuilder.Entity<Grafico2>().HasKey(s => new { s.ID_SITUACAO });
+
+            modelBuilder.Entity<Dashboard>().ToTable("DASHBOARD", shemma);
+            modelBuilder.Entity<Dashboard>().HasKey(s => new { s.ID });
+
             modelBuilder.Entity<Situacao>().ToTable("SITUACOESPROCEDIMENTO", shemma);
             modelBuilder.Entity<Situacao>().HasKey(s => new { s.ID_SITUACAO });
             modelBuilder.Entity<Modulos>().ToTable("MODULOS", shemma);
@@ -234,6 +238,7 @@ namespace Data.Context
         public DbSet<pa_troca_departamentos> pa_troca_departamentos { get; set; }
         public DbSet<wpa_troca_departamentos> wpa_troca_departamentos { get; set; }
         public DbSet<Grafico1> Grafico1 { get; set; }
+        public DbSet<Dashboard> Dashboard { get; set; }
         public DbSet<Grafico2> Grafico2 { get; set; }
         public DbSet<Permissoes> Permissoes { get; set; }
         public DbSet<Modulos> Modulos { get; set; }

@@ -202,6 +202,7 @@
     <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\CRMController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\Default2Controller.cs" />
     <Compile Include="Controllers\EstagioSacController.cs" />
     <Compile Include="Controllers\FakeController.cs" />
@@ -266,6 +267,8 @@
     <Content Include="Content\ajax\notify\notifications.html" />
     <Content Include="Content\ajax\notify\tasks.html" />
     <Content Include="Content\ajax\website-template.html" />
+    <Content Include="Content\ballons.png" />
+    <Content Include="Content\caixa.mp3" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\danfe\danfeoriginal.min.css" />
     <Content Include="Content\css\danfe\danfe.min.css" />
@@ -278,6 +281,7 @@
     <Content Include="Content\css\smartadmin-production.min.css" />
     <Content Include="Content\css\smartadmin-rtl.min.css" />
     <Content Include="Content\css\smartadmin-skins.min.css" />
+    <Content Include="Content\css\dash.css" />
     <Content Include="Content\css\your_style.css" />
     <Content Include="Content\css\your_style.min.css">
       <DependentUpon>your_style.css</DependentUpon>
@@ -406,6 +410,8 @@
     <Content Include="Content\img\logo-white.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\LogoEmail.png" />
+    <Content Include="Content\img\LogoSM.png" />
+    <Content Include="Content\img\LogoSM2.png" />
     <Content Include="Content\img\Logo_Nova.png" />
     <Content Include="Content\img\Logo_P.gif" />
     <Content Include="Content\img\Logo_P.jpg" />
@@ -640,6 +646,7 @@
     <None Include="Properties\PublishProfiles\JoseLuiz.pubxml" />
     <None Include="Scripts\deletear\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\app.config.js" />
+    <Content Include="Scripts\axios.js" />
     <Content Include="Scripts\culture_ptbr\globalize.culture.pt-BR.js" />
     <Content Include="Scripts\culture_ptbr\globalize.js" />
     <Content Include="Scripts\culture_ptbr\messages_ptbr.js" />
@@ -1110,6 +1117,7 @@
     <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
     <Content Include="Scripts\speech\voicecommand.min.js" />
     <Content Include="Readme.txt" />
+    <Content Include="Views\Dashboard\Style.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1347,6 +1355,8 @@
     <Content Include="Views\Relatorios\GarantiaEmTransitoResult.cshtml" />
     <Content Include="Views\Garantias\RegistrarColetas.cshtml" />
     <Content Include="Views\Danfe\_instrucoes_nota_p2.cshtml" />
+    <Content Include="Views\CRM\Dashboard.cshtml" />
+    <Content Include="Views\Dashboard\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

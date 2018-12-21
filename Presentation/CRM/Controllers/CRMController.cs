@@ -272,14 +272,7 @@ namespace CRM.Controllers
         }
 
 
-        public JsonResult Dashboard()
-        {
-            List<Object> dash = new List<Object>();
-
-            dash.Add(new { DailyValue = 0, DailyGoals = 9 });
-
-            return Json(dash, JsonRequestBehavior.AllowGet);
-        }
+      
 
 
 

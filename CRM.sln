@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{E8283E31-9437-457C-B419-D577C02C5F76}"
+	ProjectSection(SolutionItems) = preProject
+		Presentation\CRM\Content\caixa.mp3 = Presentation\CRM\Content\caixa.mp3
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D0A80949-DD1F-4488-9B08-9C62548F277B}"
 EndProject

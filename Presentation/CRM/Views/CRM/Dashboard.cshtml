@@ -1,0 +1,47 @@
+﻿@model Dashboard
+@{
+    Layout = null;
+}
+@model AccountLoginModel
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+@section topright{
+    <style>
+        #header {
+            display: none;
+        }
+    </style>
+}
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4">
+            <div class="well no-padding">
+                <h1>Teste de Página</h1>
+                <p class="faturamento"></p>
+                <p class="meta"></p>
+            </div>
+
+
+            <button id="refresh"> Update </button>
+
+
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 hidden-xs hidden-sm"> &nbsp; </div>
+    </div>
+</div>
+@section pagespecific {
+    <script type="text/javascript">
+
+        let btn = document.querySelector('#refresh');
+
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            alert('clicado')
+
+        });
+        
+
+    </script>
+}

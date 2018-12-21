@@ -1,0 +1,91 @@
+﻿@model Dashboard
+
+@{
+    /**/
+
+    /**/
+
+    /**/
+
+    Layout = null;
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+}
+
+<script src="~/Scripts/axios.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link rel="stylesheet" href="~/Content/css/dash.css" type="text/css">
+
+<div class="main-wrapper">
+
+    <img src="~/Content/img/LogoSM2.png" height="140" />
+</div>
+
+<p class="label">Meta:</p>
+<span class="label meta"></span>
+<br />
+<p class="label">Faturamento:  </p>
+<span class="label faturamento"></span>
+<br />
+<p class="label">Resultado:</p>
+<span class="label falta"></span>
+
+
+
+@*<button class="refresh"> Update </button>*@
+
+
+<script type="text/javascript">
+    ///fx#_advprd_2017#
+   // let btn = document.querySelector('.refresh');
+    let faturametno = document.querySelector('.faturamento');
+    let meta = document.querySelector('.meta');
+    let falta = document.querySelector('.falta');
+    let vlatual = 0;
+
+    refreshData();
+
+    //btn.addEventListener('click', function (e) {
+    //    e.preventDefault();
+
+    //    refreshData();
+    //});
+
+    function refreshData() {
+
+        
+        
+        axios.get('/Dashboard/GetDashboard')
+            .then(function (response) {
+                const { VLR_FATURAMENTO, VLR_DEVOLUCAO, VLR_META } = response.data[0]
+                meta.innerHTML = formatMoney(VLR_META)
+
+
+                 if (vlatual !== VLR_FATURAMENTO)
+                 {
+                     vlatual = VLR_FATURAMENTO;
+                     faturametno.innerHTML = formatMoney(VLR_FATURAMENTO);
+                     falta.innerHTML = formatMoney(VLR_FATURAMENTO - VLR_META );
+
+                }
+
+
+
+            })
+    }
+
+    function formatMoney(n, c, d, t) {
+        var c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "," : d,
+            t = t == undefined ? "." : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    };
+
+    setInterval(refreshData, 5000)
+
+
+</script>
