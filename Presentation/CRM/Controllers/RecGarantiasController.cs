@@ -189,7 +189,18 @@ namespace CRM.Controllers
             return View(data);
         }
 
+        //public class ViewModel
+        //{
+        //    public int CodeClass { get; set; } //class is reserved word
+        //    public int TransferCount { get; set; }
+        //}
 
+        // http://localhost:57042/RecGarantias/ReceiveOrder/32958
+        //[HttpPost]
+        //public ActionResult GetData(IEnumerable<GarantiaItem> data, FormCollection f)
+        //{
+        //    return Json(new { Data = data });
+        //}
 
         public ActionResult AddOrRemove(int garantiaId,
             int garantiaitemid,
@@ -200,7 +211,7 @@ namespace CRM.Controllers
             decimal qtd_fora_garantia, decimal qtd_outras_marcas,
             decimal qtd_faltante, decimal qtd_avariada, decimal qtd_descartada)
         {
-            //GarantiaItem data_update = db.GarantiaItem.Find(garantiaId, garantiaitemid, cod_foxlux, cod_item);
+            // GarantiaItem data_update = db.GarantiaItem.Find(garantiaId, garantiaitemid, cod_foxlux, cod_item);
             GarantiaItem data_update = db.GarantiaItem.Where(a => a.garantiaitemid == garantiaitemid).First();
 
             data_update.qtd_recebida = qtd_recebida;

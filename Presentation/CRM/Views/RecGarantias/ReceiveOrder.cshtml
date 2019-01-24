@@ -60,14 +60,20 @@
                                         <a href="javascript:void(0)" onclick="ConfirmaGarantia();" class="btn bg-color-magenta txt-color-white">
                                             <i class="fa fa-check"></i> <span class="hidden-mobile">Confirmar Recebimento da Garantia</span>
                                         </a>
+                                        
                                         <br /><br />
                                         <strong class="txt-color-green"><i class="fa fa-check txt-color-green"></i> Qtde Da Garantia.: </strong>  <span id="CartCount"> @Model[1]</span>
                                         <br />
                                         <strong class="txt-color-magenta"><i class="fa fa-check txt-color-magenta"></i> Qtde Ja processada.: </strong> <span id="CartTotal"> @Model[2] </span>
                                         <br />
                                         @*<a href="javascript:void(0)" onclick="EnviaEmailGarantia();" class="btn bg-color-magenta txt-color-white">
-                                            <i class="fa fa-check"></i> <span class="hidden-mobile">Enviar Email divergencia</span>
-                                        </a>*@
+            <i class="fa fa-check"></i> <span class="hidden-mobile">Enviar Email divergencia</span>
+        </a>*@
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="javascript:void(0)" onclick="AddAll();" class="btn bg-color-green txt-color-white pull-right">
+                                            <i class="fa fa-check"></i> <span class="hidden-mobile">Confirmar Todos Itens</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +99,7 @@
                                         <th data-hide="phone,tablet" class="no-sort"> Concluído</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="row_body">
                                     <!-- load by javascript -->
                                 </tbody>
                             </table>
@@ -187,6 +193,8 @@
                 window.open(urlopen, '_blank', strWindowFeatures, true);
         };
 
+
+       
 
 
         function AddOrRemove(element) {
@@ -400,6 +408,22 @@
             });
 
         })
+
+        function AddAll() {
+
+            if (confirm('Deseja confirmar todos os itens ?')) {
+                $('#row_body tr').each(function (i, row) {
+                    var $actualrow = $(row);
+                    checkbox = $actualrow.find('.AddOrRemove');
+                    AddOrRemove(checkbox);
+                    checkbox.prop("checked", true);
+                    
+                });
+            }
+
+
+        }
+
 
 
 
