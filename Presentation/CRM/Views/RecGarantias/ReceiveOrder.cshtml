@@ -123,6 +123,8 @@
 
     <script type="text/javascript">
 
+        var adicionou = false;
+
         function EnviaEmailGarantia() {
             var _garantiaId = document.getElementById("garantiaId").value;
 
@@ -197,9 +199,11 @@
        
 
 
-        function AddOrRemove(element) {
+        function AddOrRemove(element, confirma_todos) {
 
-            var ischeckedValue = element.checked;
+            var ischeckedValue = element.checked || confirma_todos;
+           
+ 
             var _garantiaId = document.getElementById("garantiaId").value;
 
             var _garantiaitemid = $(element).attr("data-id");
@@ -233,6 +237,7 @@
 
 
             var url = '@Url.Action("AddOrRemove")';
+            
 
 
             $.ajax({
@@ -410,15 +415,27 @@
         })
 
         function AddAll() {
-
+            
             if (confirm('Deseja confirmar todos os itens ?')) {
-                $('#row_body tr').each(function (i, row) {
-                    var $actualrow = $(row);
-                    checkbox = $actualrow.find('.AddOrRemove');
-                    AddOrRemove(checkbox);
-                    checkbox.prop("checked", true);
-                    
-                });
+                if (!adicionou) {
+                    adicionou = true;
+                    $('#row_body tr').each(function (i, row) {
+                        var $actualrow = $(row);
+                        checkbox = $actualrow.find('.AddOrRemove');
+                        AddOrRemove(checkbox, true);
+                        checkbox.prop("checked", true);
+
+                    });
+                } else {
+                    adicionou = false;
+                    $('#row_body tr').each(function (i, row) {
+                        var $actualrow = $(row);
+                        checkbox = $actualrow.find('.AddOrRemove');
+                        AddOrRemove(checkbox, false);
+                        checkbox.prop("checked", false);
+
+                    });
+                }
             }
 
 
