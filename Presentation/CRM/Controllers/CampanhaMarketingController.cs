@@ -372,6 +372,7 @@ namespace CRM.Controllers
       
         public ActionResult Details(int id)
         {
+            NLS_SETTINGS.alter_session_nl(db);
             ViewBag.tipoacao = new SelectList(db.TipoAcao, "tipoacaoid", "des_acao", string.Empty);
             ViewBag.segmentos = new SelectList(db.Segmentos, "segmentoid", "des_segmento", string.Empty);
             ViewBag.estagio = new SelectList(db.Estagio.Where(a => a.ind_liberado == "N"), "estagioId", "descricao");

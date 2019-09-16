@@ -40,6 +40,11 @@ namespace CRM.Controllers
 
         public ActionResult Index()
         {
+
+            ////_email.EnviarEmailTest("jose.iscosistemas@gmail.com", "Ola", "Corpo da mensagem");
+            ///
+            NLS_SETTINGS.alter_session_nl(db);
+
             if (!Settings.EnableDashborad)
             {
                 return RedirectToAction("IndexSD");
@@ -52,6 +57,11 @@ namespace CRM.Controllers
 
         public ActionResult IndexSD()
         {
+
+
+
+
+
 
             return View();
         }

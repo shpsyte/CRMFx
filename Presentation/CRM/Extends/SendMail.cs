@@ -43,8 +43,8 @@ namespace CRM.Extends
 
 
 
-            _smtpcient.EnableSsl = false;
-            _smtpcient.UseDefaultCredentials = false;
+            _smtpcient.EnableSsl = true;
+            _smtpcient.UseDefaultCredentials = true;
             _smtpcient.Credentials = _logininfo;
 
 
@@ -844,6 +844,30 @@ namespace CRM.Extends
         internal void EnviarEmailSacCliente(int v1, string v2, object body)
         {
             throw new NotImplementedException();
+        }
+
+        public void EnviarEmailTest(string para, string subject, string message)
+        {
+
+            var msg = new MailMessage();
+            msg.From = new MailAddress(_email);
+            msg.To.Add(new MailAddress(para));
+
+            msg.Subject = subject;
+            msg.Body = message;
+            msg.IsBodyHtml = true;
+
+            try
+            {
+            _smtpcient.Send(msg);
+
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
         }
     }
 }

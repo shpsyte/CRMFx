@@ -240,6 +240,7 @@
     <Compile Include="DataServices\Services\PS_SacDataServices.cs" />
     <Compile Include="DataServices\Services\PS_Situacao_SacDataServices.cs" />
     <Compile Include="DataServices\DataServices.cs" />
+    <Compile Include="Extends\NLS_SETTINGS.cs" />
     <Compile Include="Extends\PDFFooter.cs" />
     <Compile Include="Extends\SendMail.cs" />
     <Compile Include="Filters\iFilterRelatorioMkt.cs" />
