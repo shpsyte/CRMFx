@@ -1,4 +1,5 @@
 ﻿using CRM.App_Helpers;
+using CRM.Extends;
 using Domain.Entity;
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,7 @@ namespace CRM.Controllers
             if (isDataFaturamento) SQLBASEPREENCHECLASS += string.Format(" AND DTA_LANCAMENTO = \'{0}\'", dtaFaturamento.Value.ToShortDateString());
 
             var dta_an = System.DateTime.Now.AddYears(-2).ToShortDateString();
+            NLS_SETTINGS.alter_session_nl(db);
 
             var Item = db.Database.SqlQuery<V_IE_Itens_Vendas>(string.Format(SQLBASEPREENCHECLASS, id, dta_an, id));
 

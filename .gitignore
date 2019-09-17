@@ -7,7 +7,12 @@
 *.userosscache
 *.sln.docstates
 
-Web.config
+*Web.config
+
+./[Pp]resentation/CRM/Web.config
+/[Pp]resentation/CRM/Web.config
+
+C:\Dotnet\Workspace\Sac\Procedimento\Presentation\CRM\Web.config
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
